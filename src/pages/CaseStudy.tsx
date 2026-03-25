@@ -144,6 +144,14 @@ export function CaseStudy() {
             <p className="font-body text-[var(--text-body)] text-muted leading-relaxed max-w-3xl">
               {project.process}
             </p>
+            <div className="border border-border overflow-hidden max-w-md bg-white">
+              <img
+                src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/64f70e190962053.65c360cee8298.png"
+                alt="Tuniff User Taskflows"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
           </AnimatedSection>
 
           <AnimatedSection className="space-y-6">
