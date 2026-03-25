@@ -5,13 +5,9 @@ import { ProjectCard } from '../ui/ProjectCard'
 import { SectionLabel } from '../ui/SectionLabel'
 import { Link } from 'react-router-dom'
 
-const featuredSlugs = ['c2c-rental', 'vanprints', 'acminder'] as const
-
 export function FeaturedWork() {
   const content = homeContent.featured
-  const featured = featuredSlugs
-    .map((slug) => projects.find((p) => p.slug === slug))
-    .filter((p): p is NonNullable<(typeof projects)[number]> => Boolean(p))
+  const featured = projects.filter((p) => p.featured)
 
   return (
     <section className="section">
@@ -25,10 +21,18 @@ export function FeaturedWork() {
           </div>
 
           <div className="grid grid-cols-12 gap-6">
-            <ProjectCard project={featured[0]} className="col-span-12 lg:col-span-7" />
+            {featured.length > 0 && (
+              <ProjectCard 
+                project={featured[0]} 
+                className="col-span-12 lg:col-span-7" 
+                priority 
+              />
+            )}
+            
             <div className="col-span-12 lg:col-span-5 grid gap-6">
-              <ProjectCard project={featured[1]} />
-              <ProjectCard project={featured[2]} />
+              {featured.slice(1).map((project) => (
+                <ProjectCard key={project.slug} project={project} />
+              ))}
             </div>
           </div>
 
