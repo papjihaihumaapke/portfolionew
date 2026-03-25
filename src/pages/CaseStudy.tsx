@@ -1,4 +1,3 @@
-import { ArrowDown } from 'lucide-react'
 import { useEffect, useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { projects } from '../data/projects'
@@ -44,7 +43,7 @@ export function CaseStudy() {
   return (
     <>
       <section className="relative">
-        <div className="relative aspect-video w-full overflow-hidden">
+        <div className="relative h-[65vh] max-h-[700px] min-h-[400px] w-full overflow-hidden">
           <img
             src={project.heroImage}
             alt={`${project.title} hero`}
@@ -74,14 +73,7 @@ export function CaseStudy() {
             </div>
           </div>
 
-          <div className="absolute bottom-6 right-6">
-            <div className="inline-flex items-center gap-2 border border-white/25 bg-black/30 px-4 py-2 text-white/90 font-body text-[var(--text-micro)] uppercase tracking-[0.15em]">
-              Scroll
-              <span className="inline-flex">
-                <AnimatedScrollIndicator />
-              </span>
-            </div>
-          </div>
+
         </div>
       </section>
 
@@ -178,6 +170,25 @@ export function CaseStudy() {
             )}
           </AnimatedSection>
 
+          {project.slug === 'c2c-rental' && (
+            <AnimatedSection className="space-y-6">
+              <SectionLabel>Live Website</SectionLabel>
+              <h2 className="font-display text-[var(--text-heading)] tracking-tight">
+                Interactive Preview.
+              </h2>
+              <div className="border border-border overflow-hidden bg-surface relative w-full h-[70vh] min-h-[500px] rounded-lg">
+                <iframe
+                  src="https://c2crental.ca"
+                  title="C2C Rental Live Website"
+                  className="w-full h-full border-none"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </AnimatedSection>
+          )}
+
           <AnimatedSection className="space-y-6">
             <SectionLabel>Results / Impact</SectionLabel>
             <h2 className="font-display text-[var(--text-heading)] tracking-tight">
@@ -257,13 +268,5 @@ function MetaChip({ label, value }: { label: string; value: string }) {
   )
 }
 
-function AnimatedScrollIndicator() {
-  return (
-    <span className="inline-flex">
-      <span className="inline-flex motion-safe:animate-bounce">
-        <ArrowDown size={16} aria-hidden="true" />
-      </span>
-    </span>
-  )
-}
+
 
