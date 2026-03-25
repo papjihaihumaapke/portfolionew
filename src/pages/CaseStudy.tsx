@@ -126,6 +126,14 @@ export function CaseStudy() {
             <p className="font-body text-[var(--text-body)] text-muted leading-relaxed max-w-3xl">
               {project.discovery}
             </p>
+            <div className="border border-border overflow-hidden max-w-2xl bg-white">
+              <img
+                src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/640e2c190962053.65c360ceeee86.png"
+                alt="Quantitative Research Observations"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
           </AnimatedSection>
 
           <AnimatedSection className="space-y-6">
