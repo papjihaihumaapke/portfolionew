@@ -162,6 +162,14 @@ export function CaseStudy() {
             <p className="font-body text-[var(--text-body)] text-muted leading-relaxed max-w-3xl">
               {project.solution}
             </p>
+            <div className="border border-border overflow-hidden bg-[#f4f7fa] py-12">
+              <img
+                src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/d5862b190962053.65c360ceeab7d.png"
+                alt="Tuniff App Screens Overview"
+                className="w-full h-auto max-w-4xl mx-auto"
+                loading="lazy"
+              />
+            </div>
           </AnimatedSection>
 
           <AnimatedSection className="space-y-6">
