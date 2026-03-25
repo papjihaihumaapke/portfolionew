@@ -44,7 +44,7 @@ export const homeContent = {
       {
         quote:
           'Hilal redesigned our entire lead flow in under two weeks. The AI calling agents he built are handling 100+ inquiries a month with zero manual effort.',
-        name: 'Pending Approval',
+        name: 'Manpreet Singh',
         title: 'Marketing Director, Mainland Motors Autogroup',
       },
       {
