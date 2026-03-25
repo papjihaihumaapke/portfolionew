@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react'
+import { useEffect } from 'react'
 import { projects } from '../data/projects'
 import { ProjectCard } from '../components/ui/ProjectCard'
 import { SectionLabel } from '../components/ui/SectionLabel'
@@ -9,14 +9,7 @@ export function Work() {
     document.title = 'Work — Hilal Malik'
   }, [])
 
-  const featuredSlugs = useMemo(() => ['c2c-rental', 'vanprints', 'acminder'] as const, [])
-  const shown = useMemo(
-    () =>
-      featuredSlugs
-        .map((slug) => projects.find((p) => p.slug === slug))
-        .filter((p): p is NonNullable<(typeof projects)[number]> => Boolean(p)),
-    [featuredSlugs],
-  )
+  const shown = projects
 
   return (
     <section className="section">

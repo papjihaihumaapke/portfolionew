@@ -9,6 +9,8 @@ export type ProjectCardProps = {
 }
 
 export function ProjectCard({ project, className, priority = false }: ProjectCardProps) {
+  if (!project) return null
+
   return (
     <Link
       to={`/work/${project.slug}`}
