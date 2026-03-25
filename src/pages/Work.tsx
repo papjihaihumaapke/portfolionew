@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { projects } from '../data/projects'
 import { ProjectCard } from '../components/ui/ProjectCard'
 import { SectionLabel } from '../components/ui/SectionLabel'
+import { AnimatedSection } from '../components/ui/AnimatedSection'
 import { site } from '../data/site'
 
 export function Work() {
@@ -14,7 +15,7 @@ export function Work() {
   return (
     <section className="section">
       <div className="container-page space-y-10">
-        <div className="space-y-4">
+        <AnimatedSection className="space-y-4">
           <SectionLabel>Portfolio</SectionLabel>
           <h1 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight">
             Selected Work.
@@ -22,7 +23,7 @@ export function Work() {
           <p className="font-body text-[var(--text-body)] text-muted">
             UI/UX · Product · AI · Branding — 2022–Present
           </p>
-        </div>
+        </AnimatedSection>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {shown.map((p) => (
@@ -30,7 +31,7 @@ export function Work() {
           ))}
         </div>
 
-        <div className="border-t border-border pt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <AnimatedSection className="border-t border-border pt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="font-body text-[var(--text-body)] text-muted">
             More work (brand systems, visuals, and experiments) lives on Behance.
           </div>
@@ -42,7 +43,7 @@ export function Work() {
           >
             View Behance profile →
           </a>
-        </div>
+        </AnimatedSection>
       </div>
     </section>
   )

@@ -49,10 +49,10 @@ export function Header() {
       <div className="container-page h-16 flex items-center justify-between">
         <Link
           to="/"
-          className="font-display text-[18px] tracking-tight"
+          className="flex items-center"
           aria-label="Go to homepage"
         >
-          HM<span className="text-accent">.</span>
+          <img src="/logo.png" alt="Logo" className="h-8 w-auto aspect-square object-contain" />
         </Link>
 
         <nav
@@ -87,7 +87,7 @@ export function Header() {
 
         <button
           type="button"
-          className="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-none border border-border bg-transparent"
+          className="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-none border border-border bg-white"
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
@@ -109,10 +109,10 @@ export function Header() {
             <div className="container-page pt-6 flex items-center justify-between">
               <Link
                 to="/"
-                className="font-display text-[18px] tracking-tight"
+                className="flex items-center"
                 aria-label="Go to homepage"
               >
-                HM<span className="text-accent">.</span>
+                <img src="/logo.png" alt="Logo" className="h-8 w-auto aspect-square object-contain invert" />
               </Link>
               <button
                 type="button"

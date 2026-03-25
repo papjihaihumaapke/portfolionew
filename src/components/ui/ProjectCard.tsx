@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { Project } from '../../data/projects'
 import { Tag } from './Tag'
+import { AnimatedSection } from './AnimatedSection'
 
 export type ProjectCardProps = {
   project: Project
@@ -12,17 +13,15 @@ export function ProjectCard({ project, className, priority = false }: ProjectCar
   if (!project) return null
 
   return (
-    <Link
-      to={`/work/${project.slug}`}
-      className={[
-        'group block border border-border bg-transparent rounded-none overflow-hidden',
-        'transition-colors duration-300 hover:border-accent',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      aria-label={`View case study: ${project.title}`}
-    >
+    <AnimatedSection className={className}>
+      <Link
+        to={`/work/${project.slug}`}
+        className={[
+          'group block h-full border border-border bg-transparent rounded-none overflow-hidden',
+          'transition-colors duration-300 hover:border-accent'
+        ].join(' ')}
+        aria-label={`View case study: ${project.title}`}
+      >
       <div className="relative aspect-video overflow-hidden">
         <img
           src={project.coverImage}
@@ -53,8 +52,9 @@ export function ProjectCard({ project, className, priority = false }: ProjectCar
             <Tag key={t}>{t}</Tag>
           ))}
         </div>
-      </div>
-    </Link>
+        </div>
+      </Link>
+    </AnimatedSection>
   )
 }
 
