@@ -20,6 +20,9 @@ export interface Project {
   reflection: string
   featured: boolean
   liveUrl?: string
+  discoveryImage?: string
+  processImage?: string
+  solutionImage?: string
 }
 
 export const projects: Project[] = [
@@ -94,5 +97,8 @@ export const projects: Project[] = [
     reflection:
       'Handling biometric data requires radical transparency in privacy settings. Minimalist UI is essential when presenting complex AI data to prevent user cognitive overwhelm.',
     featured: true,
+    discoveryImage: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/640e2c190962053.65c360ceeee86.png',
+    processImage: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/64f70e190962053.65c360cee8298.png',
+    solutionImage: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/d5862b190962053.65c360ceeab7d.png',
   },
 ]

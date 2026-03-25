@@ -126,14 +126,16 @@ export function CaseStudy() {
             <p className="font-body text-[var(--text-body)] text-muted leading-relaxed max-w-3xl">
               {project.discovery}
             </p>
-            <div className="border border-border overflow-hidden max-w-2xl bg-white">
-              <img
-                src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/640e2c190962053.65c360ceeee86.png"
-                alt="Quantitative Research Observations"
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
+            {project.discoveryImage && (
+              <div className="border border-border overflow-hidden max-w-2xl bg-white">
+                <img
+                  src={project.discoveryImage}
+                  alt="Discovery & Research Visualization"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            )}
           </AnimatedSection>
 
           <AnimatedSection className="space-y-6">
@@ -144,14 +146,16 @@ export function CaseStudy() {
             <p className="font-body text-[var(--text-body)] text-muted leading-relaxed max-w-3xl">
               {project.process}
             </p>
-            <div className="border border-border overflow-hidden max-w-md bg-white">
-              <img
-                src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/64f70e190962053.65c360cee8298.png"
-                alt="Tuniff User Taskflows"
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
+            {project.processImage && (
+              <div className="border border-border overflow-hidden max-w-md bg-white">
+                <img
+                  src={project.processImage}
+                  alt="Design Process Visualization"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            )}
           </AnimatedSection>
 
           <AnimatedSection className="space-y-6">
@@ -162,14 +166,16 @@ export function CaseStudy() {
             <p className="font-body text-[var(--text-body)] text-muted leading-relaxed max-w-3xl">
               {project.solution}
             </p>
-            <div className="border border-border overflow-hidden bg-[#f4f7fa] py-12">
-              <img
-                src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/d5862b190962053.65c360ceeab7d.png"
-                alt="Tuniff App Screens Overview"
-                className="w-full h-auto max-w-4xl mx-auto"
-                loading="lazy"
-              />
-            </div>
+            {project.solutionImage && (
+              <div className="border border-border overflow-hidden bg-[#f4f7fa] py-12">
+                <img
+                  src={project.solutionImage}
+                  alt="Solution Overview"
+                  className="w-full h-auto max-w-4xl mx-auto"
+                  loading="lazy"
+                />
+              </div>
+            )}
           </AnimatedSection>
 
           <AnimatedSection className="space-y-6">
