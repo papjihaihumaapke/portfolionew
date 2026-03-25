@@ -136,24 +136,6 @@ export function CaseStudy() {
             <p className="font-body text-[var(--text-body)] text-muted leading-relaxed max-w-3xl">
               {project.process}
             </p>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              {[
-                'https://picsum.photos/seed/wire-1/1200/900',
-                'https://picsum.photos/seed/wire-2/1200/900',
-                'https://picsum.photos/seed/wire-3/1200/900',
-                'https://picsum.photos/seed/wire-4/1200/900',
-              ].map((src, idx) => (
-                <div key={src} className="border border-border bg-surface overflow-hidden">
-                  <img
-                    src={src}
-                    alt={`Process image ${idx + 1} for ${project.title}`}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              ))}
-            </div>
           </AnimatedSection>
 
           <AnimatedSection className="space-y-6">
@@ -164,14 +146,6 @@ export function CaseStudy() {
             <p className="font-body text-[var(--text-body)] text-muted leading-relaxed max-w-3xl">
               {project.solution}
             </p>
-            <div className="border border-border overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1555421689-d68471e189f2?w=1200"
-                alt={`Final mockup for ${project.title}`}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
           </AnimatedSection>
 
           <AnimatedSection className="space-y-6">
