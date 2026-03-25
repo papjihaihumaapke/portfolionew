@@ -80,7 +80,7 @@ export function Header() {
         </nav>
 
         <div className="hidden md:flex">
-          <Button href="/contact" variant="filled">
+          <Button href={`mailto:${site.email}`} variant="filled">
             Contact
           </Button>
         </div>
