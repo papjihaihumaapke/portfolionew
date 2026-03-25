@@ -29,58 +29,42 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* Headline + photo row */}
+      {/* Headline row */}
       <div className="container-page w-full py-10">
-        <div className="flex items-end justify-between gap-8">
-
-          {/* Text lines */}
-          <div className="flex-1 min-w-0">
-            <motion.div
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: easeOut, delay: 0.15 }}
+        <div className="max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: easeOut, delay: 0.15 }}
+          >
+            <div
+              className="font-display font-extrabold leading-[0.88] tracking-tight"
+              style={{ fontSize: 'var(--text-hero)' }}
             >
-              <div
-                className="font-display font-extrabold leading-[0.88] tracking-tight"
-                style={{ fontSize: 'var(--text-hero)' }}
-              >
-                <span className="block text-text">{hero.line1}</span>
-              </div>
-            </motion.div>
+              <span className="block text-text">{hero.line1}</span>
+            </div>
+          </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: easeOut, delay: 0.3 }}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: easeOut, delay: 0.3 }}
+          >
+            <div
+              className="font-display font-extrabold leading-[0.88] tracking-tight"
+              style={{ fontSize: 'var(--text-hero)' }}
             >
-              <div
-                className="font-display font-extrabold leading-[0.88] tracking-tight"
-                style={{ fontSize: 'var(--text-hero)' }}
+              <span
+                className="block"
+                style={{
+                  color: 'transparent',
+                  WebkitTextStroke: '2px var(--color-text)',
+                }}
               >
-                <span
-                  className="block"
-                  style={{
-                    color: 'transparent',
-                    WebkitTextStroke: '2px var(--color-text)',
-                  }}
-                >
-                  {hero.line2}
-                </span>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Photo — sits to the right, bottom-aligned with the text */}
-          <motion.img
-            src={hero.photoUrl}
-            alt={hero.photoAlt}
-            className="flex-none w-[clamp(220px,22vw,320px)] aspect-[3/4] object-cover object-top grayscale contrast-110 border border-border"
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: easeOut, delay: 0.4 }}
-            loading="eager"
-          />
-
+                {hero.line2}
+              </span>
+            </div>
+          </motion.div>
         </div>
       </div>
 
