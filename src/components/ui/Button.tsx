@@ -43,7 +43,7 @@ export function Button({
 
   if ('href' in props && typeof props.href === 'string') {
     const href = props.href
-    const isExternal = /^https?:\/\//.test(href) || href.startsWith('mailto:')
+    const isExternal = /^https?:\/\//.test(href) || href.startsWith('mailto:') || href.endsWith('.pdf')
     if (isExternal) {
       return (
         <a
