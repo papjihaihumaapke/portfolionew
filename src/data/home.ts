@@ -10,7 +10,7 @@ export const homeContent = {
       'https://media.licdn.com/dms/image/v2/D5603AQHQLOTicF5cdA/profile-displayphoto-crop_800_800/B56Zr_cCvmGkAI-/0/1765222133123?e=1775692800&v=beta&t=LpbIwZXMKw97C7eZDBGeZzTs1h-vscD1Z0hO5x9NYTw',
     ctas: [
       { label: 'See my work →', href: '/work', variant: 'filled' as const },
-      { label: 'Get in touch', href: 'mailto:mohammadhilalmalik@gmail.com', variant: 'outlined' as const },
+      { label: 'Get in touch', href: '/contact', variant: 'outlined' as const },
     ],
     trustedByLabel: 'Trusted by',
   },
