@@ -68,7 +68,7 @@ export const projects: Project[] = [
     category: ['UI/UX Design', 'Mobile App'],
     tags: ['AI', 'Mobile Design', 'Figma', 'UX Research'],
     coverImage:
-      'https://mir-s3-cdn-cf.behance.net/project_modules/fs/81180b190962053.65b93d077b96e.jpg',
+      'https://mir-s3-cdn-cf.behance.net/project_modules/fs/87bbb6190962053.65c360ceee298.png',
     heroImage:
       'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/81180b190962053.65b93d077b96e.jpg',
     excerpt:
