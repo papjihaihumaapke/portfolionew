@@ -137,6 +137,7 @@ export function Contact() {
                   icon={<Palette size={18} aria-hidden="true" />}
                   label="Behance"
                   href="https://behance.net/mohammadhilalmalik"
+                  highlight
                 />
                 <SocialLink
                   icon={<Github size={18} aria-hidden="true" />}
@@ -312,17 +313,24 @@ function SocialLink({
   icon,
   label,
   href,
+  highlight = false,
 }: {
   icon: React.ReactNode
   label: string
   href: string
+  highlight?: boolean
 }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex items-center gap-2 font-body text-[var(--text-body)] text-text hover:text-accent transition-colors duration-300"
+      className={[
+        'inline-flex items-center gap-2 font-body text-[var(--text-body)] transition-colors duration-300',
+        highlight
+          ? 'text-accent border border-accent/20 px-3 py-1 bg-accent/5 hover:bg-accent hover:text-white'
+          : 'text-text hover:text-accent'
+      ].join(' ')}
     >
       {icon}
       <span>{label}</span>

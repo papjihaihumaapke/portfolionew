@@ -20,13 +20,19 @@ export function Footer() {
           <div className="flex items-center gap-4">
             {site.socialLinks.map((item) => {
               const Icon = iconMap[item.label as keyof typeof iconMap]
+              const isBehance = item.label === 'Behance'
               return (
                 <a
                   key={item.href}
                   href={item.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 font-body text-[var(--text-small)] text-white/80 hover:text-white transition-colors duration-300"
+                  className={[
+                    'inline-flex items-center gap-2 font-body text-[var(--text-small)] transition-colors duration-300',
+                    isBehance 
+                      ? 'text-accent hover:text-white border border-accent/30 px-3 py-1 bg-accent/5' 
+                      : 'text-white/80 hover:text-white'
+                  ].join(' ')}
                 >
                   {Icon ? <Icon size={18} aria-hidden="true" /> : null}
                   <span>{item.label}</span>
