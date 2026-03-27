@@ -4,6 +4,7 @@ import { projects } from '../data/projects'
 import { AnimatedSection } from '../components/ui/AnimatedSection'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { Tag } from '../components/ui/Tag'
+import { motion } from 'framer-motion'
 
 export function CaseStudy() {
   const { slug } = useParams()
@@ -44,11 +45,14 @@ export function CaseStudy() {
     <>
       <section className="relative">
         <div className="relative h-[65vh] max-h-[700px] min-h-[400px] w-full overflow-hidden">
-          <img
+          <motion.img
             src={project.heroImage}
             alt={`${project.title} hero`}
             className="h-full w-full object-cover"
             loading="eager"
+            initial={{ scale: 1.1 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
 
@@ -90,7 +94,7 @@ export function CaseStudy() {
 
       <section className="section">
         <div className="container-page space-y-16">
-          <AnimatedSection className="space-y-4">
+          <AnimatedSection className="space-y-6">
             <SectionLabel>The Problem</SectionLabel>
             <h2 className="font-display text-[var(--text-heading)] tracking-tight">
               What needed to change.
@@ -100,17 +104,17 @@ export function CaseStudy() {
             </p>
           </AnimatedSection>
 
-          <AnimatedSection className="space-y-4">
+          <AnimatedSection className="space-y-6">
             <SectionLabel>My Role</SectionLabel>
             <h2 className="font-display text-[var(--text-heading)] tracking-tight">
               Ownership.
             </h2>
-            <p className="font-body text-[var(--text-body)] text-text leading-relaxed max-w-3xl font-semibold">
+            <p className="font-body text-[var(--text-body)] text-muted leading-relaxed max-w-3xl">
               {project.myRole}
             </p>
           </AnimatedSection>
 
-          <AnimatedSection className="space-y-4">
+          <AnimatedSection className="space-y-6">
             <SectionLabel>Discovery & Research</SectionLabel>
             <h2 className="font-display text-[var(--text-heading)] tracking-tight">
               Finding the friction.
@@ -120,11 +124,15 @@ export function CaseStudy() {
             </p>
             {project.discoveryImage && (
               <div className="border border-border overflow-hidden max-w-2xl bg-white">
-                <img
+                <motion.img
                   src={project.discoveryImage}
                   alt="Discovery & Research Visualization"
                   className="w-full h-full object-cover"
                   loading="lazy"
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 />
               </div>
             )}
@@ -140,11 +148,15 @@ export function CaseStudy() {
             </p>
             {project.processImage && (
               <div className="border border-border overflow-hidden max-w-md bg-white">
-                <img
+                <motion.img
                   src={project.processImage}
                   alt="Design Process Visualization"
                   className="w-full h-full object-cover"
                   loading="lazy"
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 />
               </div>
             )}
@@ -160,15 +172,36 @@ export function CaseStudy() {
             </p>
             {project.solutionImage && (
               <div className="border border-border overflow-hidden bg-[#f4f7fa] py-12">
-                <img
+                <motion.img
                   src={project.solutionImage}
                   alt="Solution Overview"
                   className="w-full h-auto max-w-4xl mx-auto"
                   loading="lazy"
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 />
               </div>
             )}
           </AnimatedSection>
+
+          {project.figmaUrl && (
+            <AnimatedSection className="space-y-6">
+              <SectionLabel>Interactive Prototype</SectionLabel>
+              <h2 className="font-display text-[var(--text-heading)] tracking-tight">
+                Figma Preview.
+              </h2>
+              <div className="border border-border overflow-hidden bg-surface relative w-full h-[80vh] min-h-[600px] rounded-none">
+                <iframe
+                  src={project.figmaUrl}
+                  title={`${project.title} Figma Prototype`}
+                  className="w-full h-full border-none"
+                  allowFullScreen
+                />
+              </div>
+            </AnimatedSection>
+          )}
 
           {project.slug === 'c2c-rental' && (
             <AnimatedSection className="space-y-6">
@@ -208,7 +241,7 @@ export function CaseStudy() {
             </div>
           </AnimatedSection>
 
-          <AnimatedSection className="space-y-4">
+          <AnimatedSection className="space-y-6">
             <SectionLabel>What I’d Do Differently</SectionLabel>
             <h2 className="font-display text-[var(--text-heading)] tracking-tight">
               Reflection.

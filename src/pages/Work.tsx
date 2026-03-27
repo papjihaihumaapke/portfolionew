@@ -3,6 +3,7 @@ import { projects } from '../data/projects'
 import { ProjectCard } from '../components/ui/ProjectCard'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { AnimatedSection } from '../components/ui/AnimatedSection'
+import { TextReveal } from '../components/ui/TextReveal'
 import { site } from '../data/site'
 
 export function Work() {
@@ -15,19 +16,25 @@ export function Work() {
   return (
     <section className="section">
       <div className="container-page space-y-10">
-        <AnimatedSection className="space-y-4">
+        <div className="space-y-4">
           <SectionLabel>Portfolio</SectionLabel>
-          <h1 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight">
-            Selected Work.
-          </h1>
-          <p className="font-body text-[var(--text-body)] text-muted">
-            UI/UX · Product · AI · Branding — 2022–Present
-          </p>
-        </AnimatedSection>
+          <TextReveal
+            text="Selected Work."
+            as="h1"
+            className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight"
+          />
+          <AnimatedSection delay={0.2}>
+            <p className="font-body text-[var(--text-body)] text-muted">
+              UI/UX · Product · AI · Branding — 2022–Present
+            </p>
+          </AnimatedSection>
+        </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {shown.map((p) => (
-            <ProjectCard key={p.slug} project={p} />
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+          {shown.map((p, i) => (
+            <div key={p.slug} className="break-inside-avoid mb-6">
+              <ProjectCard project={p} delay={i * 0.1} />
+            </div>
           ))}
         </div>
 

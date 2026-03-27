@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { homeContent } from '../../data/home'
 import { site } from '../../data/site'
 import { Button } from '../ui/Button'
+import { TextReveal } from '../ui/TextReveal'
 
 const easeOut: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -9,7 +10,7 @@ export function Hero() {
   const hero = homeContent.hero
 
   return (
-    <section className="min-h-[100svh] flex flex-col justify-between pt-24 pb-10">
+    <section className="min-h-[100svh] flex flex-col justify-between pt-16 pb-10">
       <div className="container-page w-full">
         <motion.div
           className="flex items-center justify-between gap-6 font-body text-[var(--text-small)] text-muted"
@@ -30,55 +31,50 @@ export function Hero() {
       </div>
 
       {/* Headline row */}
-      <div className="container-page w-full py-10">
+      <div className="container-page w-full py-6">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-8">
-            <motion.div
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: easeOut, delay: 0.15 }}
+            <TextReveal
+              text={hero.line1}
+              as="h1"
+              className="font-display font-extrabold leading-[0.88] tracking-tight text-text"
+              style={{ fontSize: 'var(--text-hero)' }}
+              delay={0.15}
+              trigger="animate"
+            />
+            <div 
+              className="font-display font-extrabold leading-[0.88] tracking-tight mt-2"
+              style={{ fontSize: 'var(--text-hero)' }}
             >
-              <div
-                className="font-display font-extrabold leading-[0.88] tracking-tight"
-                style={{ fontSize: 'var(--text-hero)' }}
-              >
-                <span className="block text-text">{hero.line1}</span>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: easeOut, delay: 0.3 }}
-            >
-              <div
-                className="font-display font-extrabold leading-[0.88] tracking-tight"
-                style={{ fontSize: 'var(--text-hero)' }}
-              >
-                <span
-                  className="block"
-                  style={{
-                    color: 'transparent',
-                    WebkitTextStroke: '2px var(--color-text)',
-                  }}
-                >
-                  {hero.line2}
-                </span>
-              </div>
-            </motion.div>
+              <TextReveal
+                text={hero.line2}
+                as="span"
+                className="block"
+                style={{
+                  color: 'transparent',
+                  WebkitTextStroke: '2px var(--color-text)',
+                }}
+                delay={0.3}
+                trigger="animate"
+              />
+            </div>
           </div>
 
           <motion.div 
             className="lg:col-span-4 flex justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, ease: easeOut, delay: 0.45 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
           >
             <div className="relative aspect-[4/5] w-full max-w-[320px] bg-surface-dark border border-border overflow-hidden">
-              <img 
+              <motion.img 
                 src={hero.photoUrl} 
                 alt={hero.photoAlt}
                 className="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-700"
+                initial={{ scale: 1.1 }}
+                whileInView={{ scale: 1 }}
+                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
               />
               <div className="absolute inset-0 bg-accent/5 pointer-events-none" />
             </div>

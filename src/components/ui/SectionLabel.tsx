@@ -10,7 +10,7 @@ export function SectionLabel({ children, className, withDash = true }: SectionLa
   return (
     <div
       className={[
-        'font-body text-[var(--text-micro)] uppercase tracking-[0.15em] text-accent',
+        'font-body text-[var(--text-micro)] uppercase tracking-[0.2em] text-accent font-medium',
         className,
       ]
         .filter(Boolean)

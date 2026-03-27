@@ -5,6 +5,7 @@ import { contactContent } from '../data/contact'
 import { Button } from '../components/ui/Button'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { AnimatedSection } from '../components/ui/AnimatedSection'
+import { TextReveal } from '../components/ui/TextReveal'
 
 export function Contact() {
   useEffect(() => {
@@ -89,9 +90,11 @@ export function Contact() {
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <SectionLabel>Contact</SectionLabel>
-              <h1 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight">
-                {c.headline}
-              </h1>
+              <TextReveal
+                text={c.headline}
+                as="h1"
+                className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight"
+              />
               <p className="font-body text-[var(--text-body)] text-muted whitespace-pre-line">
                 {c.body}
               </p>

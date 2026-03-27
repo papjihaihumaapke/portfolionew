@@ -52,7 +52,10 @@ export function Header() {
           className="flex items-center"
           aria-label="Go to homepage"
         >
-          <img src="/logo.png" alt="Logo" className="h-8 w-auto aspect-square object-contain" />
+          <div className="font-display text-2xl font-bold tracking-tighter">
+            <span className="text-text">H</span>
+            <span className="text-accent">.</span>
+          </div>
         </Link>
 
         <nav
@@ -112,7 +115,10 @@ export function Header() {
                 className="flex items-center"
                 aria-label="Go to homepage"
               >
-                <img src="/logo.png" alt="Logo" className="h-8 w-auto aspect-square object-contain invert" />
+                <div className="font-display text-2xl font-bold tracking-tighter">
+                  <span className="text-text">H</span>
+                  <span className="text-accent">.</span>
+                </div>
               </Link>
               <button
                 type="button"

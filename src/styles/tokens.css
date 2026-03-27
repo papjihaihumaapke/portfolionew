@@ -12,20 +12,23 @@
 
   /* Typography */
   --font-display: 'Clash Display', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+  --font-body: 'Outfit', sans-serif;
 
-  --text-hero: clamp(64px, 12vw, 160px);
-  --text-display: clamp(40px, 6vw, 80px);
-  --text-heading: clamp(24px, 3vw, 36px);
-  --text-subhead: clamp(16px, 2vw, 20px);
+  --text-hero: clamp(56px, 10vw, 120px);
+  --text-display: clamp(32px, 6vw, 64px);
+  --text-heading: clamp(24px, 3vw, 32px);
+  --text-subhead: clamp(17px, 2vw, 20px);
   --text-body: 16px;
   --text-small: 14px;
   --text-micro: 12px;
 
+  --letter-spacing-display: -0.01em;
+  --letter-spacing-subhead: 0.01em;
+
   /* Spacing & Layout */
   --max-width: 1280px;
-  --gutter: clamp(20px, 5vw, 80px);
-  --section-gap: clamp(80px, 10vw, 160px);
+  --gutter: clamp(20px, 5vw, 60px);
+  --section-gap: clamp(60px, 8vw, 120px);
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-none: 0px;
