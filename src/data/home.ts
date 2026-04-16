@@ -7,7 +7,7 @@ export const homeContent = {
     line2: '& Product Builder',
     photoAlt: 'Portrait of Hilal Malik',
     photoUrl:
-      'https://media.licdn.com/dms/image/v2/D5603AQHQLOTicF5cdA/profile-displayphoto-crop_800_800/B56Zr_cCvmGkAI-/0/1765222133123?e=1775692800&v=beta&t=LpbIwZXMKw97C7eZDBGeZzTs1h-vscD1Z0hO5x9NYTw',
+      'https://media.licdn.com/dms/image/v2/D5603AQHQLOTicF5cdA/profile-displayphoto-scale_400_400/B56Zr_cCvmGkAg-/0/1765222133205?e=1778112000&v=beta&t=6SBjiKVzTLMOMkoIZH_htUlqDBMmq9V9HTl0hwQU9P8',
     ctas: [
       { label: 'See my work →', href: '/work', variant: 'filled' as const },
       { label: 'Get in touch', href: '/contact', variant: 'outlined' as const },
