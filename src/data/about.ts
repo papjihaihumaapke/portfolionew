@@ -4,7 +4,7 @@ export const aboutContent = {
     bioLine: 'AI automation specialist and front-end developer based in Richmond, BC.',
     photoAlt: 'Black and white portrait of Hilal Malik',
     photoUrl:
-      'https://media.licdn.com/dms/image/v2/D5603AQHQLOTicF5cdA/profile-displayphoto-crop_800_800/B56Zr_cCvmGkAI-/0/1765222133123?e=1775692800&v=beta&t=LpbIwZXMKw97C7eZDBGeZzTs1h-vscD1Z0hO5x9NYTw',
+      'https://media.licdn.com/dms/image/v2/D5603AQHQLOTicF5cdA/profile-displayphoto-scale_400_400/B56Zr_cCvmGkAg-/0/1765222133205?e=1778112000&v=beta&t=6SBjiKVzTLMOMkoIZH_htUlqDBMmq9V9HTl0hwQU9P8',
   },
   narrative: {
     label: 'Story',
@@ -13,7 +13,7 @@ export const aboutContent = {
       "I didn't start as a developer. I started as someone who couldn't stop fixing things\nthat were confusing, slow, or broken. That obsession led me to AI\nautomation, and eventually to building live products that real people use every day —\nfrom car rental platforms in Surrey to voice agents handling dealership calls at 2am.\n\nI'm currently studying Frontend Development for Interactive Applications at KPU's\nWilson School of Design, which means I move between Figma and VS Code in the same\nafternoon. I've shipped products for automotive groups, printed goods brands,\nstreetwear labels, and software startups. The common thread isn't the industry —\nit's the system underneath.\n\nI believe the best product is logical. But to make it work, someone has to understand\nthe business logic, the user psychology, and the technical constraint at the same time.\nThat's the work I'm drawn to.",
     photoAlt: 'Portrait photo',
     photoUrl:
-      'https://media.licdn.com/dms/image/v2/D5603AQHQLOTicF5cdA/profile-displayphoto-crop_800_800/B56Zr_cCvmGkAI-/0/1765222133123?e=1775692800&v=beta&t=LpbIwZXMKw97C7eZDBGeZzTs1h-vscD1Z0hO5x9NYTw',
+      'https://media.licdn.com/dms/image/v2/D5603AQHQLOTicF5cdA/profile-displayphoto-scale_400_400/B56Zr_cCvmGkAg-/0/1765222133205?e=1778112000&v=beta&t=6SBjiKVzTLMOMkoIZH_htUlqDBMmq9V9HTl0hwQU9P8',
   },
   skills: {
     label: 'Technical Skills',
