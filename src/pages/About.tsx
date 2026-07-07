@@ -77,46 +77,6 @@ export function About() {
         <div className="container-page">
           <AnimatedSection className="space-y-10">
             <div className="space-y-4">
-              <SectionLabel>{c.timeline.label}</SectionLabel>
-              <h2 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight">
-                {c.timeline.headline}
-              </h2>
-            </div>
-
-            <div className="relative pl-6">
-              <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-accent" />
-              <div className="space-y-10">
-                {c.timeline.entries.map((e) => (
-                  <div key={e.company} className="relative">
-                    <div className="absolute -left-[7px] top-2 w-3 h-3 bg-accent" />
-                    <div className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-start">
-                      <div className="space-y-1">
-                        <div className="font-body font-semibold text-text">{e.company}</div>
-                        <div className="font-body italic text-muted">
-                          {e.role} · {e.location}
-                        </div>
-                      </div>
-                      <div className="font-body text-[var(--text-small)] text-muted sm:text-right">
-                        {e.date}
-                      </div>
-                    </div>
-                    <ul className="mt-3 list-disc pl-5 space-y-1 font-body text-[var(--text-body)] text-muted">
-                      {e.bullets.map((b) => (
-                        <li key={b}>{b}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container-page">
-          <AnimatedSection className="space-y-10">
-            <div className="space-y-4">
               <SectionLabel>{c.education.label}</SectionLabel>
               <h2 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight">
                 Education.
@@ -138,9 +98,6 @@ export function About() {
             </div>
 
             <div className="flex flex-col gap-3 md:flex-row md:flex-wrap">
-              <Button href={c.ctas.resume.href} variant="filled">
-                {c.ctas.resume.label}
-              </Button>
               <Button href={c.ctas.linkedin.href} variant="outlined">
                 {c.ctas.linkedin.label}
               </Button>
