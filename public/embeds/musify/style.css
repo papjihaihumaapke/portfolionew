@@ -1,0 +1,291 @@
+:root {
+    --Musify-green: #1DB954;
+    --Musify-black: #121212;
+    --Musify-dark-gray: #212121;
+    --Musify-light-gray: #535353;
+    --text-white: #FFFFFF;
+}
+
+body {
+    background-color: var(--Musify-black);
+    color: var(--text-white);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loader-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    overflow: hidden;
+    color: var(--Musify-green);
+}
+
+.loader-bar-container {
+    display: flex;
+    gap: 5px;
+    height: 30px;
+    align-items: flex-end;
+    margin-top: 1rem;
+}
+
+.loader-bar {
+    width: 6px;
+    background-color: white;
+    height: 10px;
+}
+
+
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+
+.nav-visualizer {
+    display: flex;
+    gap: 3px;
+    height: 20px;
+    align-items: flex-end;
+    margin-right: 15px;
+    margin-bottom: 4px;
+}
+.viz-bar {
+    width: 3px;
+    background-color: var(--Musify-green);
+    height: 5px;
+}
+
+/* --- 3. HERO SECTION WITH ORBS --- */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background Animation Container */
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    opacity: 0.6;
+    filter: blur(80px); /* Heavy blur for the "Aura" effect */
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    animation: float 10s infinite ease-in-out alternate;
+}
+
+.orb-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--Musify-green);
+    top: -10%;
+    left: -10%;
+    animation-duration: 8s;
+}
+
+.orb-2 {
+    width: 500px;
+    height: 500px;
+    background: #5a189a; /* Deep Purple */
+    bottom: -10%;
+    right: -10%;
+    animation-duration: 12s;
+}
+
+.orb-3 {
+    width: 300px;
+    height: 300px;
+    background: #0077b6; /* Blue */
+    top: 40%;
+    left: 50%;
+    opacity: 0.5;
+    animation-duration: 15s;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, 50px) scale(1.1); }
+    100% { transform: translate(-20px, -30px) scale(1); }
+}
+
+/* Hero Typography */
+h1.display-1 {
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 0.9;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.word-mask {
+    display: inline-block;
+    transform: translateY(120%);
+}
+
+.magnetic-btn {
+    background-color: var(--Musify-green);
+    color: var(--Musify-black);
+    border: none;
+    padding: 1.5rem 3rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+}
+
+/* --- 4. CARD COMPONENTS --- */
+.content-section { padding: 10rem 0; }
+
+.card-wrapper {
+    position: relative;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.artist-card {
+    background-color: var(--Musify-dark-gray);
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+.artist-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    scale: 1.1; /* Zoomed initially for effects */
+    opacity: 0.8;
+}
+
+/* The Play Button Overlay */
+.play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.3);
+    opacity: 0;
+}
+
+.play-icon-circle {
+    width: 80px;
+    height: 80px;
+    background-color: var(--Musify-green);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transform: translateY(50px) scale(0.8);
+}
+
+.play-icon-circle i {
+    color: black;
+    font-size: 2rem;
+    margin-left: 5px;
+}
+
+.section-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 4rem;
+    color: var(--Musify-green);
+}
+
+
+/* --- 5. HORIZONTAL SCROLL SECTION (VANILLA JS CSS) --- */
+.horizontal-scroll-section {
+    height: 400vh; /* Creates the vertical scroll space */
+    position: relative;
+    background-color: var(--Musify-dark-gray);
+}
+
+.sticky-wrapper {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.scroll-track {
+    display: flex;
+    gap: 3rem;
+    padding: 0 5rem;
+    width: max-content;
+    will-change: transform;
+}
+
+.horizontal-intro {
+    min-width: 400px;
+}
+
+.carousel-card {
+    width: 450px;
+    height: 450px;
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+}
+
+.carousel-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.carousel-card:hover img {
+    transform: scale(1.05);
+}
+
+/* NAVIGATION */
+.navbar {
+    padding: 2rem 0;
+    background: rgba(0,0,0,0);
+    transition: background 0.5s;
+}
+.nav-link { color: white !important; font-weight: 700; position: relative; }
+.nav-link::after {
+    content: ''; position: absolute; width: 100%; height: 2px; bottom: 0; left: 0;
+    background-color: var(--Musify-green); transform: scaleX(0); transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover::after { transform: scaleX(1); transform-origin: left; }

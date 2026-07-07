@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musify Motion System - Style Guide</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* STYLE GUIDE SPECIFIC CSS */
+        body {
+            padding-bottom: 100px;
+        }
+        
+        .guide-header {
+            padding: 4rem 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 3rem;
+        }
+
+        .guide-section {
+            margin-bottom: 5rem;
+        }
+
+        .section-label {
+            color: var(--Musify-green);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        /* COLOR SWATCHES */
+        .swatch {
+            width: 100%;
+            height: 100px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+        }
+        .color-meta {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* CODE BLOCKS */
+        .code-display {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            position: relative;
+        }
+        
+        .code-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #333;
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-bottom-left-radius: 8px;
+            text-transform: uppercase;
+        }
+
+        pre {
+            margin: 0;
+            color: #a6e22e; /* Monokai Green */
+            white-space: pre-wrap;
+            font-size: 0.85rem;
+        }
+        
+        .comment { color: #75715e; }
+        .tag { color: #f92672; }
+        .attr { color: #66d9ef; }
+        .val { color: #e6db74; }
+
+        /* COMPONENT PREVIEW BOX */
+        .preview-box {
+            border: 1px dashed #444;
+            padding: 3rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #181818;
+            min-height: 200px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="guide-header">
+            <h1 class="display-4 fw-bold">Motion Design System</h1>
+            <p class="lead text-white-50">Brand Identity & Component Library</p>
+        </header>
+
+        <section class="guide-section">
+            <h2 class="section-label">01. Color Palette</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="swatch" style="background-color: #1DB954;"></div>
+                    <h6>Accent Green</h6>
+                    <div class="color-meta">Hex: #1DB954<br>Var: --Musify-green</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="swatch" style="background-color: #121212;"></div>
+                    <h6>Background Black</h6>
+                    <div class="color-meta">Hex: #121212<br>Var: --Musify-black</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="swatch" style="background-color: #212121;"></div>
+                    <h6>Surface Dark</h6>
+                    <div class="color-meta">Hex: #212121<br>Var: --Musify-dark-gray</div>
+                </div>
+                <div class="col-md-3">
+                    <div class="swatch" style="background-color: #FFFFFF;"></div>
+                    <h6>Text White</h6>
+                    <div class="color-meta">Hex: #FFFFFF<br>Var: --text-white</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <h2 class="section-label">02. Typography</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="display-1 fw-bold">Display H1</h1>
+                    <h2 class="h1 fw-bold">Heading H2</h2>
+                    <h3 class="h3 fw-bold">Heading H3</h3>
+                    <p class="lead">Lead Body Text: Rhythm is everything.</p>
+                    <p class="text-white-50">Small body text used for descriptions and metadata.</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="code-display">
+                        <span class="code-badge">CSS Font Stack</span>
+                        <pre>font-family: 'Inter', sans-serif;
+font-weight: 900; /* Headers */
+font-weight: 400; /* Body */</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <h2 class="section-label">03. Motion Component: System Preloader</h2>
+            <p class="text-white-50 mb-4">
+                A "curtain-reveal" loading state that masks the UI until assets are ready. 
+                Includes a rhythmic bar animation to indicate system activity.
+            </p>
+            
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="preview-box" style="background: #000; position: relative; overflow: hidden; min-height: 300px;">
+                        
+                        <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                            <div class="loader-bar-container">
+                                <div class="loader-bar"></div>
+                                <div class="loader-bar"></div>
+                                <div class="loader-bar"></div>
+                                <div class="loader-bar"></div>
+                                <div class="loader-bar"></div>
+                            </div>
+                            <div class="mt-3 overflow-hidden">
+                                <div class="loader-text">TUNING IN...</div>
+                            </div>
+                        </div>
+
+                        <button onclick="window.location.reload()" class="btn btn-outline-light btn-sm position-absolute bottom-0 end-0 m-3">
+                            <i class="fas fa-redo me-2"></i> Replay Full Sequence
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-7">
+                    <div class="code-display mb-3">
+                        <span class="code-badge">HTML Structure</span>
+                        <pre>&lt;div class="preloader"&gt;
+  &lt;div class="loader-bar-container"&gt;
+    
+     &lt;div class="loader-bar"&gt;&lt;/div&gt;...
+  &lt;/div&gt;
+  &lt;div class="loader-text"&gt;TUNING IN...&lt;/div&gt;
+&lt;/div&gt;</pre>
+                    </div>
+
+                    <div class="code-display">
+                        <span class="code-badge">GSAP Exit Sequence</span>
+                        <pre><span class="comment">// Triggered on window.load</span>
+masterTl
+  .to(".loader-text", { y: -50, opacity: 0 }) 
+  .to(".preloader", { 
+      yPercent: -100, <span class="comment">// Slide up like a curtain</span>
+      duration: 1.2, 
+      ease: "power4.inOut" 
+  });</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <h2 class="section-label">04. Motion Component: Magnetic Button</h2>
+            <p class="text-white-50 mb-4">A button that physically tracks the cursor movement before click to increase affordance.</p>
+            
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="preview-box">
+                        <a href="#" class="magnetic-btn">Hover Me</a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-7">
+                    <div class="code-display">
+                        <span class="code-badge">GSAP Implementation</span>
+                        <pre>
+<span class="comment">// Javascript (GSAP)</span>
+magnetBtn.addEventListener('mousemove', (e) => {
+  const bound = magnetBtn.getBoundingClientRect();
+  const x = (e.clientX - centerX) * 0.3; <span class="comment">// 0.3 = resistance</span>
+  const y = (e.clientY - centerY) * 0.3;
+  
+  gsap.to(magnetBtn, {
+      x: x, 
+      y: y, 
+      duration: 0.3 
+  });
+});</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <h2 class="section-label">05. Motion Component: Content Card</h2>
+            <p class="text-white-50 mb-4">Hover interaction featuring image scale, overlay fade, and icon spring-up.</p>
+            
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="preview-box" style="height: 500px;">
+                        <div class="card-wrapper" style="width: 100%;">
+                            <div class="artist-card">
+                                <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070&auto=format&fit=crop" class="artist-img" alt="Artist image">
+                                <div class="play-overlay">
+                                    <div class="play-icon-circle">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="code-display mb-3">
+                        <span class="code-badge">HTML Structure</span>
+                        <pre>&lt;div class="card-wrapper"&gt;
+  &lt;div class="artist-card"&gt;
+    &lt;img src="..." class="artist-img"&gt;
+    &lt;div class="play-overlay"&gt;
+       &lt;!-- Icon --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+                    </div>
+                    
+                    <div class="code-display">
+                        <span class="code-badge">GSAP Timeline</span>
+                        <pre><span class="comment">// Hover Timeline (Choreography)</span>
+const hoverTl = gsap.timeline({ paused: true });
+
+hoverTl
+  .to(img, { scale: 1.05, duration: 0.4 }, 0)
+  .to(overlay, { opacity: 1 }, 0)
+  .fromTo(icon, 
+     { y: 50, scale: 0.8 }, 
+     { y: 0, scale: 1, ease: "back.out(1.7)" }, 0.1);</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <h2 class="section-label">06. Background: Aura Orbs</h2>
+            <p class="text-white-50 mb-4">Animated gradient orbs using CSS Blur and Keyframes to create a "breathing" ambient background.</p>
+            
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="preview-box" style="position: relative; overflow: hidden; height: 350px; border: 1px solid #333;">
+                        <div class="hero-bg" style="opacity: 1; position: absolute; width: 100%; height: 100%;">
+                            <div class="orb orb-1" style="transform: scale(0.5); top: -50px; left: -50px;"></div>
+                            <div class="orb orb-2" style="transform: scale(0.5); bottom: -50px; right: -50px;"></div>
+                            <div class="orb orb-3" style="transform: scale(0.5); top: 30%; left: 40%;"></div>
+                        </div>
+                        <h3 class="display-6 fw-bold position-relative z-2 text-white text-shadow">Ambient<br>Motion</h3>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="code-display">
+                        <span class="code-badge">CSS Animation</span>
+                        <pre><span class="comment">/* The Blur Filter creates the Aura */</span>
+.orb {
+    filter: blur(80px);
+    animation: float 10s infinite ease-in-out alternate;
+}
+
+<span class="comment">/* Floating Keyframes */</span>
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, 50px) scale(1.1); }
+    100% { transform: translate(-20px, -30px) scale(1); }
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <h2 class="section-label">07. Interaction: Horizontal Scroll</h2>
+            <p class="text-white-50 mb-4">
+                Converts vertical scroll energy into horizontal translation using Sticky Positioning and Vanilla JS math.
+            </p>
+            
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="code-display">
+                        <span class="code-badge">Vanilla JS Logic</span>
+                        <pre><span class="comment">// 1. Calculate scroll percentage (0 to 1) based on section height</span>
+let percentage = (scrollY - sectionTop) / (sectionHeight - windowHeight);
+
+<span class="comment">// 2. Determine how much "overflow" width exists</span>
+const trackWidth = track.scrollWidth;
+const maxScroll = trackWidth - window.innerWidth;
+
+<span class="comment">// 3. Translate track horizontally</span>
+const x = percentage * maxScroll;
+track.style.transform = `translate3d(-${x}px, 0, 0)`;</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>

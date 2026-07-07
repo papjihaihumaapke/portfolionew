@@ -1,0 +1,7 @@
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "functions": {
+    "api/contact.ts": { "memory": 128, "maxDuration": 10 }
+  }
+}
+
