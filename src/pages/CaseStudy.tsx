@@ -99,6 +99,19 @@ function CaseHero({ project }: { project: Project }) {
           ))}
         </dl>
 
+        {project.prototypeUrl && (
+          <a
+            href={project.prototypeUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-[48px] items-center gap-2 border border-text px-6 py-3 font-medium transition-colors duration-base hover:bg-dark hover:text-white"
+          >
+            Open the Figma prototype
+            <ExternalLink size={16} aria-hidden="true" />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+        )}
+
         {project.liveUrl && (
           <a
             href={project.liveUrl}

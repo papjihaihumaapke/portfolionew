@@ -7,7 +7,7 @@
  * skipped on case study pages. Covers without real media use generated art (scripts/make-covers.mjs).
  */
 
-export type ProjectType = 'product' | 'employer' | 'freelance' | 'coursework'
+export type ProjectType = 'product' | 'employer' | 'freelance' | 'coursework' | 'personal'
 export type ProjectStatus = 'shipped' | 'in-progress'
 export type Discipline = 'product' | 'web' | 'motion' | 'marketing'
 
@@ -68,6 +68,8 @@ export interface Project {
   sections: Section[]
   confidential: boolean
   liveUrl?: string
+  /** Figma or other prototype link, shown as a secondary button on the case study. */
+  prototypeUrl?: string
   /** Studies label shown on coursework cards. */
   studyLabel?: 'KPU coursework' | 'KPU capstone'
 }
@@ -77,6 +79,7 @@ export const typeLabel: Record<ProjectType, string> = {
   employer: 'Employer',
   freelance: 'Freelance',
   coursework: 'Coursework',
+  personal: 'Personal project',
 }
 
 export const disciplineLabel: Record<Discipline, string> = {
@@ -644,6 +647,131 @@ export const projects: Project[] = [
     ],
   },
 
+  /* Personal projects --------------------------------------------------- */
+  {
+    slug: 'zara-redesign',
+    title: 'Zara Website Redesign',
+    summary: 'A redesign of the Zara web experience focused on accessibility, intuitive navigation and a refined visual hierarchy.',
+    outcome: 'Responsive redesign with a Figma prototype for desktop, tablet and mobile.',
+    type: 'personal',
+    status: 'shipped',
+    role: 'UI/UX Designer',
+    timeline: '2025',
+    client: 'Personal project (unsolicited redesign)',
+    tools: ['Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'AI tools'],
+    tags: ['Web redesign', 'Accessibility', 'Figma'],
+    disciplines: ['product', 'web'],
+    featured: false,
+    order: 201,
+    cover: { src: '/media/zara/cover', alt: 'Mid-fidelity wireframes of the redesigned Zara homepage, category, search and product pages on laptop and tablet' },
+    ogImage: og('zara-redesign'),
+    confidential: false,
+    prototypeUrl: 'https://www.figma.com/proto/v92INsi3vQ46o8rxwS5drA/Zara-website-redesign?content-scaling=fixed&kind=proto&node-id=20-4&scaling=scale-down&starting-point-node-id=20%3A4',
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: [
+          'Users struggled with Zara’s complex navigation and an inconsistent experience across devices. The site also had accessibility hurdles, such as poor keyboard support and low contrast.',
+        ],
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: ['I led the end-to-end redesign, applying UX laws like Hick’s and Fitts’s to simplify the interface while keeping the brand’s premium feel.'],
+      },
+      {
+        id: 'process',
+        title: 'Process',
+        body: [
+          'Analysis of the existing site revealed the friction points: overwhelming choices and a lack of clear visual organization. Accessibility audits found contrast and navigation gaps.',
+          'From Miller’s Law for chunking information to Gestalt principles for visual hierarchy, each design decision aimed to reduce cognitive load and improve the shopping journey.',
+        ],
+        media: [
+          { src: '/media/zara/discovery', alt: 'Key findings: usability issues and accessibility challenges on the existing Zara site', caption: 'Key findings from the usability and accessibility review.' },
+          { src: '/media/zara/process', alt: 'Mid-fidelity mobile wireframes for the homepage, category, search and product pages', caption: 'Mid-fidelity mobile wireframes.' },
+        ],
+      },
+      {
+        id: 'solution',
+        title: 'The solution',
+        body: ['A minimalist, functional redesign that prioritizes accessibility and responsiveness, with easier product discovery and a smoother checkout flow.'],
+        media: [{ src: '/media/zara/solution', alt: 'Mobile wireframes with product imagery for the redesigned shopping flow', caption: 'The redesigned mobile shopping flow.' }],
+      },
+      {
+        id: 'learned',
+        title: 'What I learned',
+        body: [
+          'Balancing a high-fashion, minimalist brand with the functional needs of a high-volume store comes down to visual hierarchy and small interactions; they are what make the experience feel premium.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'mini-minds',
+    title: 'Mini Minds',
+    summary: 'An interactive learning app for children aged 5 to 10, built around gamified learning and creative skill development.',
+    outcome: '9+ high-fidelity screens for a gamified learning app for ages 5 to 10.',
+    type: 'personal',
+    status: 'shipped',
+    role: 'UI/UX Designer',
+    timeline: '2024',
+    client: 'Personal project',
+    tools: ['Figma', 'Adobe Illustrator', 'Canva'],
+    tags: ['Mobile app', 'EdTech', 'Gamification'],
+    disciplines: ['product'],
+    featured: false,
+    order: 202,
+    cover: { src: '/media/mini-minds/cover', alt: 'Mini Minds app logo on two phones' },
+    ogImage: og('mini-minds'),
+    confidential: false,
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: [
+          'Traditional learning platforms are often rigid and fail to engage young learners. Children need something that matches their energy levels and different learning styles.',
+        ],
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: ['I designed the end-to-end mobile experience, focusing on gamification and child-friendly UI patterns so learning feels intuitive and fun.'],
+      },
+      {
+        id: 'process',
+        title: 'Process',
+        body: [
+          'Research showed that children respond best to play-based discovery. I reviewed existing EdTech apps for gaps in creative engagement and in the balance of sound and visuals.',
+          'From empathy mapping to heuristic evaluation, I iterated on navigation and the reward system so the app feels like a game rather than a chore.',
+        ],
+        media: [
+          { src: '/media/mini-minds/discovery', alt: 'Empathy map from the parent’s point of view: thinks, feels, says and does', caption: 'Empathy mapping from the parent’s point of view.' },
+          { src: '/media/mini-minds/process', alt: 'Heuristic evaluation notes for the splash, onboarding, how it works, registration and verification screens', caption: 'Heuristic evaluation of the core screens.' },
+        ],
+      },
+      {
+        id: 'solution',
+        title: 'The solution',
+        body: ['A mobile app that uses gamification to nurture creativity and critical thinking, with a vibrant visual identity made for the 5 to 10 age group.'],
+        media: [{ src: '/media/mini-minds/solution', alt: 'Nine high-fidelity Mini Minds screens from splash to quiz', caption: 'High-fidelity screens.' }],
+      },
+      {
+        id: 'outcome',
+        title: 'Outcome',
+        stats: [
+          { value: '5 to 10', label: 'Age group designed for' },
+          { value: '9+', label: 'High-fidelity screens' },
+        ],
+      },
+      {
+        id: 'learned',
+        title: 'What I learned',
+        body: ['Designing for children means different constraints: larger touch targets, vibrant feedback and extremely simple navigation.'],
+      },
+    ],
+  },
+
   /* Studies ------------------------------------------------------------- */
   {
     slug: 'musify-motion-system',
@@ -831,17 +959,18 @@ export const projects: Project[] = [
   },
 ]
 
-export const workProjects = projects.filter((p) => p.type !== 'coursework').sort((a, b) => a.order - b.order)
+export const workProjects = projects.filter((p) => p.type !== 'coursework' && p.type !== 'personal').sort((a, b) => a.order - b.order)
 export const studies = projects.filter((p) => p.type === 'coursework').sort((a, b) => a.order - b.order)
+export const personalProjects = projects.filter((p) => p.type === 'personal').sort((a, b) => a.order - b.order)
 export const featuredProjects = workProjects.filter((p) => p.featured)
 
 export function getProject(slug: string | undefined) {
   return projects.find((p) => p.slug === slug)
 }
 
-/** Next project in reading order (work, then studies), wrapping around. */
+/** Next project in reading order (work, studies, then personal projects), wrapping around. */
 export function getNextProject(slug: string) {
-  const ordered = [...workProjects, ...studies]
+  const ordered = [...workProjects, ...studies, ...personalProjects]
   const i = ordered.findIndex((p) => p.slug === slug)
   return ordered[(i + 1) % ordered.length]
 }

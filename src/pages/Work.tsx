@@ -4,7 +4,7 @@ import { Seo } from '../components/Seo'
 import { SiteGrid } from '../components/sites/SiteGrid'
 import { ProjectCard } from '../components/ui/ProjectCard'
 import { SectionLabel } from '../components/ui/SectionLabel'
-import { disciplineLabel, studies, workProjects, type Discipline } from '../data/projects'
+import { disciplineLabel, personalProjects, studies, workProjects, type Discipline } from '../data/projects'
 import { sites } from '../data/sites'
 import { useScrollMotion } from '../lib/use-scroll-motion'
 import { cn } from '../lib/utils'
@@ -28,6 +28,7 @@ export function Work() {
   const matches = (d: Discipline[]) => filter === 'all' || d.includes(filter)
   const shownWork = workProjects.filter((p) => matches(p.disciplines))
   const shownStudies = studies.filter((p) => matches(p.disciplines))
+  const shownPersonal = personalProjects.filter((p) => matches(p.disciplines))
   const showSites = filter === 'all' || filter === 'web'
 
   const setFilter = (f: Filter) => {
@@ -65,7 +66,7 @@ export function Work() {
             ))}
           </div>
           <p className="sr-only" aria-live="polite">
-            Showing {shownWork.length + shownStudies.length + (showSites ? sites.length : 0)} items
+            Showing {shownWork.length + shownStudies.length + shownPersonal.length + (showSites ? sites.length : 0)} items
           </p>
         </div>
       </section>
@@ -116,6 +117,26 @@ export function Work() {
             </div>
             <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="">
               {shownStudies.map((p) => (
+                <li key={p.slug}>
+                  <ProjectCard project={p} size="compact" />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+      {shownPersonal.length > 0 && (
+        <section aria-labelledby="personal-title" className="section border-t border-border">
+          <div className="container-page space-y-12">
+            <div className="space-y-4">
+              <SectionLabel>Personal projects</SectionLabel>
+              <h2 id="personal-title" className="h2" data-reveal="mask">
+                Self-initiated work.
+              </h2>
+              <p className="max-w-measure text-muted">Redesigns and concepts I took on outside of client and coursework briefs.</p>
+            </div>
+            <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="">
+              {shownPersonal.map((p) => (
                 <li key={p.slug}>
                   <ProjectCard project={p} size="compact" />
                 </li>
