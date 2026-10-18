@@ -23,6 +23,7 @@ export function ProjectCard({ project, className, priority = false, size = 'regu
         <Picture
           src={project.cover.src}
           alt={project.cover.alt}
+          objectPosition={project.cover.position}
           priority={priority}
           sizes={size === 'large' ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
           ratio={size === 'compact' ? '16 / 10' : '4 / 3'}

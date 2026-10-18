@@ -128,9 +128,7 @@ function CaseHero({ project }: { project: Project }) {
       </div>
 
       <div className="container-page mt-12">
-        <div className="overflow-hidden">
-          <Picture src={project.cover.src} alt={project.cover.alt} priority sizes="(min-width: 1320px) 1192px, 100vw" ratio="16 / 9" imgClassName="w-full" parallax={0.06} />
-        </div>
+        <Picture src={project.cover.src} alt={project.cover.alt} priority sizes="(min-width: 1320px) 1192px, 100vw" ratio="16 / 9" imgClassName="w-full" />
       </div>
     </header>
   )

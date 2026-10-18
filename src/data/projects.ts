@@ -17,6 +17,8 @@ export interface Media {
   caption?: string
   /** Show on a padded light stage instead of edge to edge (portrait or phone shots). */
   contain?: boolean
+  /** CSS object-position when a cover is cropped to a card ratio, e.g. 'left center'. */
+  position?: string
 }
 
 export interface Stat {
@@ -109,7 +111,11 @@ export const projects: Project[] = [
     disciplines: ['product'],
     featured: true,
     order: 1,
-    cover: { src: '/media/lotstudio/cover', alt: 'Illustration of a car split down the middle: a busy lot background before, a clean studio floor after' },
+    cover: {
+      src: '/media/lotstudio/cover',
+      alt: 'LotStudio: a white sedan photographed on a dealership lot, split into the original photo and a clean studio result, with the steps take a photo, AI removes background, studio ready',
+      position: 'left center',
+    },
     ogImage: og('lotstudio-ai'),
     confidential: false,
     liveUrl: 'https://lotstudio-ai.onrender.com/',

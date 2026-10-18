@@ -6,6 +6,8 @@ export type PictureProps = {
   alt: string
   className?: string
   imgClassName?: string
+  /** Inline object-position for the img (crop anchor). */
+  objectPosition?: string
   sizes?: string
   priority?: boolean
   /** Aspect ratio kept when the file is missing. */
@@ -14,7 +16,7 @@ export type PictureProps = {
   parallax?: number
 }
 
-export function Picture({ src, alt, className, imgClassName, sizes = '100vw', priority = false, ratio = '16 / 10', parallax }: PictureProps) {
+export function Picture({ src, alt, className, imgClassName, sizes = '100vw', priority = false, ratio = '16 / 10', parallax, objectPosition }: PictureProps) {
   const img = images[src]
 
   // Missing file: keep the layout's space with a quiet surface, no visible text.
@@ -39,6 +41,7 @@ export function Picture({ src, alt, className, imgClassName, sizes = '100vw', pr
         // React 18 only passes the lowercase attribute through.
         {...(priority ? { fetchpriority: 'high' } : {})}
         className={imgClassName}
+        style={objectPosition ? { objectPosition } : undefined}
         data-parallax={parallax}
       />
     </picture>
