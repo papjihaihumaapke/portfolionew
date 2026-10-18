@@ -1,73 +1,57 @@
 import { Link } from 'react-router-dom'
 import type React from 'react'
+import { track, type TrackEvent } from '../../lib/analytics'
+import { cn } from '../../lib/utils'
 
-type ButtonVariant = 'filled' | 'outlined'
+type ButtonVariant = 'filled' | 'outlined' | 'accent' | 'light' | 'outlined-light'
 
-type ButtonBaseProps = {
+export type ButtonProps = {
   children: React.ReactNode
+  href: string
   className?: string
   variant?: ButtonVariant
+  /** Download the file instead of navigating (resume PDF). */
+  download?: boolean
+  /** Analytics event fired on click when GA4 is enabled. */
+  event?: TrackEvent
+  external?: boolean
 }
-
-type ButtonAsLinkProps = ButtonBaseProps & {
-  href: string
-  onClick?: never
-  type?: never
-}
-
-type ButtonAsButtonProps = ButtonBaseProps & {
-  href?: never
-  onClick?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick']
-  type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
-}
-
-export type ButtonProps = ButtonAsLinkProps | ButtonAsButtonProps
 
 const base =
-  'inline-flex items-center justify-center gap-2 border font-body uppercase tracking-wider px-6 py-3 transition-colors duration-300 focus-visible:outline-none'
+  'inline-flex min-h-[48px] items-center justify-center gap-2 border px-6 py-3 font-body text-[15px] font-medium tracking-wide transition-colors duration-base'
 
 const variants: Record<ButtonVariant, string> = {
-  filled:
-    'bg-dark text-white border-dark hover:bg-accent hover:border-accent rounded-none',
-  outlined:
-    'bg-transparent text-dark border-dark hover:bg-dark hover:text-white rounded-none',
+  filled: 'bg-dark text-white border-dark hover:bg-accent-ink hover:border-accent-ink',
+  outlined: 'bg-transparent text-text border-text hover:bg-dark hover:text-white',
+  accent: 'bg-accent-ink text-white border-accent-ink hover:bg-dark hover:border-dark',
+  light: 'bg-white text-text border-white hover:bg-dark hover:text-white hover:border-dark',
+  'outlined-light': 'bg-transparent text-white border-white/70 hover:bg-white hover:text-text',
 }
 
-export function Button({
-  children,
-  className,
-  variant = 'filled',
-  ...props
-}: ButtonProps) {
-  const classes = [base, variants[variant], className].filter(Boolean).join(' ')
+export function Button({ children, href, className, variant = 'filled', download, event, external }: ButtonProps) {
+  const classes = cn(base, variants[variant], className)
+  const onClick = event ? () => track(event, { href }) : undefined
+  const isFile = /\.(pdf)$/.test(href)
 
-  if ('href' in props && typeof props.href === 'string') {
-    const href = props.href
-    const isExternal = /^https?:\/\//.test(href) || href.startsWith('mailto:') || href.endsWith('.pdf')
-    if (isExternal) {
-      return (
-        <a
-          className={classes}
-          href={href}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {children}
-        </a>
-      )
-    }
-
+  if (external || isFile || /^(https?:|mailto:)/.test(href)) {
+    const newTab = external || /^https?:/.test(href)
     return (
-      <Link className={classes} to={href}>
+      <a
+        className={classes}
+        href={href}
+        onClick={onClick}
+        download={download || undefined}
+        target={newTab ? '_blank' : undefined}
+        rel={newTab ? 'noreferrer' : undefined}
+      >
         {children}
-      </Link>
+      </a>
     )
   }
 
   return (
-    <button className={classes} onClick={props.onClick} type={props.type ?? 'button'}>
+    <Link className={classes} to={href} onClick={onClick}>
       {children}
-    </button>
+    </Link>
   )
 }
-

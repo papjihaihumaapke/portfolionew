@@ -3,7 +3,6 @@ import { workProjects, studies } from '../data/projects'
 import { ProjectCard } from '../components/ui/ProjectCard'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { AnimatedSection } from '../components/ui/AnimatedSection'
-import { TextReveal } from '../components/ui/TextReveal'
 
 export function Work() {
   useEffect(() => {
@@ -17,11 +16,7 @@ export function Work() {
       <div className="container-page space-y-10">
         <div className="space-y-4">
           <SectionLabel>Portfolio</SectionLabel>
-          <TextReveal
-            text="Selected Work."
-            as="h1"
-            className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight"
-          />
+          <h1 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight">{"Selected Work."}</h1>
           <AnimatedSection delay={0.2}>
             <p className="font-body text-[var(--text-body)] text-muted">
               Product, UX, web and motion work, 2022 to present

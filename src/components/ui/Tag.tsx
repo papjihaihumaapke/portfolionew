@@ -1,23 +1,20 @@
 import type React from 'react'
+import { cn } from '../../lib/utils'
 
-export type TagProps = {
-  children: React.ReactNode
-  className?: string
+export function Tag({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <span className={cn('font-body text-[var(--text-micro)] tracking-wide text-muted', className)}>{children}</span>
 }
 
-export function Tag({ children, className }: TagProps) {
+/** Max 3 tags, separated by a thin slash: lighter than pills. */
+export function TagList({ tags, className }: { tags: string[]; className?: string }) {
   return (
-    <span
-      className={[
-        'inline-flex items-center border border-border px-2 py-0.5 font-body text-[var(--text-micro)] uppercase tracking-wider text-text/80',
-        'rounded-none transition-colors duration-300 hover:bg-accent hover:text-white hover:border-transparent',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      {children}
-    </span>
+    <ul className={cn('flex flex-wrap gap-x-2 gap-y-1 font-body text-[var(--text-micro)] uppercase tracking-[0.14em] text-muted', className)}>
+      {tags.slice(0, 3).map((t, i) => (
+        <li key={t} className="flex items-center gap-2">
+          {i > 0 && <span aria-hidden="true">/</span>}
+          {t}
+        </li>
+      ))}
+    </ul>
   )
 }
-

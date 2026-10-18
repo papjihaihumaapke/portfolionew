@@ -1,56 +1,33 @@
 import { motion } from 'framer-motion'
 import type React from 'react'
+import { duration, ease } from '../../lib/motion'
 
 export type AnimatedSectionProps = {
   children: React.ReactNode
   className?: string
   delay?: number
-  variant?: 'fade-up' | 'fade-in' | 'scale-up' | 'none'
-  amount?: number
+  variant?: 'fade-up' | 'fade-in' | 'none'
+  as?: 'div' | 'section' | 'li'
 }
 
 const variants = {
-  'fade-up': {
-    initial: { opacity: 0, y: 40 },
-    whileInView: { opacity: 1, y: 0 },
-  },
-  'fade-in': {
-    initial: { opacity: 0 },
-    whileInView: { opacity: 1 },
-  },
-  'scale-up': {
-    initial: { opacity: 0, scale: 0.95 },
-    whileInView: { opacity: 1, scale: 1 },
-  },
-  'none': {
-    initial: {},
-    whileInView: {},
-  }
+  'fade-up': { initial: { opacity: 0, y: 16 }, whileInView: { opacity: 1, y: 0 } },
+  'fade-in': { initial: { opacity: 0 }, whileInView: { opacity: 1 } },
+  none: { initial: {}, whileInView: {} },
 }
 
-export function AnimatedSection({ 
-  children, 
-  className, 
-  delay = 0, 
-  variant = 'fade-up',
-  amount = 0.15
-}: AnimatedSectionProps) {
-  const animation = variants[variant]
-
+/** Short fade-in on scroll. Framer's MotionConfig (reducedMotion="user") turns it into an instant swap. */
+export function AnimatedSection({ children, className, delay = 0, variant = 'fade-up', as = 'div' }: AnimatedSectionProps) {
+  const Comp = motion[as]
   return (
-    <motion.div
+    <Comp
       className={className}
-      initial={animation.initial}
-      whileInView={animation.whileInView}
-      viewport={{ once: true, amount }}
-      transition={{ 
-        duration: 0.8, 
-        ease: [0.16, 1, 0.3, 1], 
-        delay 
-      }}
+      initial={variants[variant].initial}
+      whileInView={variants[variant].whileInView}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: duration.slow, ease, delay }}
     >
       {children}
-    </motion.div>
+    </Comp>
   )
 }
-

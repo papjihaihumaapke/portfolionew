@@ -12,11 +12,14 @@ export default {
         bg: '#f5f4f2',
         dark: '#1a1a1a',
         text: '#1a1a1a',
-        muted: '#6b6b6b',
+        muted: '#5f5f5f',
+        'muted-dark': '#b3b3b3',
         accent: '#e8470a',
-        'accent-warm': '#ff6340',
+        'accent-ink': '#b53505',
+        'accent-dark': '#ff6340',
         surface: '#edecea',
-        border: '#e2e0dd',
+        border: '#dcdad6',
+        'border-dark': '#3a3a3a',
       },
       borderRadius: {
         none: 'var(--radius-none)',
@@ -25,23 +28,14 @@ export default {
       },
       maxWidth: {
         page: 'var(--max-width)',
+        measure: 'var(--measure)',
       },
-      keyframes: {
-        'scroll-left': {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-50%)' },
-        },
-        'scroll-right': {
-          '0%': { transform: 'translateX(-50%)' },
-          '100%': { transform: 'translateX(0)' },
-        },
-      },
-      animation: {
-        'marquee-left-40': 'scroll-left 40s linear infinite',
-        'marquee-right-28': 'scroll-right 28s linear infinite',
+      transitionDuration: {
+        fast: '150ms',
+        base: '250ms',
+        slow: '400ms',
       },
     },
   },
   plugins: [],
 } satisfies Config
-

@@ -2,7 +2,6 @@ import { homeContent } from '../../data/home'
 import { Button } from '../ui/Button'
 import { AnimatedSection } from '../ui/AnimatedSection'
 import { SectionLabel } from '../ui/SectionLabel'
-import { TextReveal } from '../ui/TextReveal'
 
 export function AboutSnippet() {
   const content = homeContent.aboutSnippet
@@ -13,10 +12,7 @@ export function AboutSnippet() {
         <AnimatedSection variant="none" className="grid gap-10 lg:grid-cols-12 lg:items-start">
           <div className="lg:col-span-7 space-y-6">
             <SectionLabel>{content.label}</SectionLabel>
-            <TextReveal
-              text={content.pullQuote}
-              className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight whitespace-pre-line"
-            />
+            <h2 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight whitespace-pre-line">{content.pullQuote}</h2>
             <AnimatedSection delay={0.2} className="space-y-6">
               <p className="font-body text-[var(--text-body)] text-muted whitespace-pre-line max-w-xl">
                 {content.body}

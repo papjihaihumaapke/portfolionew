@@ -1,42 +1,80 @@
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/clash-display-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/clash-display-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/outfit-latin.woff2') format('woff2');
+  font-weight: 300 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
-  /* Color Tokens */
+  /* Colour. Contrast ratios are WCAG 2.1 against the surface they are meant for. */
   --color-bg: #f5f4f2;
   --color-bg-dark: #1a1a1a;
   --color-text: #1a1a1a;
-  --color-text-muted: #6b6b6b;
-  --color-accent: #e8470a;
-  --color-accent-warm: #ff6340;
+  --color-text-muted: #5f5f5f; /* 5.4:1 on surface, 5.9:1 on bg */
+  --color-text-muted-dark: #b3b3b3; /* 8.6:1 on bg-dark */
+  --color-accent: #e8470a; /* fills and large type only (3.6:1 on bg) */
+  --color-accent-ink: #b53505; /* accent text on light: 5.5:1 on bg, 5.1:1 on surface */
+  --color-accent-on-dark: #ff6340; /* accent text on dark: 5.9:1 */
   --color-white: #ffffff;
-  --color-border: #e2e0dd;
+  --color-border: #dcdad6;
+  --color-border-dark: #3a3a3a;
   --color-surface: #edecea;
 
-  /* Typography */
-  --font-display: 'Clash Display', sans-serif;
-  --font-body: 'Outfit', sans-serif;
+  /* Type: one display size for H1, then H2 and H3. Body 17 to 18px. */
+  --font-display: 'Clash Display', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Outfit', 'Helvetica Neue', Arial, sans-serif;
 
-  --text-hero: clamp(56px, 10vw, 120px);
-  --text-display: clamp(32px, 6vw, 64px);
-  --text-heading: clamp(24px, 3vw, 32px);
-  --text-subhead: clamp(17px, 2vw, 20px);
-  --text-body: 16px;
-  --text-small: 14px;
-  --text-micro: 12px;
+  --text-h1: clamp(44px, 7.2vw, 104px);
+  --text-h2: clamp(32px, 4.4vw, 56px);
+  --text-h3: clamp(22px, 2vw, 28px);
+  --text-lead: clamp(19px, 1.5vw, 22px);
+  --text-body: clamp(17px, 0.25vw + 16px, 18px);
+  --text-small: 15px;
+  --text-micro: 13px;
 
-  --letter-spacing-display: -0.01em;
-  --letter-spacing-subhead: 0.01em;
+  /* Legacy aliases kept for older components. */
+  --text-hero: var(--text-h1);
+  --text-display: var(--text-h2);
+  --text-heading: var(--text-h3);
+  --text-subhead: var(--text-lead);
 
-  /* Spacing & Layout */
-  --max-width: 1280px;
-  --gutter: clamp(20px, 5vw, 60px);
-  --section-gap: clamp(60px, 8vw, 120px);
+  --measure: 68ch;
+  --letter-spacing-display: -0.02em;
+
+  /* Spacing and layout */
+  --max-width: 1320px;
+  --gutter: clamp(16px, 5vw, 64px);
+  --section-gap: clamp(72px, 10vw, 160px);
+  --header-h: 68px;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-none: 0px;
 
-  /* Motion */
+  /* Motion: purposeful and fast, 150 to 400ms. */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --duration-fast: 200ms;
-  --duration-base: 400ms;
-  --duration-slow: 700ms;
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+  }
 }
