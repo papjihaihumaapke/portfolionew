@@ -4,7 +4,7 @@ import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 
 const dist = new URL('../dist', import.meta.url).pathname
-const routes = ['/', '/work', '/gallery', '/about', '/resume', '/contact', ...JSON.parse(readFileSync(join(dist, 'sitemap.xml'), 'utf8').match(/\/work\/[a-z0-9-]+/g).map((u) => `"${u}"`).join(',').replace(/^/, '[').replace(/$/, ']'))]
+const routes = ['/', '/work', '/graphic-design', '/gallery', '/about', '/resume', '/contact', ...JSON.parse(readFileSync(join(dist, 'sitemap.xml'), 'utf8').match(/\/work\/[a-z0-9-]+/g).map((u) => `"${u}"`).join(',').replace(/^/, '[').replace(/$/, ']'))]
 const strip = (s) => s.replace(/<!-- -->/g, '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#x27;|&#39;/g, "'").trim()
 const attr = (html, re) => (html.match(re) ?? [])[1] ?? 'MISSING'
 

@@ -8,6 +8,7 @@ const Work = lazy(() => import('./pages/Work').then((m) => ({ default: m.Work })
 const CaseStudy = lazy(() => import('./pages/CaseStudy').then((m) => ({ default: m.CaseStudy })))
 const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })))
 const Resume = lazy(() => import('./pages/Resume').then((m) => ({ default: m.Resume })))
+const GraphicDesign = lazy(() => import('./pages/GraphicDesign').then((m) => ({ default: m.GraphicDesign })))
 const Gallery = lazy(() => import('./pages/Gallery').then((m) => ({ default: m.Gallery })))
 const Contact = lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })))
 const NotFound = lazy(() => import('./pages/NotFound').then((m) => ({ default: m.NotFound })))
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/work" element={<Work />} />
         <Route path="/work/:slug" element={<CaseStudy />} />
         <Route path="/about" element={<About />} />
+        <Route path="/graphic-design" element={<GraphicDesign />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/contact" element={<Contact />} />

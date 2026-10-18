@@ -1,3 +1,5 @@
+import { sites } from './sites'
+
 export const homeContent = {
   hero: {
     availability: 'Open to full-time and freelance · Vancouver, BC',
@@ -9,7 +11,7 @@ export const homeContent = {
   proof: [
     { value: 4, prefix: '', suffix: '', label: 'Years designing' },
     { value: 1, prefix: '', suffix: '', label: 'SaaS product live' },
-    { value: 8, prefix: '', suffix: '', label: 'Websites shipped' },
+    { value: sites.length, prefix: '', suffix: '', label: 'Websites shipped' },
     { value: 26, prefix: '$', suffix: '', label: 'Lowest cost per lead' },
   ],
   featured: {
@@ -50,7 +52,7 @@ export const homeContent = {
   },
   sites: {
     label: 'Websites shipped',
-    headline: '8 websites, shipped.',
+    headline: `${sites.length} websites, shipped.`,
     note: 'Dealerships, local businesses and brands, most with a live preview.',
     cta: 'Previews and links',
   },

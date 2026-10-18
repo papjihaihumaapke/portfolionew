@@ -7,7 +7,7 @@ import App from './App'
 import { projects } from './data/projects'
 
 /** Every URL that gets its own pre-rendered HTML file. */
-export const routes = ['/', '/work', '/gallery', '/about', '/resume', '/contact', ...projects.map((p) => `/work/${p.slug}`)]
+export const routes = ['/', '/work', '/graphic-design', '/gallery', '/about', '/resume', '/contact', ...projects.map((p) => `/work/${p.slug}`)]
 export { projects }
 
 /** Renders a route to HTML, waiting for lazy routes so the output is the full page, not a shell. */

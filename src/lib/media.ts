@@ -18,8 +18,3 @@ export function imageUrl(src: string, maxWidth = Infinity) {
   return `/_img${src}-${fit.length ? fit[fit.length - 1] : img.widths[0]}.webp`
 }
 
-/** Prefers a compilation reel, then a clip named hero, then the first clip. */
-export function pickHeroReel() {
-  const keys = Object.keys(videos).filter((k) => k.startsWith('/media/motion/'))
-  return keys.find((k) => /compilation/.test(k)) ?? keys.find((k) => /hero/.test(k)) ?? keys[0] ?? '/media/motion/hero'
-}

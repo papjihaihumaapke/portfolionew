@@ -1,4 +1,4 @@
-// Generates illustrative cover art for projects and shipped sites that have no real media yet. Each design is a pure function of its data (no randomness) rendered to PNG
+// Generates illustrative cover art for projects that have no real media yet. Each design is a pure function of its data (no randomness) rendered to PNG
 // with Playwright. Motifs use only verified facts (14 booking states, 11 stations, $26 CPL...),
 // never invented UI or numbers. Real screenshots replace these by overwriting the same files.
 // Usage: node scripts/make-covers.mjs [--only key] [--force]
@@ -136,32 +136,6 @@ const covers = {
 
 /* ------------------------------------------------------------ shipped sites (1600x1000, 16:10) */
 
-// Only sites without a public URL get generated art; the rest use real captures (capture-sites.mjs).
-const siteArt = {
-  'dessert-bakery': { bg: '#f3e9e2', fg: C.ink, label: 'Dessert bakery', kind: 'gallery' },
-}
-
-function siteCover({ bg, fg, label, kind, accent = C.orange }) {
-  const w = 1600
-  const h = 1000
-  const block = (x, y, bw, bh, o = 0.12) => `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" fill="${fg}" opacity="${o}"/>`
-  const layouts = {
-    inventory: [0, 1, 2, 3, 4, 5].map((i) => block(120 + (i % 3) * 460, 470 + Math.floor(i / 3) * 230, 420, 200)).join(''),
-    hero: block(120, 470, 1360, 320, 0.1) + `<circle cx="1220" cy="630" r="110" fill="${accent}"/>`,
-    steps: [0, 1, 2, 3].map((i) => block(120 + i * 345, 520, 315, 240) + `<text x="${150 + i * 345}" y="600" font-family="Outfit" font-size="44" font-weight="600" fill="${fg}">${i + 1}</text>`).join(''),
-    gallery: [0, 1, 2, 3].map((i) => `<circle cx="${290 + i * 340}" cy="660" r="140" fill="${fg}" opacity="${i === 1 ? 0 : 0.12}"/>`).join('') + `<circle cx="630" cy="660" r="140" fill="${accent}"/>`,
-    services: [0, 1, 2].map((i) => block(120 + i * 460, 480, 420, 330) + `<rect x="${150 + i * 460}" y="520" width="80" height="8" fill="${accent}"/>`).join(''),
-  }
-  return page(w, h, bg, `<svg viewBox="0 0 ${w} ${h}">
-  <rect x="0" y="0" width="${w}" height="84" fill="${fg}" opacity="0.07"/>
-  ${[0, 1, 2].map((i) => `<circle cx="${50 + i * 34}" cy="42" r="10" fill="${fg}" opacity="0.3"/>`).join('')}
-  ${[0, 1, 2, 3].map((i) => `<rect x="${980 + i * 140}" y="36" width="100" height="12" fill="${fg}" opacity="0.25"/>`).join('')}
-  ${layouts[kind]}
-  <rect x="120" y="380" width="200" height="10" fill="${accent}"/></svg>
-<div class="d" style="left:112px;top:180px;font-size:132px;color:${fg}">${label}</div>`)
-}
-
-
 /* -------------------------------------------------------------------------------- render */
 
 const jobs = [
@@ -171,7 +145,6 @@ const jobs = [
   ['public/media/sitetask/cover.png', W, H, covers.sitetask],
   ['public/media/voice-agents/cover.png', W, H, covers.voice],
   ['public/media/ev-campaign/cover.png', W, H, covers.ev],
-  ...Object.entries(siteArt).map(([slug, a]) => [`public/media/sites/${slug}-desktop.png`, 1600, 1000, () => siteCover(a)]),
 ]
 
 const only = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only') + 1] : null

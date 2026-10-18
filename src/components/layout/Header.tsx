@@ -8,6 +8,7 @@ import { Button } from '../ui/Button'
 
 const nav = [
   { label: 'Work', href: '/work' },
+  { label: 'Graphic design', href: '/graphic-design' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'About', href: '/about' },
   { label: 'Resume', href: '/resume' },
@@ -101,8 +102,8 @@ export function Header() {
             <Monogram />
           </Link>
 
-          <nav aria-label="Main" className="hidden md:block">
-            <ul className="flex items-center gap-9">
+          <nav aria-label="Main" className="hidden lg:block">
+            <ul className="flex items-center gap-7">
               {nav.map((item) => (
                 <li key={item.href}>
                   <NavLink
@@ -122,7 +123,7 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <Button href={site.resumePdf} download event="resume_download" variant="filled" className="min-h-[44px] px-5 py-2">
               <Download size={16} aria-hidden="true" />
               Download resume
@@ -132,7 +133,7 @@ export function Header() {
           <button
             ref={toggleRef}
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center border border-border bg-white md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center border border-border bg-white lg:hidden"
             aria-label="Open menu"
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
@@ -150,7 +151,7 @@ export function Header() {
             role="dialog"
             aria-modal="true"
             aria-label="Menu"
-            className="menu-fade on-dark fixed inset-0 z-[60] overflow-y-auto bg-dark text-white md:hidden"
+            className="menu-fade on-dark fixed inset-0 z-[60] overflow-y-auto bg-dark text-white lg:hidden"
           >
             <div className="container-page flex h-[var(--header-h)] items-center justify-between">
               <Link to="/" aria-label={`H. ${site.shortName}, home`} className="-m-2 p-2">

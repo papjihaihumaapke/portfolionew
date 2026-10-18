@@ -81,12 +81,6 @@ export const sites: Site[] = [
     ...shots('little-anna'),
   },
   {
-    slug: 'dessert-bakery',
-    label: 'Dessert bakery brand website',
-    did: 'Designed and built the brand website.',
-    ...shots('dessert-bakery'),
-  },
-  {
     slug: 'fashion-ecommerce',
     label: 'Fashion e-commerce website',
     did: 'Tech apparel store: product catalogue with categories, product pages with colour and size selection, cart and checkout.',

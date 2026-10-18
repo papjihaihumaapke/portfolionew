@@ -1,8 +1,9 @@
-import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { Play } from 'lucide-react'
+import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router-dom'
 import { Seo } from '../components/Seo'
+import { Lightbox } from '../components/ui/Lightbox'
 import { LoopVideo } from '../components/ui/LoopVideo'
 import { Picture } from '../components/ui/Picture'
 import { SectionLabel } from '../components/ui/SectionLabel'
@@ -17,9 +18,7 @@ export function Gallery() {
   const [params, setParams] = useSearchParams()
   const active = galleryGroups.find((g) => slug(g) === params.get('group')) ?? null
   const items = gallery.filter((i) => (i.kind === 'video' ? videos[i.key] : hasImage(i.key))).filter((i) => !active || i.group === active)
-  const dialogRef = useRef<HTMLDialogElement>(null)
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-  const open = openIndex === null ? null : items[openIndex]
   // The first tile is the largest paint; fetch its poster or image early.
   const first = items[0]
   const firstPoster = first && (first.kind === 'video' ? videos[first.key].poster : first.key)
@@ -33,21 +32,6 @@ export function Gallery() {
     setParams(next, { replace: true, preventScrollReset: true })
   }
 
-  const show = (i: number) => {
-    setOpenIndex(i)
-    dialogRef.current?.showModal()
-  }
-  const step = (d: number) => setOpenIndex((i) => (i === null ? i : (i + d + items.length) % items.length))
-
-  useEffect(() => {
-    if (openIndex === null) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') step(1)
-      if (e.key === 'ArrowLeft') step(-1)
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  })
 
   const count = (g: GalleryGroup) => gallery.filter((i) => i.group === g && (i.kind === 'video' ? videos[i.key] : hasImage(i.key))).length
 
@@ -95,53 +79,13 @@ export function Gallery() {
         <ul className="container-page columns-1 gap-5 sm:columns-2 lg:columns-3">
           {items.map((item, i) => (
             <li key={item.key} className="mb-5 break-inside-avoid">
-              <Tile item={item} onOpen={() => show(i)} />
+              <Tile item={item} onOpen={() => setOpenIndex(i)} />
             </li>
           ))}
         </ul>
       </section>
 
-      <dialog
-        ref={dialogRef}
-        onClose={() => setOpenIndex(null)}
-        aria-label={open ? open.title : 'Gallery viewer'}
-        className="max-h-[94vh] w-[min(96vw,1200px)] max-w-none bg-dark p-0 text-white backdrop:bg-black/85"
-      >
-        {open && (
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between gap-3 px-4 py-3">
-              <div className="min-w-0">
-                <p className="truncate font-medium">{open.title}</p>
-                <p className="text-[13px] text-muted-dark">
-                  {open.group} · {openIndex! + 1} of {items.length}
-                </p>
-              </div>
-              <div className="flex shrink-0 items-center">
-                <button type="button" onClick={() => step(-1)} className="inline-flex h-11 w-11 items-center justify-center" aria-label="Previous piece">
-                  <ChevronLeft size={22} aria-hidden="true" />
-                </button>
-                <button type="button" onClick={() => step(1)} className="inline-flex h-11 w-11 items-center justify-center" aria-label="Next piece">
-                  <ChevronRight size={22} aria-hidden="true" />
-                </button>
-                <button type="button" onClick={() => dialogRef.current?.close()} className="inline-flex h-11 w-11 items-center justify-center" aria-label="Close viewer">
-                  <X size={22} aria-hidden="true" />
-                </button>
-              </div>
-            </div>
-            <div className="flex justify-center bg-black">
-              {open.kind === 'video' ? (
-                <video key={open.key} controls autoPlay playsInline className="max-h-[80vh] w-auto max-w-full">
-                  {videos[open.key].sources.map((s) => (
-                    <source key={s.src} src={s.src} type={s.type} />
-                  ))}
-                </video>
-              ) : (
-                <Picture key={open.key} src={open.key} alt={open.title} sizes="1200px" imgClassName="max-h-[80vh] w-auto max-w-full object-contain" />
-              )}
-            </div>
-          </div>
-        )}
-      </dialog>
+      <Lightbox items={items.map((i) => ({ ...i, meta: i.group }))} index={openIndex} onChange={setOpenIndex} />
     </>
   )
 }
