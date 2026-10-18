@@ -13,7 +13,9 @@
     "resume:pdf": "node scripts/resume-pdf.mjs",
     "og": "node scripts/og.mjs",
     "prebuild": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
-    "check:prerender": "node scripts/check-prerender.mjs"
+    "check:prerender": "node scripts/check-prerender.mjs",
+    "serve:dist": "node scripts/serve-dist.mjs",
+    "qa": "node scripts/check-prerender.mjs && node scripts/check-banned-report.mjs && node scripts/check-pdf.mjs && node scripts/check-links.mjs && node scripts/check-keyboard.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",

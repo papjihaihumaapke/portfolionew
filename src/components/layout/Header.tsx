@@ -1,10 +1,8 @@
-import { AnimatePresence, motion } from 'framer-motion'
 import { Download, Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { site } from '../../data/site'
 import { track } from '../../lib/analytics'
-import { duration, ease } from '../../lib/motion'
 import { cn } from '../../lib/utils'
 import { Button } from '../ui/Button'
 
@@ -144,19 +142,14 @@ export function Header() {
         </div>
       </header>
 
-      <AnimatePresence>
-        {isOpen ? (
-          <motion.div
+      {isOpen ? (
+          <div
             id="mobile-menu"
             ref={menuRef}
             role="dialog"
             aria-modal="true"
             aria-label="Menu"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: duration.base, ease }}
-            className="on-dark fixed inset-0 z-[60] overflow-y-auto bg-dark text-white md:hidden"
+            className="menu-fade on-dark fixed inset-0 z-[60] overflow-y-auto bg-dark text-white md:hidden"
           >
             <div className="container-page flex h-[var(--header-h)] items-center justify-between">
               <Link to="/" aria-label={`${site.shortName}, home`} className="-m-2 p-2">
@@ -192,9 +185,8 @@ export function Header() {
                 Download resume
               </a>
             </nav>
-          </motion.div>
+          </div>
         ) : null}
-      </AnimatePresence>
     </>
   )
 }

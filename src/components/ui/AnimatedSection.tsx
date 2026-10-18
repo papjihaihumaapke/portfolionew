@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { MotionConfig, motion } from 'framer-motion'
 import type React from 'react'
 import { duration, ease } from '../../lib/motion'
 
@@ -16,18 +16,20 @@ const variants = {
   none: { initial: {}, whileInView: {} },
 }
 
-/** Short fade-in on scroll. Framer's MotionConfig (reducedMotion="user") turns it into an instant swap. */
+/** Short fade-in on scroll. MotionConfig reducedMotion="user" turns it into an instant swap. */
 export function AnimatedSection({ children, className, delay = 0, variant = 'fade-up', as = 'div' }: AnimatedSectionProps) {
   const Comp = motion[as]
   return (
-    <Comp
-      className={className}
-      initial={variants[variant].initial}
-      whileInView={variants[variant].whileInView}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: duration.slow, ease, delay }}
-    >
-      {children}
-    </Comp>
+    <MotionConfig reducedMotion="user">
+      <Comp
+        className={className}
+        initial={variants[variant].initial}
+        whileInView={variants[variant].whileInView}
+        viewport={{ once: true, amount: 0.15 }}
+        transition={{ duration: duration.slow, ease, delay }}
+      >
+        {children}
+      </Comp>
+    </MotionConfig>
   )
 }

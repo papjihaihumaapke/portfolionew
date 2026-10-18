@@ -1,10 +1,10 @@
 {
   "trailingSlash": false,
   "redirects": [
-    { "source": "/assets/resume.pdf", "destination": "/assets/MHM-Resume.pdf", "permanent": true },
-    { "source": "/work/c2c-rental", "destination": "/work/car-rental-platform", "permanent": true },
-    { "source": "/work/zara-redesign", "destination": "/work", "permanent": true },
-    { "source": "/work/mini-minds", "destination": "/work", "permanent": true }
+    { "source": "/assets/resume.pdf", "destination": "/assets/MHM-Resume.pdf", "statusCode": 301 },
+    { "source": "/work/c2c-rental", "destination": "/work/car-rental-platform", "statusCode": 301 },
+    { "source": "/work/zara-redesign", "destination": "/work", "statusCode": 301 },
+    { "source": "/work/mini-minds", "destination": "/work", "statusCode": 301 }
   ],
   "headers": [
     {

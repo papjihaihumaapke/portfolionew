@@ -40,7 +40,7 @@ export function Hero() {
         </div>
 
         <div className="lg:col-span-5">
-          <LoopVideo src={pickHeroReel()} label="Motion reel: coded ads and reels" eager ratio="4 / 5" className="w-full" />
+          <LoopVideo src={pickHeroReel()} label="Motion reel: coded ads and reels" eager ratio="4 / 5" className="mx-auto w-full max-w-[440px] lg:max-w-none" />
         </div>
       </div>
     </section>

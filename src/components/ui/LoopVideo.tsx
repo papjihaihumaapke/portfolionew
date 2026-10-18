@@ -39,7 +39,7 @@ export function LoopVideo({ src, label, className, ratio = '4 / 5', eager = fals
   }, [inView])
 
   if (!entry) {
-    return <Picture src={src} alt={label} ratio={ratio} className={className} note={`Video: ${label}`} />
+    return <Picture src={src} alt={label} ratio={ratio} className={className} note={`Video: ${label}`} expect="mp4" />
   }
 
   const toggle = () => {

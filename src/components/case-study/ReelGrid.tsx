@@ -27,7 +27,7 @@ export function ReelGrid() {
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {[1, 2, 3].map((n) => (
           <li key={n}>
-            <Picture src={`/media/motion/reel-${n}`} alt={`Coded motion reel ${n}`} ratio="9 / 16" note={`Reel ${n}: add MP4 files to public/media/motion/`} />
+            <Picture src={`/media/motion/reel-${n}`} alt={`Coded motion reel ${n}`} ratio="9 / 16" note={`Reel ${n}: add MP4 files to public/media/motion/`} expect="mp4" />
           </li>
         ))}
       </ul>

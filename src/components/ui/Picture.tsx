@@ -11,9 +11,11 @@ export type PictureProps = {
   /** Aspect ratio used for the placeholder frame when the file is missing. */
   ratio?: string
   note?: string
+  /** File type the placeholder asks for. */
+  expect?: string
 }
 
-export function Picture({ src, alt, className, imgClassName, sizes = '100vw', priority = false, ratio = '16 / 10', note }: PictureProps) {
+export function Picture({ src, alt, className, imgClassName, sizes = '100vw', priority = false, ratio = '16 / 10', note, expect = 'png' }: PictureProps) {
   const img = images[src]
 
   if (!img) {
@@ -26,7 +28,7 @@ export function Picture({ src, alt, className, imgClassName, sizes = '100vw', pr
       >
         <span className="placeholder-frame__label">Media placeholder</span>
         <span className="placeholder-frame__text">{note ?? alt}</span>
-        <code className="placeholder-frame__path">public{src}.png</code>
+        <code className="placeholder-frame__path">public{src}.{expect}</code>
       </div>
     )
   }

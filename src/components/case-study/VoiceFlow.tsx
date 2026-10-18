@@ -24,15 +24,34 @@ const edges: [string, string][] = [
   ['fallback', 'handoff'],
 ]
 
+const steps = [
+  { label: 'Trigger', text: 'A call or chat comes in.' },
+  { label: 'Intent detection', text: 'The agent works out what the caller wants.' },
+  { label: 'Booking or lead capture', text: 'Find a slot and book it, or take name, contact and vehicle.' },
+  { label: 'Confirmation', text: 'Read back exactly what was booked or captured.' },
+  { label: 'Fallback and human handoff', text: 'If the agent is unsure or off-script, it routes the conversation to staff.' },
+]
+
 const byId = Object.fromEntries(nodes.map((n) => [n.id, n]))
 
-const fill = { accent: '#e8470a', dark: '#1a1a1a', muted: '#edecea' } as const
+const fill = { accent: '#b53505', dark: '#1a1a1a', muted: '#edecea' } as const
 
 export function VoiceFlow() {
   return (
     <figure className="space-y-3">
-      <div className="overflow-x-auto border border-border bg-white p-4">
-        <svg viewBox="0 0 840 340" role="img" aria-labelledby="vf-title vf-desc" className="h-auto min-w-[720px] w-full font-body">
+      {/* Small screens get the same flow as a readable list instead of a scaled-down diagram. */}
+      <ol className="space-y-px border border-border bg-border md:hidden" aria-label="Voice and chat agent conversation flow">
+        {steps.map((st, i) => (
+          <li key={st.label} className="bg-white px-4 py-3">
+            <p className="font-semibold">
+              {i + 1}. {st.label}
+            </p>
+            <p className="text-[var(--text-small)] text-muted">{st.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div className="hidden border border-border bg-white p-4 md:block">
+        <svg viewBox="0 0 840 340" role="img" aria-labelledby="vf-title vf-desc" className="h-auto w-full font-body">
           <title id="vf-title">Voice and chat agent conversation flow</title>
           <desc id="vf-desc">
             A call or chat triggers intent detection. Intent routes to booking, lead capture or a fallback. Booking and lead capture end in a

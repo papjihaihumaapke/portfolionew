@@ -2,7 +2,6 @@ import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { featuredProjects } from '../../data/projects'
 import { homeContent } from '../../data/home'
-import { AnimatedSection } from '../ui/AnimatedSection'
 import { ProjectCard } from '../ui/ProjectCard'
 import { SectionLabel } from '../ui/SectionLabel'
 
@@ -24,10 +23,10 @@ export function FeaturedWork() {
         </div>
 
         <ul className="grid gap-x-8 gap-y-16 md:grid-cols-2">
-          {featuredProjects.map((p, i) => (
-            <AnimatedSection as="li" key={p.slug} delay={(i % 2) * 0.08}>
+          {featuredProjects.map((p) => (
+            <li key={p.slug}>
               <ProjectCard project={p} size="large" />
-            </AnimatedSection>
+            </li>
           ))}
         </ul>
       </div>

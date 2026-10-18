@@ -66,6 +66,16 @@
 }
 
 @layer components {
+  .menu-fade {
+    animation: menu-fade var(--duration-base) var(--ease-out);
+  }
+
+  @keyframes menu-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
   .container-page {
     max-width: var(--max-width);
     margin-inline: auto;

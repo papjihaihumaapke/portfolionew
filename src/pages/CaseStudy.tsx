@@ -1,4 +1,4 @@
-import { motion, useScroll, useSpring } from 'framer-motion'
+import { MotionConfig, motion, useScroll, useSpring } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
@@ -27,7 +27,7 @@ export function CaseStudy() {
   const tocSections = project.sections.filter((s) => s.title)
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <Seo title={project.title} description={project.summary} path={`/work/${project.slug}`} image={project.ogImage} type="article" jsonLd={projectJsonLd(project)} />
       <ReadingProgress />
       <article>
@@ -62,7 +62,7 @@ export function CaseStudy() {
           </div>
         </div>
       </article>
-    </>
+    </MotionConfig>
   )
 }
 

@@ -1,27 +1,38 @@
 import { useEffect, useRef } from 'react'
 import { homeContent } from '../../data/home'
-import { gsap, gsapWithMotion } from '../../lib/motion'
+import { prefersReducedMotion } from '../../lib/motion'
 
-/** Four verified numbers. Each counts up once when the strip scrolls into view (skipped with reduced motion). */
+/**
+ * Four verified numbers. Each counts up once when the strip scrolls into view. GSAP is
+ * fetched only at that moment, and never with reduced motion (the final values are in the HTML).
+ */
 export function ProofStrip() {
   const ref = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const el = ref.current
-    if (!el) return
-    return gsapWithMotion(el, () => {
-      const io = new IntersectionObserver(([entry]) => {
+    if (!el || prefersReducedMotion()) return
+    let cleanup: (() => void) | undefined
+    const io = new IntersectionObserver(
+      ([entry]) => {
         if (!entry.isIntersecting) return
         io.disconnect()
-        el.querySelectorAll<HTMLElement>('[data-count]').forEach((node) => {
-          const target = Number(node.dataset.count)
-          const obj = { v: 0 }
-          gsap.to(obj, { v: target, duration: 0.4, ease: 'power2.out', onUpdate: () => (node.textContent = String(Math.round(obj.v))) })
+        import('../../lib/gsap').then(({ gsap, gsapWithMotion }) => {
+          cleanup = gsapWithMotion(el, () => {
+            el.querySelectorAll<HTMLElement>('[data-count]').forEach((node) => {
+              const obj = { v: 0 }
+              gsap.to(obj, { v: Number(node.dataset.count), duration: 0.4, ease: 'power2.out', onUpdate: () => (node.textContent = String(Math.round(obj.v))) })
+            })
+          })
         })
-      }, { threshold: 0.6 })
-      io.observe(el)
-      return () => io.disconnect()
-    })
+      },
+      { threshold: 0.6 },
+    )
+    io.observe(el)
+    return () => {
+      io.disconnect()
+      cleanup?.()
+    }
   }, [])
 
   return (
