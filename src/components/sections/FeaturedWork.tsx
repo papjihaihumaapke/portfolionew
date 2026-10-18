@@ -1,4 +1,4 @@
-import { projects } from '../../data/projects'
+import { featuredProjects } from '../../data/projects'
 import { homeContent } from '../../data/home'
 import { AnimatedSection } from '../ui/AnimatedSection'
 import { ProjectCard } from '../ui/ProjectCard'
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 export function FeaturedWork() {
   const content = homeContent.featured
-  const featured = projects.filter((p) => p.featured)
+  const featured = featuredProjects
 
   return (
     <section className="section">

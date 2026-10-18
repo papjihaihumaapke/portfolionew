@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { projects } from '../data/projects'
+import { workProjects, studies } from '../data/projects'
 import { ProjectCard } from '../components/ui/ProjectCard'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { AnimatedSection } from '../components/ui/AnimatedSection'
@@ -10,7 +10,7 @@ export function Work() {
     document.title = 'Work | Hilal Malik'
   }, [])
 
-  const shown = projects
+  const shown = [...workProjects, ...studies]
 
   return (
     <section className="section">

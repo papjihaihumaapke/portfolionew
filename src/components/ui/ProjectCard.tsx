@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Picture } from './Picture'
 import type { Project } from '../../data/projects'
 import { Tag } from './Tag'
 import { AnimatedSection } from './AnimatedSection'
@@ -30,16 +30,7 @@ export function ProjectCard({
         aria-label={`View case study: ${project.title}`}
       >
       <div className="relative overflow-hidden">
-        <motion.img
-          src={project.coverImage}
-          alt={`${project.title} cover`}
-          className="h-full w-full object-cover grayscale transition duration-500 group-hover:grayscale-0 group-hover:scale-[1.03]"
-          loading={priority ? 'eager' : 'lazy'}
-          initial={{ scale: 0.92, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: delay }}
-        />
+        <Picture src={project.cover.src} alt={project.cover.alt} priority={priority} imgClassName="h-full w-full object-cover" />
 
         <div className="pointer-events-none absolute bottom-4 right-4 opacity-0 translate-y-1 transition duration-300 group-hover:opacity-100 group-hover:translate-y-0">
           <div className="bg-bg text-text border border-border px-3 py-1 font-body text-[var(--text-micro)] uppercase tracking-[0.15em]">
@@ -54,7 +45,7 @@ export function ProjectCard({
             {project.title}
           </div>
           <div className="font-body text-[var(--text-small)] text-muted">
-            {project.company} · {project.year}
+            {project.client} · {project.timeline}
           </div>
         </div>
 

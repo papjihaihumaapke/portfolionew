@@ -1,277 +1,885 @@
-export interface GalleryItem {
+/**
+ * Single source of truth for every project. Cards, filters, case study pages,
+ * the resume, the sitemap and JSON-LD all read from here.
+ *
+ * Media `src` values are extensionless keys under /public (e.g. /media/lotstudio/cover).
+ * `npm run media` builds responsive AVIF/WebP for whatever exists; anything missing
+ * renders as a labelled placeholder frame showing the expected path.
+ */
+
+export type ProjectType = 'product' | 'employer' | 'freelance' | 'coursework'
+export type ProjectStatus = 'shipped' | 'in-progress'
+export type Discipline = 'product' | 'web' | 'motion' | 'marketing'
+
+export interface Media {
   src: string
+  alt: string
   caption?: string
-  /** Render on a light padded stage instead of edge-to-edge (good for phone/portrait shots). */
+  /** Show on a padded light stage instead of edge to edge (portrait or phone shots). */
   contain?: boolean
+  /** Shown on the placeholder frame until the file exists. */
+  note?: string
+}
+
+export interface Stat {
+  value: string
+  label: string
+}
+
+export type Widget =
+  | 'before-after'
+  | 'voice-flow'
+  | 'reel-grid'
+  | 'demos-musify'
+  | 'demos-library'
+  | 'demos-dashboard'
+  | 'embed-musify'
+
+export interface Section {
+  id: string
+  title: string
+  body?: string[]
+  bullets?: string[]
+  media?: Media[]
+  stats?: Stat[]
+  quote?: string
+  widget?: Widget
 }
 
 export interface Project {
   slug: string
   title: string
-  company: string
-  year: string
-  category: string[]
-  tags: string[]
-  coverImage: string
-  heroImage: string
-  excerpt: string
+  summary: string
+  /** One line for cards: verified outcome only. */
+  outcome: string
+  type: ProjectType
+  status: ProjectStatus
   role: string
   timeline: string
-  tools: string
-  problem: string
-  myRole: string
-  discovery: string
-  process: string
-  solution: string
-  impact: { value: string; label: string }[]
-  reflection: string
+  /** Generic client description. Never a brand name. */
+  client: string
+  team: string
+  tools: string[]
+  /** Max 3. */
+  tags: string[]
+  disciplines: Discipline[]
   featured: boolean
-  figmaUrl?: string
+  order: number
+  cover: Media
+  ogImage: string
+  sections: Section[]
+  confidential: boolean
   liveUrl?: string
-  discoveryImage?: string
-  processImage?: string
-  solutionImage?: string
-  /** Optional brand accent used across the case-study hero + gallery framing. */
-  accent?: string
-  /** Static high-res visual artifacts shown in a gallery band. */
-  gallery?: GalleryItem[]
-  /** Key into the live-demo registry (musify | library | dashboard). */
-  liveDemos?: string
-  /** External links (Behance, live site, style guide, etc.). */
-  links?: { label: string; href: string }[]
-  /** Self-hosted coded build to embed in an interactive iframe (e.g. /embeds/musify/index.html). */
-  embed?: { url: string; label: string; note?: string; ratio?: string }
+  /** Studies label shown on coursework cards. */
+  studyLabel?: 'KPU coursework' | 'KPU capstone'
 }
 
+export const typeLabel: Record<ProjectType, string> = {
+  product: 'Own product',
+  employer: 'Employer',
+  freelance: 'Freelance',
+  coursework: 'Coursework',
+}
+
+export const disciplineLabel: Record<Discipline, string> = {
+  product: 'Product',
+  web: 'Web',
+  motion: 'Motion',
+  marketing: 'Marketing',
+}
+
+const og = (slug: string) => `/og/${slug}.png`
+
 export const projects: Project[] = [
+  /* 1 ------------------------------------------------------------------- */
   {
-    slug: 'musify-motion-system',
-    title: 'Musify, Motion System',
-    company: 'KPU coursework',
-    year: '2025',
-    category: ['Motion Design', 'Brand Identity', 'Design System'],
-    tags: ['Motion Design', 'GSAP', 'Brand Identity', 'Interaction'],
-    coverImage: '/assets/case-studies/musify-hero.png',
-    heroImage: '/assets/case-studies/musify-hero.png',
-    excerpt:
-      'An interactive brand identity and motion system for a live-music platform, built on a “live stage” metaphor, with five signature interactions and live demos.',
-    role: 'Motion & Brand Designer',
-    timeline: 'Nov 2025',
-    tools: 'Figma · GSAP · ScrollTrigger · Lenis · HTML/CSS/JS',
-    accent: '#1DB954',
-    problem:
-      'Musify is a music-event platform, not just a streaming service, but flat screens don’t capture the energy of a live venue. The brief: define a brand identity and a consistent motion language that makes a dark UI feel alive, immersive, and unmistakably Musify.',
-    myRole:
-      'I owned the brand identity and the motion system end to end, colour, typography, a governing “motion recipe” of three principles, and five signature interactions coded in GSAP. Every timing, easing, and UX rationale is documented as a reusable style guide.',
-    discovery:
-      'The visual language is built for focus: dark mode by default so album art leads, a #1DB954 neon accent that reads like laser light, and Inter for clean legibility in low light. Mood board keywords: dark, energetic, immersive, the lighting and atmosphere of a live venue.',
-    process:
-      'I distilled the brand personality into a three-rule Motion Recipe. (1) Staggered Entry, elements never appear at once; GSAP staggers of 0.1 to 0.2s guide the eye like a band tuning up. (2) Heavy Physics, motion has mass; “back.out(1.7)” and elastic easings replace linear fades. (3) Ambient Life, the UI is never dead; orbs and visualizers loop with repeat: -1, yoyo: true.',
-    solution:
-      'Five signature interactions ship as a documented library: a curtain-reveal preloader (masks load, then slides up on power4.inOut), a magnetic button (tracks the cursor to increase affordance, Fitts’s Law), a content card with hover choreography (scale + overlay + spring-up icon), ambient aura orbs (blurred gradient keyframes), and transformative scrolling (vertical scroll energy converted to horizontal for the discovery feed). Engine: GSAP + ScrollTrigger, with Lenis for luxury-smooth scroll.',
-    impact: [
-      { value: '5', label: 'Signature Interactions' },
-      { value: '3', label: 'Motion Principles' },
-      { value: 'GSAP', label: '+ Lenis Engine' },
-    ],
-    reflection:
-      'A motion system is only as good as its constraints. Writing down the timing and easing rules up front, the “recipe”, is what let a handful of interactions feel like one coherent brand instead of five separate tricks.',
+    slug: 'lotstudio-ai',
+    title: 'LotStudio AI',
+    summary:
+      'B2B SaaS for car dealerships that cleans up vehicle photos, removing or replacing backgrounds for studio-quality listings while preserving the real details of the car.',
+    outcome: 'MVP shipped May 2026 and deployed to production, with masked editing, auth and an inventory API.',
+    type: 'product',
+    status: 'shipped',
+    role: 'Product design and build',
+    timeline: '2026',
+    client: 'Own product',
+    team: '[CONFIRM: team]',
+    tools: ['Supabase', 'Render', '[CONFIRM: front-end stack and image model]'],
+    tags: ['SaaS', 'AI', 'Product design'],
+    disciplines: ['product'],
     featured: true,
-    liveDemos: 'musify',
-    embed: {
-      url: '/embeds/musify/index.html',
-      label: 'Musify LIVE, the coded site',
-      note: 'The real GSAP + Lenis build. Scroll, hover the cards, and watch the ambient motion.',
-    },
-    links: [{ label: 'Open coded style guide', href: '/embeds/musify/styleguide.html' }],
-    gallery: [
-      { src: '/assets/case-studies/musify-principles.png', caption: 'The Motion Recipe, three governing principles.' },
-      { src: '/assets/case-studies/musify-curtain.png', caption: 'Curtain-reveal preloader masks asset load.' },
-      { src: '/assets/case-studies/musify-magnetic.png', caption: 'Magnetic button, affordance before the click.' },
-      { src: '/assets/case-studies/musify-scroll.png', caption: 'Transformative scrolling for the discovery feed.' },
+    order: 1,
+    cover: { src: '/media/lotstudio/cover', alt: 'LotStudio AI before and after: a vehicle photo with a busy lot background, then the same vehicle on a clean studio background' },
+    ogImage: og('lotstudio-ai'),
+    confidential: false,
+    liveUrl: 'https://lotstudio-ai.onrender.com/',
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: [
+          'Vehicle photos taken on a dealership lot come with busy backgrounds, glare and small distractions. Cleaning them up for a listing is slow by hand, and generic AI tools often change the car itself, which a listing cannot allow.',
+        ],
+        widget: 'before-after',
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: [
+          'LotStudio AI began as an internal tool built around a dealership’s real inventory, photos and staff workflow. It is now being turned into a SaaS product with support from management and ownership.',
+          'I designed and built it. The hard constraint: the output has to look studio quality while every real detail of the vehicle stays true.',
+        ],
+      },
+      {
+        id: 'process',
+        title: 'Process',
+        body: [
+          'The MVP shipped on May 19, 2026: upload a lot photo, choose a background, get a cleaner listing image. About 18 commits of iteration followed, each driven by what broke in real use.',
+          'One finding shaped the pipeline: higher-quality output settings blurred vehicle details, so quality was tuned for fidelity to the car rather than for the highest setting.',
+        ],
+        quote:
+          'Building with AI is about testing, noticing what breaks and why, and making product decisions from there. When the model redraws a dashboard or gear shifter instead of removing one distraction, that is a product architecture problem. That is where masked editing, quality control and workflow design matter.',
+        media: [
+          { src: '/media/lotstudio/upload', alt: 'LotStudio AI upload screen where staff add a vehicle photo', caption: 'Upload: one photo in, one job started.' },
+          { src: '/media/lotstudio/background-picker', alt: 'Background picker with studio background options for the vehicle photo', caption: 'Background picker.' },
+        ],
+      },
+      {
+        id: 'solution',
+        title: 'The solution',
+        bullets: [
+          'Multiple photo types: exterior, interior, detail, and an interior white-background mode.',
+          'Magic Eraser masked editing: brush over a sticker, dealer card, fingerprint, glare or object so only that area changes.',
+          'Supabase auth with magic link and email and password sign-in.',
+          'API-key integration so an inventory website can send vehicle images straight in.',
+          'Thumbnails, processing animations, clearer job summaries and labels.',
+          'Deployed on Render: I fixed build issues, path aliases, dependencies and the deployment setup to make it production ready.',
+        ],
+        media: [
+          { src: '/media/lotstudio/magic-eraser', alt: 'Magic Eraser: a brush mask painted over a sticker on a vehicle window so only that area is edited', caption: 'Magic Eraser: only the masked area changes.' },
+          { src: '/media/lotstudio/job-summary', alt: 'Job summary screen listing processed vehicle photos with thumbnails and status labels', caption: 'Job summary with thumbnails and clear labels.' },
+        ],
+      },
+      {
+        id: 'outcome',
+        title: 'Outcome',
+        stats: [
+          { value: 'May 19, 2026', label: 'MVP shipped' },
+          { value: '~18', label: 'Commits of iteration since MVP' },
+          { value: '4', label: 'Photo types supported' },
+        ],
+        body: ['LotStudio AI is live and in production on Render.'],
+      },
+      {
+        id: 'learned',
+        title: 'What I learned',
+        body: [
+          'Prompting is not the product. The product is the set of guardrails around the model: what it is allowed to touch, how quality is checked, and how staff fix the edge cases. [CONFIRM: what you would do next]',
+        ],
+      },
     ],
   },
+
+  /* 2 ------------------------------------------------------------------- */
+  {
+    slug: 'dealership-platform',
+    title: 'Dealership Digital Platform',
+    summary:
+      'A complete platform for a modern dealership: inventory, search, photo processing, campaign landing pages, attribution, analytics, lead management and email, in one admin.',
+    outcome: '20+ core modules and 10+ landing page templates, launched in 2 days.',
+    type: 'employer',
+    status: 'shipped',
+    role: 'Product design and front-end build',
+    timeline: '2026',
+    client: 'Multi-location BC dealership group (confidential)',
+    team: '[CONFIRM: team]',
+    tools: ['GA4', 'Microsoft Clarity', 'UTM tracking', '[CONFIRM: stack]'],
+    tags: ['Platform', 'Analytics', 'Web'],
+    disciplines: ['product', 'web', 'marketing'],
+    featured: true,
+    order: 2,
+    cover: { src: '/media/dealership/cover', alt: 'Recreated admin dashboard for a dealership platform showing inventory and lead analytics' },
+    ogImage: og('dealership-platform'),
+    confidential: true,
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: [
+          'A multi-location dealership group needed one platform for inventory, marketing, leads and reporting, with a clear line from first click to sale across thousands of listings.',
+        ],
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: [
+          'I designed and built the platform. It had to integrate with the existing dealer management system (DMS), handle thousands of listings, and work fully on mobile. All screens shown here are recreated or redacted for confidentiality.',
+        ],
+      },
+      {
+        id: 'process',
+        title: 'Process',
+        body: [
+          'I worked module by module, starting with inventory and the DMS integration, then layering search, photo processing, landing pages, attribution and analytics on top of the same data.',
+        ],
+        media: [
+          { src: '/media/dealership/inventory', alt: 'Recreated inventory management screen with vehicle list, filters and status', caption: 'Inventory with DMS integration. Recreated for confidentiality.' },
+          { src: '/media/dealership/vin-decoder', alt: 'Recreated VIN decoding panel generating an SEO vehicle description in one click', caption: 'VIN decoding with one-click SEO descriptions. Recreated for confidentiality.' },
+        ],
+      },
+      {
+        id: 'solution',
+        title: 'The solution',
+        bullets: [
+          'Inventory management with DMS integration and an admin dashboard for thousands of listings.',
+          'VIN decoding with one-click SEO vehicle descriptions.',
+          'Natural-language inventory search and built-in vehicle photo processing.',
+          'Campaign landing pages, end-to-end UTM tracking with a UTM link builder, and first-click to conversion attribution.',
+          'GA4 events, Microsoft Clarity heatmaps and session recordings.',
+          'Real-time marketing, lead and revenue analytics, lead management, customer tracking and conversion funnel tracking.',
+          'Email module: templates, segmented bulk sends by location and campaign, open, click and reply tracking, and conversions traced back to email follow-ups.',
+        ],
+        media: [
+          { src: '/media/dealership/analytics', alt: 'Recreated marketing and revenue analytics dashboard with funnel and attribution charts', caption: 'Attribution and funnel analytics. Recreated for confidentiality.' },
+          { src: '/media/dealership/email', alt: 'Recreated email module with segmented send options by location and campaign', caption: 'Email module with segmented sends. Recreated for confidentiality.' },
+        ],
+      },
+      {
+        id: 'outcome',
+        title: 'Outcome',
+        stats: [
+          { value: '20+', label: 'Core modules' },
+          { value: '10+', label: 'Landing page templates' },
+          { value: '2 days', label: 'To launch' },
+          { value: '100%', label: 'Mobile responsive' },
+        ],
+      },
+      {
+        id: 'learned',
+        title: 'What I learned',
+        body: [
+          '[CONFIRM: what you learned on this platform and what you would do next]',
+        ],
+      },
+    ],
+  },
+
+  /* 3 ------------------------------------------------------------------- */
   {
     slug: 'car-rental-platform',
     title: 'Peer-to-Peer Car Rental Platform',
-    company: 'Peer-to-peer car rental startup (confidential)',
-    year: '2025 to 2026',
-    category: ['Product Design', 'Design System', 'Web App'],
-    tags: ['Product Design', 'UX', 'QA'],
-    coverImage: '/assets/case-studies/placeholder.svg',
-    heroImage: '/assets/case-studies/placeholder.svg',
-    excerpt: 'End-to-end product design for a peer-to-peer car rental platform: booking flows, host and renter dashboards and an internal admin panel.',
+    summary:
+      'End-to-end product design for a peer-to-peer car rental platform: booking flows, host and renter dashboards and an internal admin panel.',
+    outcome: '139 UX issues logged and tracked with developers through to a confirmed live release.',
+    type: 'employer',
+    status: 'shipped',
     role: 'UI & Web Designer',
     timeline: 'November 2025 to September 2026',
-    tools: 'Figma · React · Vite · Supabase · Tailwind',
-    problem: 'The platform needed a complete peer-to-peer rental experience: host onboarding, renter booking, deposit handling and an internal operations panel, with no design system in place.',
-    myRole: 'I owned the UI and UX: booking flows, host and renter dashboards, the admin panel and the booking lifecycle. I also ran a QA audit across 300+ files and logged 139 UX issues.',
-    discovery: 'Research covered the private and peer-to-peer rental market, rules and regulations, and a competitor review of Turo and other P2P platforms. I mapped 14 booking lifecycle states before wireframing.',
-    process: 'I designed 14 screens in Figma covering the full rental lifecycle and worked with developers on the security deposit pre-authorization flow through the payment gateway on a Supabase back end.',
-    solution: 'A live booking platform with renter and host dashboards, booking management, deposit pre-authorization and an admin panel.',
-    impact: [
-      { value: '300+', label: 'Files audited' },
-      { value: '139', label: 'UX issues logged' },
-      { value: '14', label: 'Booking states mapped' },
-    ],
-    reflection: 'I would invest earlier in a documented design system. Many component inconsistencies surfaced mid-build that a token library from the first sprint would have prevented.',
+    client: 'Peer-to-peer car rental platform (confidential)',
+    team: '[CONFIRM: team]',
+    tools: ['Figma', 'React', 'Vite', 'Supabase', 'Tailwind CSS', 'Lovable'],
+    tags: ['Product design', 'UX research', 'QA'],
+    disciplines: ['product', 'web'],
     featured: true,
+    order: 3,
+    cover: { src: '/media/rental/cover', alt: 'Car rental booking flow on desktop showing vehicle details, dates and a deposit step' },
+    ogImage: og('car-rental-platform'),
+    confidential: true,
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: [
+          'The platform needed a complete peer-to-peer rental experience: host onboarding, renter booking, deposit handling and an internal operations panel, with no design system in place. Rankings were also suffering from technical SEO issues.',
+        ],
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: [
+          'As UI & Web Designer I owned the end-to-end product design: booking flows, host and renter dashboards and the internal admin panel. I also ran QA and usability testing with the developers.',
+        ],
+      },
+      {
+        id: 'process',
+        title: 'Process',
+        body: [
+          'Research covered the private and peer-to-peer rental market, rules and regulations, and a competitor review of Turo and other P2P platforms. Existing platforms showed common friction: unclear booking states, opaque pricing and weak host trust signals.',
+          'I mapped 14 booking lifecycle states before wireframing, then designed 14 screens in Figma covering the full rental lifecycle.',
+        ],
+        media: [
+          { src: '/media/rental/booking-flow', alt: 'Booking flow screens from vehicle selection to deposit confirmation', caption: 'Booking flow across the lifecycle.' },
+          { src: '/media/rental/dashboards', alt: 'Host and renter dashboard screens with upcoming trips and earnings', caption: 'Host and renter dashboards.' },
+        ],
+      },
+      {
+        id: 'solution',
+        title: 'The solution',
+        bullets: [
+          'Booking flows, host and renter dashboards and an internal admin panel.',
+          'Security deposit pre-authorization live through the payment gateway on a Supabase back end.',
+          'Diagnosed a www and non-www split and a client-side rendering problem that were hurting rankings.',
+        ],
+        media: [
+          { src: '/media/rental/admin', alt: 'Internal admin panel with grouped navigation for bookings, vehicles and users', caption: 'Internal admin panel.' },
+          { src: '/media/rental/bug-report', alt: 'UX issue log with screenshot, URL, device, browser and expected versus actual result columns', caption: 'Each issue logged with screenshot, URL, device and browser, expected vs actual.' },
+        ],
+      },
+      {
+        id: 'outcome',
+        title: 'Outcome',
+        stats: [
+          { value: '300+', label: 'Files audited' },
+          { value: '139', label: 'UX issues logged' },
+          { value: '14', label: 'Booking states mapped' },
+        ],
+        body: ['Every logged issue was tracked with the developers through to a confirmed live release.'],
+      },
+      {
+        id: 'learned',
+        title: 'What I learned',
+        body: [
+          'I would invest earlier in a documented design system. Many component inconsistencies surfaced mid-build that a token library from the first sprint would have prevented.',
+        ],
+      },
+    ],
+  },
+
+  /* 4 ------------------------------------------------------------------- */
+  {
+    slug: 'sitetask',
+    title: 'SiteTask: Multi-Site Operations App',
+    summary:
+      'A web app where a multi-site owner assigns work to managers and staff, sees it done with photo proof, and knows what is overdue across every station.',
+    outcome: 'In progress: core screens designed for owner, manager and staff roles.',
+    type: 'freelance',
+    status: 'in-progress',
+    role: 'UI/UX Designer',
+    timeline: '2026, in progress',
+    client: 'Fuel and convenience retailer with 11 stations (confidential)',
+    team: '[CONFIRM: team]',
+    tools: ['Figma'],
+    tags: ['Product design', 'Web app', 'Operations'],
+    disciplines: ['product'],
+    featured: true,
+    order: 4,
+    cover: { src: '/media/sitetask/cover', alt: 'SiteTask owner dashboard with tasks completed, overdue tasks and station health' },
+    ogImage: og('sitetask'),
+    confidential: true,
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: [
+          'The owner runs 11 stations through two managers, one running 5 sites and the other 6, each with their own staff. There was no single place to assign work, confirm it was done, or see what was overdue.',
+        ],
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: [
+          'I am designing the product end to end. Three roles need different views of the same work: the owner sees every site, managers see their own sites, and staff see their own tasks.',
+        ],
+      },
+      {
+        id: 'process',
+        title: 'Process',
+        body: [
+          'I started from the chain of responsibility (owner to managers to staff) and designed role-based access around it, then the proof loop: a task is not done until the manager can see a photo of it.',
+        ],
+        media: [
+          { src: '/media/sitetask/task-board', alt: 'Task board in kanban view with filters by site and priority', caption: 'Task board in kanban and list views, filtered by site and priority.' },
+          { src: '/media/sitetask/task-detail', alt: 'Task detail with a staff photo as proof of completion and a comment thread', caption: 'Task detail with photo proof and comments.' },
+        ],
+      },
+      {
+        id: 'solution',
+        title: 'The solution',
+        bullets: [
+          'The owner assigns tasks to managers and managers assign to staff, with role-based access.',
+          'Staff mark tasks done with photo proof the manager can see.',
+          'Email alerts when tasks are completed, overdue or assigned, plus a daily digest summarizing station activity.',
+        ],
+        body: [
+          'Screens designed: sign-in; owner dashboard (tasks completed, overdue, station health, today’s schedule, recent activity); task board in kanban and list views; task detail; create task; sites and team; team messages; reports and analytics (total tasks, in progress, completion rate, completed over time, by site, by person); notification settings; and the manager dashboard.',
+        ],
+        media: [
+          { src: '/media/sitetask/owner-dashboard', alt: 'Owner dashboard showing tasks completed, overdue, station health, schedule and recent activity', caption: 'Owner dashboard.' },
+          { src: '/media/sitetask/reports', alt: 'Reports screen with completion rate and tasks completed over time, by site and by person', caption: 'Reports and analytics.' },
+          { src: '/media/sitetask/manager-dashboard', alt: 'Manager dashboard scoped to the manager’s own stations', caption: 'Manager dashboard.' },
+          { src: '/media/sitetask/notifications', alt: 'Notification settings for completed, overdue and assigned task emails and the daily digest', caption: 'Notification settings.' },
+        ],
+      },
+      {
+        id: 'outcome',
+        title: 'Outcome',
+        body: ['In progress. No results yet: this section will be updated once SiteTask is in use at the stations.'],
+      },
+      {
+        id: 'learned',
+        title: 'What I’d do next',
+        body: ['[CONFIRM: next steps for SiteTask]'],
+      },
+    ],
+  },
+
+  /* 5 ------------------------------------------------------------------- */
+  {
+    slug: 'ai-voice-agents',
+    title: 'AI Voice & Chat Agents',
+    summary:
+      'AI voice and chat agents that handle appointment booking, lead capture and dealership inquiries, built with ElevenLabs, Twilio and n8n.',
+    outcome: 'Inquiries answered and routed automatically, with bookings captured outside business hours.',
+    type: 'employer',
+    status: 'shipped',
+    role: 'Conversation design and build',
+    timeline: '[CONFIRM: timeline]',
+    client: 'BC dealership group (confidential)',
+    team: '[CONFIRM: team]',
+    tools: ['ElevenLabs', 'Twilio', 'n8n'],
+    tags: ['AI', 'Automation', 'Conversation design'],
+    disciplines: ['product', 'marketing'],
+    featured: false,
+    order: 5,
+    cover: { src: '/media/voice-agents/n8n-workflow', alt: 'n8n workflow connecting a phone call trigger to intent detection, booking and human handoff' },
+    ogImage: og('ai-voice-agents'),
+    confidential: true,
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: [
+          'Calls and messages about appointments, vehicles and general questions arrive at all hours. When nobody can answer, the inquiry and the booking are lost.',
+        ],
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: [
+          'I built the agents and wrote the conversation scripts, flows, fallbacks and confirmations. The agent had to know when to stop and hand off to a person.',
+        ],
+      },
+      {
+        id: 'process',
+        title: 'Process',
+        body: [
+          'Every conversation follows the same shape: a trigger, intent detection, the booking or lead path, a fallback when the agent is unsure, and a human handoff.',
+        ],
+        widget: 'voice-flow',
+      },
+      {
+        id: 'solution',
+        title: 'The solution',
+        bullets: [
+          'Voice agents on ElevenLabs and Twilio for appointment booking, lead capture and dealership inquiries.',
+          'Chat agents for the same intents.',
+          'n8n workflows that route bookings and leads to the right place.',
+          'Scripted confirmations so callers know exactly what was booked.',
+        ],
+        media: [{ src: '/media/voice-agents/n8n-workflow', alt: 'n8n workflow screenshot with nodes for the call trigger, intent routing, booking and handoff', caption: 'The n8n workflow behind the agents.' }],
+      },
+      {
+        id: 'outcome',
+        title: 'Outcome',
+        body: ['Inquiries are answered and routed automatically, and bookings are captured outside business hours.'],
+      },
+      {
+        id: 'learned',
+        title: 'What I learned',
+        body: ['[CONFIRM: what you learned building the agents and what you would do next]'],
+      },
+    ],
+  },
+
+  /* 6 ------------------------------------------------------------------- */
+  {
+    slug: 'ev-launch-campaign',
+    title: 'Launch Campaign & AI Ad Creative',
+    summary:
+      'An EV dealership launch on Meta, from catalogue migration to campaign build, plus lead-gen work and a generative AI creative workflow across the dealership group.',
+    outcome: '48-vehicle catalogue launch, and a lowest cost per lead of $26 across the group.',
+    type: 'employer',
+    status: 'shipped',
+    role: 'Campaign strategy, creative and media buying',
+    timeline: '2026',
+    client: 'EV dealership launch, Metro Vancouver',
+    team: '[CONFIRM: team]',
+    tools: ['Meta Ads Manager', 'Midjourney'],
+    tags: ['Meta Ads', 'Generative AI', 'Lead gen'],
+    disciplines: ['marketing'],
+    featured: false,
+    order: 6,
+    cover: { src: '/media/ev-campaign/cover', alt: 'Ad creatives for an EV dealership launch in 4:5 and 9:16 formats, branding removed' },
+    ogImage: og('ev-launch-campaign'),
+    confidential: true,
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: ['A new EV dealership in Metro Vancouver needed a full launch on Meta, and the wider dealership group needed lead generation that worked.'],
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: [
+          'I come up with campaign and creative ideas, build the creatives, and build and launch campaigns in Meta Ads Manager. AI helps pull reports and flag what is underperforming; I then research and decide what to keep or cut.',
+        ],
+      },
+      {
+        id: 'process',
+        title: 'Process',
+        bullets: [
+          'Pre-launch audit and a 90-day marketing plan.',
+          'Migrated 48 vehicles into a dedicated catalogue with dynamic product ads.',
+          'Test-drive auto-responder emails.',
+          'GenAI creative workflow: Midjourney plus prompt systems for on-brand ad creatives at 4:5 and 9:16.',
+        ],
+        media: [
+          { src: '/media/ev-campaign/creative-4x5', alt: 'Vertical 4:5 test-drive ad creative for an electric vehicle, branding removed', caption: '4:5 creative.', contain: true },
+          { src: '/media/ev-campaign/creative-9x16', alt: 'Full-screen 9:16 story ad creative for an electric vehicle, branding removed', caption: '9:16 creative.', contain: true },
+        ],
+      },
+      {
+        id: 'solution',
+        title: 'The solution',
+        bullets: [
+          'Full launch campaign: test-drive carousels, catalogue ads, click-to-call and broad Advantage+.',
+          'Lead-gen across the dealership group: instant forms cut from 15 to 12 fields, plus qualifier ad sets.',
+        ],
+      },
+      {
+        id: 'outcome',
+        title: 'Outcome',
+        stats: [
+          { value: '48', label: 'Vehicles in the launch catalogue' },
+          { value: '15 to 12', label: 'Instant form fields' },
+          { value: '$26', label: 'Lowest cost per lead' },
+        ],
+      },
+      {
+        id: 'learned',
+        title: 'What I learned',
+        body: ['AI is fast at flagging what is underperforming, but the keep or cut decision still needs research and judgement. [CONFIRM: what you would test next]'],
+      },
+    ],
+  },
+
+  /* 7 ------------------------------------------------------------------- */
+  {
+    slug: 'motion-reel',
+    title: 'Motion Reel: Coded Ads & Reels',
+    summary: 'Animated ads, reels and logo stings built in code with Claude, Remotion and GSAP.',
+    outcome: 'A library of coded ads, reels and logo stings.',
+    type: 'employer',
+    status: 'shipped',
+    role: 'Motion design and code',
+    timeline: '2026',
+    client: 'BC dealership group and Vancouver creative agency (confidential)',
+    team: '[CONFIRM: team]',
+    tools: ['Claude', 'Remotion', 'GSAP'],
+    tags: ['Motion', 'Remotion', 'GSAP'],
+    disciplines: ['motion', 'marketing'],
+    featured: false,
+    order: 7,
+    cover: { src: '/media/motion/cover', alt: 'Frame from a coded motion ad with animated type' },
+    ogImage: og('motion-reel'),
+    confidential: true,
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: ['Ads, reels and logo stings, built in code instead of a timeline editor, using Claude, Remotion and GSAP.'],
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: ['I designed and built each piece in code with Claude, Remotion and GSAP. Any client logo, name or phone number is blurred in what is shown here.'],
+      },
+      {
+        id: 'solution',
+        title: 'The reels',
+        body: ['Every preview is muted and loops. Open one to play it with sound and controls.'],
+        widget: 'reel-grid',
+      },
+      {
+        id: 'learned',
+        title: 'What I learned',
+        body: ['[CONFIRM: what you learned building motion in code]'],
+      },
+    ],
+  },
+
+  /* 8 ------------------------------------------------------------------- */
+  {
+    slug: 'tuniff',
+    title: 'Tuniff: AI Hairstyle Recommendation App',
+    summary: 'An AI-powered mobile app that helps people choose a hairstyle that suits them, with a virtual try-on.',
+    outcome: '14+ high-fidelity screens grounded in survey research with 10 users.',
+    type: 'employer',
+    status: 'shipped',
+    role: 'UI/UX Design Intern',
+    timeline: 'March 2023 to April 2024',
+    client: 'Quackly Private Limited',
+    team: '[CONFIRM: team]',
+    tools: ['Figma', 'Google Forms'],
+    tags: ['Mobile app', 'UX research', 'AI'],
+    disciplines: ['product'],
+    featured: false,
+    order: 8,
+    cover: { src: '/media/tuniff/cover', alt: 'Tuniff mobile app screens showing hairstyle recommendations' },
+    ogImage: og('tuniff'),
+    confidential: false,
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: ['Choosing a hairstyle lacks personalization. People struggle to picture how a style will suit their face shape before committing at the barber.'],
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: [
+          'As UI/UX Design Intern at Quackly, I led the end-to-end UX, from survey research and personas to information architecture and high-fidelity screens. Facial data is sensitive, so privacy and permissions had to be designed in, not added later.',
+        ],
+      },
+      {
+        id: 'process',
+        title: 'Process',
+        body: [
+          'Survey research with 10 users: 8 of 10 surveyed users wanted AI personalisation, and 7 of 10 had privacy concerns about facial data.',
+          'Discover (research and competitive analysis), define (personas and MoSCoW), ideate (information architecture and user flows), then design (style guide and type).',
+        ],
+        media: [
+          { src: '/media/tuniff/research', alt: 'Tuniff research summary with survey findings and persona', caption: 'Survey research and persona.' },
+          { src: '/media/tuniff/flows', alt: 'Tuniff information architecture and user flow diagram', caption: 'Information architecture and flows.' },
+        ],
+      },
+      {
+        id: 'solution',
+        title: 'The solution',
+        body: ['A high-fidelity mobile prototype with guided onboarding, filtering, a 2D virtual try-on based on facial feature scanning, and clear privacy and permission controls.'],
+        media: [{ src: '/media/tuniff/screens', alt: 'Tuniff high-fidelity screens for onboarding, recommendations and try-on', caption: '14+ high-fidelity screens.' }],
+      },
+      {
+        id: 'outcome',
+        title: 'Outcome',
+        stats: [
+          { value: '8 of 10', label: 'Surveyed users wanted AI personalisation' },
+          { value: '7 of 10', label: 'Had privacy concerns' },
+          { value: '14+', label: 'High-fidelity screens' },
+        ],
+      },
+      {
+        id: 'learned',
+        title: 'What I learned',
+        body: ['Biometric data needs radical transparency in privacy settings, and a minimal UI keeps complex AI output from overwhelming people.'],
+      },
+    ],
+  },
+
+  /* Studies ------------------------------------------------------------- */
+  {
+    slug: 'musify-motion-system',
+    title: 'Musify: Motion System',
+    summary: 'A brand identity and motion system for a live-music platform, built on a “live stage” metaphor with five signature interactions.',
+    outcome: 'Five signature interactions documented as a reusable style guide.',
+    type: 'coursework',
+    status: 'shipped',
+    role: 'Motion and brand designer',
+    timeline: 'November 2025',
+    client: 'KPU coursework',
+    team: '[CONFIRM: team]',
+    tools: ['Figma', 'GSAP', 'ScrollTrigger', 'Lenis', 'HTML, CSS, JS'],
+    tags: ['Motion', 'GSAP', 'Brand'],
+    disciplines: ['motion', 'web'],
+    featured: false,
+    order: 101,
+    studyLabel: 'KPU coursework',
+    cover: { src: '/assets/case-studies/musify-hero', alt: 'Musify dark interface with neon green accent and concert imagery' },
+    ogImage: og('musify-motion-system'),
+    confidential: false,
+    sections: [
+      {
+        id: 'problem',
+        title: 'The problem',
+        body: ['Musify is a music-event platform, but flat screens don’t capture the energy of a live venue. The brief: a brand identity and a motion language that make a dark UI feel alive.'],
+      },
+      {
+        id: 'role',
+        title: 'My role and constraints',
+        body: ['I owned the identity and the motion system: colour, type, a three-rule “motion recipe”, and five signature interactions coded in GSAP, all documented as a style guide.'],
+      },
+      {
+        id: 'process',
+        title: 'Process',
+        bullets: [
+          'Staggered entry: elements never appear at once; staggers of 0.1 to 0.2s guide the eye.',
+          'Heavy physics: motion has mass; back and elastic easings replace linear fades.',
+          'Ambient life: orbs and visualizers loop so the UI never feels dead.',
+        ],
+        media: [
+          { src: '/assets/case-studies/musify-principles', alt: 'The Musify motion recipe: three governing principles', caption: 'The motion recipe.' },
+          { src: '/assets/case-studies/musify-curtain', alt: 'Curtain-reveal preloader frames', caption: 'Curtain-reveal preloader masks the asset load.' },
+        ],
+      },
+      { id: 'solution', title: 'The solution', body: ['The coded site, running live:'], widget: 'embed-musify' },
+      { id: 'demos', title: 'Live interactions', widget: 'demos-musify' },
+      {
+        id: 'learned',
+        title: 'What I learned',
+        body: ['A motion system is only as good as its constraints. Writing timing and easing rules down first is what made five interactions feel like one brand.'],
+      },
+    ],
   },
   {
     slug: 'motion-component-library',
-    title: 'Purposeful Motion, Component Library',
-    company: 'KPU coursework',
-    year: '2025',
-    category: ['Motion Design', 'Interaction Design', 'Design System'],
-    tags: ['Micro-interactions', 'Motion Design', 'HTML/CSS/JS', 'UX'],
-    coverImage: '/assets/case-studies/motionlib-hero.jpg',
-    heroImage: '/assets/case-studies/motionlib-hero.jpg',
-    excerpt:
-      'A documented library of eight functional micro-interactions, motion as a tool for clarity, feedback, and delight, not decoration. Every component is live below.',
-    role: 'Interaction / Motion Designer',
-    timeline: 'Oct 2025',
-    tools: 'HTML · CSS · JavaScript · Figma',
-    accent: '#e8470a',
-    problem:
-      'Motion is usually treated as decoration, the last polish pass. This library argues the opposite: that motion is a functional tool that adds clarity, feedback, and delight to everyday interactions and actively reduces uncertainty. The goal was to prove it with a reusable, documented set.',
-    myRole:
-      'I designed, built, and documented eight reusable motion components, each with a specific timing, easing, and user scenario. Every component maps to a design principle and answers a real UX concern.',
-    discovery:
-      'The library runs on a four-part philosophy: Clarity (animation supports understanding), Feedback (loaders, checks, and shakes confirm system status), Delight (small celebratory moments keep users engaged), and Predictability (consistent timing and easing build trust).',
-    process:
-      'Each component is specced like a design token. Loader (1s linear loop), Success (0.3s circle + 0.3s check + 1s confetti), Error/Warning (0.5s ease-in-out shake), Toggle (0.3s ease slide), Floating Input (0.3s ease), Expandable Card (0.4s ease), Modal (0.5s fade/scale), and Drag & Drop (smooth transforms). I storyboarded each against a real scenario, e.g. an empty-password login triggers the error shake while the floating label keeps the field readable.',
-    solution:
-      'Eight production-ready components implemented in vanilla HTML/CSS/JS so they drop into any interface, with the timing, easing, and UX rationale documented beside each one. They’re recreated here as live React interactions, try every one below.',
-    impact: [
-      { value: '8', label: 'Reusable Components' },
-      { value: '4', label: 'Design Principles' },
-    ],
-    reflection:
-      'Documenting the “why” beside the “how”, the UX concern each animation answers, is what turns a pile of effects into a system a team can actually reuse.',
-    featured: true,
-    liveDemos: 'library',
-    gallery: [
-      { src: '/assets/case-studies/motionlib-components.png', caption: 'Eight components, each with timing, easing, and scenario.' },
-      { src: '/assets/case-studies/motionlib-storyboard.jpg', caption: 'Storyboard: form-validation error + floating input.' },
-      { src: '/assets/case-studies/motionlib-overview.png', caption: 'Design philosophy, clarity, feedback, delight, predictability.' },
+    title: 'Purposeful Motion: Component Library',
+    summary: 'A documented library of eight functional micro-interactions: motion for clarity, feedback and delight, not decoration.',
+    outcome: 'Eight reusable components, each with documented timing, easing and scenario.',
+    type: 'coursework',
+    status: 'shipped',
+    role: 'Interaction and motion designer',
+    timeline: 'October 2025',
+    client: 'KPU coursework',
+    team: '[CONFIRM: team]',
+    tools: ['HTML', 'CSS', 'JavaScript', 'Figma'],
+    tags: ['Motion', 'Micro-interactions', 'UX'],
+    disciplines: ['motion'],
+    featured: false,
+    order: 102,
+    studyLabel: 'KPU coursework',
+    cover: { src: '/assets/case-studies/motionlib-hero', alt: 'Purposeful Motion component library overview' },
+    ogImage: og('motion-component-library'),
+    confidential: false,
+    sections: [
+      { id: 'problem', title: 'The problem', body: ['Motion is usually treated as the last polish pass. This library argues it is a functional tool that adds clarity and feedback and reduces uncertainty.'] },
+      { id: 'role', title: 'My role and constraints', body: ['I designed, built and documented eight components, each mapped to a design principle and a real UX concern.'] },
+      {
+        id: 'process',
+        title: 'Process',
+        body: ['Each component is specified like a design token: loader (1s linear loop), success (circle, check, confetti), error shake (0.5s), toggle (0.3s), floating input (0.3s), expandable card (0.4s), modal (0.5s) and drag and drop.'],
+        media: [
+          { src: '/assets/case-studies/motionlib-components', alt: 'Eight motion components with timing, easing and scenario', caption: 'Eight components with timing, easing and scenario.' },
+          { src: '/assets/case-studies/motionlib-storyboard', alt: 'Storyboard of a form validation error and floating input', caption: 'Storyboard: validation error and floating input.' },
+        ],
+      },
+      { id: 'demos', title: 'Live interactions', widget: 'demos-library' },
+      { id: 'learned', title: 'What I learned', body: ['Documenting the “why” beside the “how” turns a pile of effects into a system a team can reuse.'] },
     ],
   },
   {
     slug: 'healthy-city-dashboard',
-    title: 'Healthy City Dashboard, Mode Share',
-    company: 'KPU coursework',
-    year: '2025',
-    category: ['Data Viz', 'Accessibility', 'UX Design'],
-    tags: ['Accessibility', 'WCAG', 'Data Visualization', 'Chart.js'],
-    coverImage: '/assets/case-studies/healthycity-hero.png',
-    heroImage: '/assets/case-studies/healthycity-hero.png',
-    excerpt:
-      'A 12-week accessibility-driven redesign of Vancouver’s open-data Mode Share indicator, from static tables to an interactive, WCAG-aligned dashboard.',
-    role: 'UX & Visual Designer (Design Lead)',
-    timeline: '12 weeks · 2025',
-    tools: 'Figma · Chart.js · HTML/CSS/JS · JSON',
-    accent: '#2f6d84',
-    problem:
-      'Vancouver’s Mode Share indicator page, how residents bike, walk, and take transit, shipped as static tables with low visual hierarchy, limited filtering, and inconsistent accessibility. Planners, residents, and advocacy groups couldn’t actually read the story in the data.',
-    myRole:
-      'As design lead I ran the redesign from content audit through lo-fi → hi-fi → coded dashboard, owning the visual system (colour, typography, spacing) and the accessibility pass while keeping everything aligned to the City’s existing Healthy City ecosystem.',
-    discovery:
-      'A content audit surfaced the core barriers, static tables, weak hierarchy, thin filtering, and contrast/navigation gaps. We set explicit goals: make the page clearer, more intuitive, more accessible, and more engaging, without breaking from the City’s established look.',
-    process:
-      'A 12-week plan governed by a roadmap, WBS, RACI, and risk log: content audit → lo-fi wireframes → hi-fi Figma prototype with a consistent type/colour system → functional build wiring JSON data to Chart.js with tooltips, labels, and filters. Accessibility and usability checks ran before integration, not after it.',
-    solution:
-      'A polished, stable desktop dashboard: interactive charts (Chart.js) with tooltips and filters, a clear visual hierarchy, and a contrast/navigation pass for WCAG alignment. Multiple QA rounds confirmed every main flow, explore by mode or year, compare areas, worked end to end with no critical bugs.',
-    impact: [
-      { value: 'WCAG', label: 'Contrast & Nav Pass' },
-      { value: '12 wk', label: 'Lo-fi → Shipped' },
-      { value: 'Chart.js', label: 'Live Data Viz' },
-    ],
-    reflection:
-      'Treating accessibility as a build-time gate, checking contrast and navigation before integration, kept it from becoming an afterthought. It made the visual system stronger too, because contrast and hierarchy are the same problem.',
+    title: 'Healthy City Dashboard: Mode Share',
+    summary: 'An accessibility-driven redesign of a City of Vancouver open-data indicator, from static tables to an interactive dashboard.',
+    outcome: 'Interactive Chart.js dashboard with a WCAG contrast and navigation pass.',
+    type: 'coursework',
+    status: 'shipped',
+    role: 'UX and visual designer (design lead)',
+    timeline: '12 weeks, 2025',
+    client: 'KPU coursework',
+    team: 'Group project, design lead [CONFIRM: team size]',
+    tools: ['Figma', 'Chart.js', 'HTML, CSS, JS', 'JSON'],
+    tags: ['Accessibility', 'Data viz', 'WCAG'],
+    disciplines: ['product', 'web'],
     featured: false,
-    liveDemos: 'dashboard',
-    gallery: [
-      { src: '/assets/case-studies/healthycity-overview.png', caption: 'Content audit → lo-fi → hi-fi progression.' },
-      { src: '/assets/case-studies/healthycity-roadmap.png', caption: '12-week roadmap and Gantt schedule.' },
-      { src: '/assets/case-studies/healthycity-wbs.png', caption: 'Work breakdown structure across the five phases.' },
+    order: 103,
+    studyLabel: 'KPU coursework',
+    cover: { src: '/assets/case-studies/healthycity-hero', alt: 'Mode share dashboard with charts of how residents travel' },
+    ogImage: og('healthy-city-dashboard'),
+    confidential: false,
+    sections: [
+      { id: 'problem', title: 'The problem', body: ['The Mode Share indicator, how residents bike, walk and take transit, shipped as static tables with weak hierarchy, limited filtering and inconsistent accessibility. Built on City of Vancouver open data.'] },
+      { id: 'role', title: 'My role and constraints', body: ['As design lead I ran the redesign from content audit to coded dashboard, owning the visual system and the accessibility pass while staying aligned with the existing city look.'] },
+      {
+        id: 'process',
+        title: 'Process',
+        body: ['A 12-week plan with a roadmap, work breakdown and risk log: content audit, lo-fi wireframes, hi-fi Figma prototype, then a build wiring JSON data to Chart.js. Accessibility checks ran before integration, not after it.'],
+        media: [
+          { src: '/assets/case-studies/healthycity-overview', alt: 'Progression from content audit to lo-fi and hi-fi designs', caption: 'Content audit to lo-fi to hi-fi.' },
+          { src: '/assets/case-studies/healthycity-roadmap', alt: '12-week roadmap and schedule', caption: '12-week roadmap.' },
+          { src: '/assets/case-studies/healthycity-wbs', alt: 'Work breakdown structure across five phases', caption: 'Work breakdown structure.' },
+        ],
+      },
+      { id: 'demos', title: 'Live interaction', widget: 'demos-dashboard' },
+      { id: 'learned', title: 'What I learned', body: ['Treating accessibility as a build-time gate kept it from becoming an afterthought, and made the visual system stronger: contrast and hierarchy are the same problem.'] },
     ],
   },
   {
     slug: 'acminder',
-    title: 'Acminder, Schedule Management',
-    company: 'KPU capstone',
-    year: '2025',
-    category: ['UX Research', 'UI Design', 'Mobile App'],
-    tags: ['UX Research', 'Personas', 'Wireframing', 'Usability'],
-    coverImage: '/assets/case-studies/acminder-hero.png',
-    heroImage: '/assets/case-studies/banner-acminder.png',
-    excerpt:
-      'Proactive schedule management for international students, a research-led capstone from SMART goals and personas to a hi-fi mobile system.',
-    role: 'UX Researcher & UI Designer',
+    title: 'Acminder: Schedule Management',
+    summary: 'Proactive schedule management for international students, a research-led capstone from goals and personas to a hi-fi mobile system.',
+    outcome: 'Hi-fi mobile system and a full technical requirements document.',
+    type: 'coursework',
+    status: 'shipped',
+    role: 'UX researcher and UI designer',
     timeline: '2025',
-    tools: 'Figma · Miro · Google Forms · React',
-    accent: '#3b6ff0',
-    problem:
-      'International students juggle 20+ hours of work a week against a full course load, LMS deadlines, and strict visa work-hour compliance, with zero margin for error. Existing tools (Google/Apple Calendar, Moodle) each track only one world and never warn you before a conflict.',
-    myRole:
-      'I led the UX process end to end, SMART research goals, competitive analysis, persona and context definition, user flows, wireframes, usability metrics, and a hi-fi mobile prototype, documented in a full Technical Requirements Document.',
-    discovery:
-      'The persona: a full-time international student managing high financial stakes and a new academic system. Comparative analysis against Google/Apple Calendar and Moodle exposed the gap, manual entry, visual-only conflict detection, no work-hour context. Acminder’s edge: automated sync, proactive alerts, high-priority voice nudges, and visa work-hour tracking.',
-    process:
-      'I mapped the core flows, onboarding, task add/edit/delete, calendar, and settings, and digitised annotated wireframes for every screen (sign-up, home, item detail, add/edit), each with documented key elements and rationale. Success was defined with usability metrics, not vibes.',
-    solution:
-      'A hi-fi mobile system centred on a unified dashboard that merges academic, work, and personal schedules, detects conflicts proactively, and nudges before problems happen, with a roadmap toward two-way LMS sync and an AI weekly planner.',
-    impact: [
-      { value: '20+ hrs', label: 'Work/Week Modeled' },
-      { value: '4', label: 'Core Flows Mapped' },
-      { value: 'TRD', label: 'Full UX Spec' },
-    ],
-    reflection:
-      'The rigor paid off at the wireframe stage: because I’d defined the persona’s constraints (visa hours, LMS deadlines) as hard requirements, every screen decision had a reason. Research isn’t a phase you finish, it’s the argument every pixel has to answer to.',
+    client: 'KPU capstone',
+    team: '[CONFIRM: team]',
+    tools: ['Figma', 'Miro', 'Google Forms', 'React'],
+    tags: ['UX research', 'Personas', 'Mobile'],
+    disciplines: ['product'],
     featured: false,
-    gallery: [
-      { src: '/assets/case-studies/acminder-persona.png', caption: 'Target user: the international-student persona.' },
-      { src: '/assets/case-studies/acminder-compare.png', caption: 'Comparative analysis vs Calendar and LMS tools.' },
-      { src: '/assets/case-studies/acminder-signup.png', caption: 'Hi-fi sign-up screen with annotated key elements.', contain: true },
-      { src: '/assets/case-studies/acminder-flow.png', caption: 'Task management flow, add, edit, delete.', contain: true },
+    order: 104,
+    studyLabel: 'KPU capstone',
+    cover: { src: '/assets/case-studies/acminder-hero', alt: 'Acminder mobile app with a unified schedule dashboard' },
+    ogImage: og('acminder'),
+    confidential: false,
+    sections: [
+      { id: 'problem', title: 'The problem', body: ['International students juggle 20+ hours of work a week against a full course load, LMS deadlines and visa work-hour limits. Existing calendar and LMS tools each track one world and never warn before a conflict.'] },
+      { id: 'role', title: 'My role and constraints', body: ['I led the UX process: research goals, competitive analysis, personas, flows, wireframes, usability metrics and a hi-fi prototype, documented in a technical requirements document.'] },
+      {
+        id: 'process',
+        title: 'Process',
+        body: ['Comparative analysis showed the gap: manual entry, visual-only conflict detection and no work-hour context. I mapped onboarding, task add, edit and delete, calendar and settings flows, with annotated wireframes for each screen.'],
+        media: [
+          { src: '/assets/case-studies/acminder-persona', alt: 'International student persona', caption: 'The persona.' },
+          { src: '/assets/case-studies/acminder-compare', alt: 'Comparison against calendar and LMS tools', caption: 'Comparative analysis.' },
+          { src: '/assets/case-studies/acminder-signup', alt: 'Hi-fi sign-up screen with annotations', caption: 'Annotated sign-up screen.', contain: true },
+          { src: '/assets/case-studies/acminder-flow', alt: 'Task management flow for add, edit and delete', caption: 'Task management flow.', contain: true },
+        ],
+      },
+      { id: 'solution', title: 'The solution', body: ['A unified dashboard that merges academic, work and personal schedules, detects conflicts and nudges before problems happen.'] },
+      { id: 'learned', title: 'What I learned', body: ['Because the persona’s constraints were hard requirements, every screen decision had a reason. Research is the argument every pixel has to answer to.'] },
     ],
   },
   {
-    slug: 'tuniff',
-    title: 'Tuniff, AI Hairstyle Recommendation',
-    company: 'Quackly Private Limited (UI/UX Design Intern)',
-    year: '2023 to 2024',
-    category: ['UI/UX Design', 'Mobile App'],
-    tags: ['AI', 'Mobile Design', 'Figma', 'UX Research'],
-    coverImage:
-      'https://mir-s3-cdn-cf.behance.net/project_modules/fs/87bbb6190962053.65c360ceee298.png',
-    heroImage:
-      'https://mir-s3-cdn-cf.behance.net/project_modules/fs/87bbb6190962053.65c360ceee298.png',
-    excerpt:
-      'AI-powered mobile application designed to simplify the hairstyle selection process with virtual try-ons.',
-    role: 'UI/UX Designer & Researcher',
-    timeline: 'Late 2023 to Early 2024',
-    tools: 'Figma · Google Forms · AI',
-    problem:
-      "Traditional hairstyle selection lacks personalization, leading to dissatisfaction. Users often struggle to visualize how a style fits their specific face shape before committing at the barber.",
-    myRole:
-      'I led the end-to-end design process, from quantitative user research and persona development to high-fidelity prototyping and information architecture mapping.',
-    discovery:
-      'Surveyed 10 users: 8 of 10 wanted AI personalisation and 7 of 10 had privacy concerns about facial data. Defined the persona "Sneha Sharma," a tech-savvy designer seeking style changes that fit her creative image.',
-    process:
-      'Discover (research/comp-analysis) → Define (personas/MoSCoW method) → Ideate (IA/user flows) → Design (Style guide/DM Serif Display type). mapped 14+ distinct screens covering the end-to-end journey.',
-    solution:
-      'A high-fidelity mobile prototype with automated onboarding, gender-based filtering, and a 2D virtual try-on system powered by facial feature scanning.',
-    impact: [
-      { value: '8 of 10', label: 'Wanted AI personalisation' },
-      { value: '14+', label: 'Screens Designed' },
-      { value: '7 of 10', label: 'Had privacy concerns' },
-    ],
-    reflection:
-      'Handling biometric data requires radical transparency in privacy settings. Minimalist UI is essential when presenting complex AI data to prevent user cognitive overwhelm.',
+    slug: 'youtube-trending-dashboard',
+    title: 'YouTube Trending Dashboard',
+    summary: 'An interactive three-page analytics dashboard over 40,000+ rows of trending video data across 10 countries.',
+    outcome: 'Interactive 3-page dashboard over 40,000+ rows across 10 countries.',
+    type: 'coursework',
+    status: 'shipped',
+    role: 'Designer and developer',
+    timeline: '2026',
+    client: 'KPU coursework',
+    team: '[CONFIRM: team]',
+    tools: ['Figma', 'D3.js', 'Chart.js'],
+    tags: ['Data viz', 'D3.js', 'Dashboard'],
+    disciplines: ['web'],
     featured: false,
-    discoveryImage: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/640e2c190962053.65c360ceeee86.png',
-    processImage: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/64f70e190962053.65c360cee8298.png',
-    solutionImage: 'https://mir-s3-cdn-cf.behance.net/project_modules/fs/d5862b190962053.65c360ceeab7d.png',
+    order: 105,
+    studyLabel: 'KPU coursework',
+    cover: { src: '/media/studies/youtube-dashboard', alt: 'Trending video analytics dashboard with charts comparing countries' },
+    ogImage: og('youtube-trending-dashboard'),
+    confidential: false,
+    sections: [
+      { id: 'problem', title: 'The problem', body: ['Trending video data across 10 countries runs to 40,000+ rows. The goal was to make patterns in it readable through an interactive dashboard.'] },
+      { id: 'solution', title: 'The solution', body: ['A three-page interactive dashboard designed in Figma and built with D3.js and Chart.js.'], media: [{ src: '/media/studies/youtube-dashboard', alt: 'Trending video analytics dashboard with charts comparing countries' }] },
+    ],
   },
 ]
+
+export const workProjects = projects.filter((p) => p.type !== 'coursework').sort((a, b) => a.order - b.order)
+export const studies = projects.filter((p) => p.type === 'coursework').sort((a, b) => a.order - b.order)
+export const featuredProjects = workProjects.filter((p) => p.featured)
+
+export function getProject(slug: string | undefined) {
+  return projects.find((p) => p.slug === slug)
+}
+
+/** Next project in reading order (work, then studies), wrapping around. */
+export function getNextProject(slug: string) {
+  const ordered = [...workProjects, ...studies]
+  const i = ordered.findIndex((p) => p.slug === slug)
+  return ordered[(i + 1) % ordered.length]
+}
