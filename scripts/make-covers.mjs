@@ -1,5 +1,4 @@
-// Generates illustrative cover art for projects and shipped sites that have no real media yet,
-// plus the hero still. Each design is a pure function of its data (no randomness) rendered to PNG
+// Generates illustrative cover art for projects and shipped sites that have no real media yet. Each design is a pure function of its data (no randomness) rendered to PNG
 // with Playwright. Motifs use only verified facts (14 booking states, 11 stations, $26 CPL...),
 // never invented UI or numbers. Real screenshots replace these by overwriting the same files.
 // Usage: node scripts/make-covers.mjs [--only key] [--force]
@@ -133,17 +132,6 @@ const covers = {
 <div class="u" style="left:330px;top:850px;font-size:36px;line-height:1.25;color:${C.ink};font-weight:500">vehicles in the<br/>launch catalogue</div>
 <div class="u" style="right:80px;top:870px;font-size:30px;color:#5f5f5f;text-align:right">Forms cut<br/>15 to 12 fields</div>`),
 
-  // Keyframes and easing curves on a timeline.
-  motion: () => {
-    const curve = (y, c) => `<path d="M80 ${y + 160} C 560 ${y + 160} 620 ${y} 1520 ${y}" stroke="${c}" stroke-width="6" fill="none"/>`
-    const keys = [80, 420, 760, 1100, 1520].map((x, i) => `<rect x="${x - 18}" y="882" width="36" height="36" transform="rotate(45 ${x} 900)" fill="${i === 2 ? C.orange : C.cream}"/>`).join('')
-    const ticks = Array.from({ length: 49 }, (_, i) => `<line x1="${80 + i * 30}" y1="${i % 4 ? 960 : 950}" x2="${80 + i * 30}" y2="980" stroke="${C.dim}" stroke-width="3"/>`).join('')
-    return page(W, H, C.ink, `<svg viewBox="0 0 ${W} ${H}">${curve(330, C.dim)}${curve(470, C.dim)}${curve(610, C.orange)}
-<line x1="80" y1="900" x2="1520" y2="900" stroke="${C.dim}" stroke-width="3"/>${keys}${ticks}
-<line x1="760" y1="300" x2="760" y2="1000" stroke="${C.orange}" stroke-width="3"/></svg>
-<div class="d" style="left:72px;top:70px;font-size:150px;color:${C.cream}">Motion<span style="color:${C.orange}">.</span></div>
-<div class="u" style="right:80px;top:110px;font-size:32px;color:${C.muted}">Claude · Remotion · GSAP</div>`)
-  },
 }
 
 /* ------------------------------------------------------------ shipped sites (1600x1000, 16:10) */
@@ -178,17 +166,6 @@ function siteCover({ bg, fg, label, kind, accent = C.orange }) {
 <div class="d" style="left:112px;top:180px;font-size:132px;color:${fg}">${label}</div>`)
 }
 
-/* ------------------------------------------------------------------ hero still (1200x1500, 4:5) */
-
-const hero = () => {
-  const lines = Array.from({ length: 9 }, (_, i) => `<path d="M-40 ${1500 - i * 70} C 400 ${1500 - i * 70} 520 ${560 + i * 40} 1240 ${520 + i * 40}" stroke="${i === 4 ? C.orange : C.dim}" stroke-width="${i === 4 ? 8 : 3}" fill="none"/>`).join('')
-  return page(1200, 1500, C.ink, `<svg viewBox="0 0 1200 1500">${lines}
-<rect x="640" y="820" width="440" height="380" fill="none" stroke="${C.cream}" stroke-width="4"/>
-<rect x="700" y="880" width="320" height="180" fill="${C.cream}" opacity=".12"/><rect x="700" y="1090" width="200" height="22" fill="${C.cream}" opacity=".3"/>
-<circle cx="1020" cy="1160" r="44" fill="${C.orange}"/></svg>
-<div class="d" style="left:72px;top:90px;font-size:230px;color:${C.cream}">Design.<br/>Build.<br/><span style="color:${C.orange}">Ship.</span></div>
-<div class="u" style="left:80px;bottom:90px;font-size:36px;line-height:1.35;color:#b3b3b3">Product design, front-end,<br/>AI tools and motion.</div>`)
-}
 
 /* -------------------------------------------------------------------------------- render */
 
@@ -199,8 +176,6 @@ const jobs = [
   ['public/media/sitetask/cover.png', W, H, covers.sitetask],
   ['public/media/voice-agents/cover.png', W, H, covers.voice],
   ['public/media/ev-campaign/cover.png', W, H, covers.ev],
-  ['public/media/motion/cover.png', W, H, covers.motion],
-  ['public/media/motion/hero.png', 1200, 1500, hero],
   ...Object.entries(siteArt).map(([slug, a]) => [`public/media/sites/${slug}-desktop.png`, 1600, 1000, () => siteCover(a)]),
 ]
 

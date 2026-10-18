@@ -30,5 +30,5 @@ src/data/media-manifest.json
 
 dist-ssr
 
-# large source videos are not committed
-public/assets/*.mp4
+# source videos (web encodes live in public/media/motion)
+media-src/

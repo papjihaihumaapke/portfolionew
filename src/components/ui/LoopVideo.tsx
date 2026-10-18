@@ -39,7 +39,7 @@ export function LoopVideo({ src, label, className, ratio = '4 / 5', eager = fals
   }, [inView])
 
   if (!entry) {
-    // No video yet: show the still with the same key (e.g. /media/motion/hero.png).
+    // No video yet: show a still with the same key if one exists.
     return <Picture src={src} alt={label} ratio={ratio} className={className} priority={eager} />
   }
 

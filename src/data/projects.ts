@@ -542,8 +542,8 @@ export const projects: Project[] = [
   {
     slug: 'motion-reel',
     title: 'Motion Reel: Coded Ads & Reels',
-    summary: 'Animated ads, reels and logo stings built in code with Claude, Remotion and GSAP.',
-    outcome: 'A library of coded ads, reels and logo stings.',
+    summary: 'Animated ads, reels and brand films built in code with Claude, Remotion and GSAP, including my own showreel.',
+    outcome: 'A 66-second brand film and a vertical showreel, every frame written in code.',
     type: 'employer',
     status: 'shipped',
     role: 'Motion design and code',
@@ -554,7 +554,7 @@ export const projects: Project[] = [
     disciplines: ['motion', 'marketing'],
     featured: false,
     order: 7,
-    cover: { src: '/media/motion/cover', alt: 'Easing curves and keyframes on an animation timeline' },
+    cover: { src: '/media/motion/the-whole-loop-poster', alt: 'Final frame of The whole loop film: design, code and marketing joined in one circle' },
     ogImage: og('motion-reel'),
     confidential: true,
     sections: [
@@ -566,12 +566,12 @@ export const projects: Project[] = [
       {
         id: 'role',
         title: 'My role and constraints',
-        body: ['I designed and built each piece in code with Claude, Remotion and GSAP. Any client logo, name or phone number is blurred in what is shown here.'],
+        body: ['I designed and built each piece in code with Claude, Remotion and GSAP. Client names, logos and phone numbers are kept out of everything shown here.'],
       },
       {
         id: 'solution',
         title: 'The reels',
-        body: ['Every preview is muted and loops. Open one to play it with sound and controls.'],
+        body: ['Previews are muted and loop. Play any reel with sound.'],
         widget: 'reel-grid',
       },
     ],
