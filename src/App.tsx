@@ -4,6 +4,7 @@ import { About } from './pages/About'
 import { CaseStudy } from './pages/CaseStudy'
 import { Contact } from './pages/Contact'
 import { Home } from './pages/Home'
+import { NotFound } from './pages/NotFound'
 import { Work } from './pages/Work'
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/work/:slug" element={<CaseStudy />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   )

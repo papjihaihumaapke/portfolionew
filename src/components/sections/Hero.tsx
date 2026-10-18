@@ -2,7 +2,8 @@ import { ArrowRight, Download } from 'lucide-react'
 import { homeContent } from '../../data/home'
 import { site } from '../../data/site'
 import { Button } from '../ui/Button'
-import { LoopVideo, pickHeroReel } from '../ui/LoopVideo'
+import { pickHeroReel } from '../../lib/media'
+import { LoopVideo } from '../ui/LoopVideo'
 
 export function Hero() {
   const hero = homeContent.hero

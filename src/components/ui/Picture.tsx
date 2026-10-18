@@ -1,18 +1,5 @@
-import manifest from '../../data/media-manifest.json'
+import { images } from '../../lib/media'
 import { cn } from '../../lib/utils'
-
-type ImageEntry = { width: number; height: number; widths: number[]; original: string }
-const images = manifest.images as Record<string, ImageEntry>
-
-export function hasImage(src: string) {
-  return src in images
-}
-
-/** URL of the largest WebP variant, for places that need a plain URL (OG, posters). */
-export function imageUrl(src: string) {
-  const img = images[src]
-  return img ? `/_img${src}-${img.widths[img.widths.length - 1]}.webp` : undefined
-}
 
 export type PictureProps = {
   src: string

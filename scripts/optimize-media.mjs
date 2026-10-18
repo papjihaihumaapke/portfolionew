@@ -2,7 +2,7 @@
 // public/assets/case-studies, and writes src/data/media-manifest.json.
 // Keys are extensionless public paths (e.g. /media/lotstudio/cover). Originals stay
 // in public/ for authoring but are removed from dist by scripts/postbuild.mjs.
-import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative, extname, dirname } from 'node:path'
 import sharp from 'sharp'
 
@@ -54,6 +54,10 @@ for (const src of sources) {
     manifest.images[key] = { width: meta.width, height: meta.height, widths: variants, original: '/' + relative(pub, file) }
   }
 }
+
+// Drop variants whose original was removed.
+const keep = new Set(Object.entries(manifest.images).flatMap(([k, v]) => v.widths.flatMap((w) => ['avif', 'webp'].map((f) => join(outDir, `${k}-${w}.${f}`)))))
+for (const f of walk(outDir)) if (!keep.has(f)) rmSync(f)
 
 writeFileSync(join(root, 'src/data/media-manifest.json'), JSON.stringify(manifest, null, 2) + '\n')
 console.log(`media: ${Object.keys(manifest.images).length} images, ${Object.keys(manifest.videos).length} videos`)

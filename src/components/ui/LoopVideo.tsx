@@ -1,12 +1,9 @@
 import { Pause, Play } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import manifest from '../../data/media-manifest.json'
+import { imageUrl, videos } from '../../lib/media'
 import { prefersReducedMotion } from '../../lib/motion'
 import { cn } from '../../lib/utils'
-import { Picture, imageUrl } from './Picture'
-
-type VideoEntry = { sources: { src: string; type: string; bytes: number }[]; poster?: string }
-export const videos = manifest.videos as Record<string, VideoEntry>
+import { Picture } from './Picture'
 
 export type LoopVideoProps = {
   src: string
@@ -83,8 +80,3 @@ export function LoopVideo({ src, label, className, ratio = '4 / 5', eager = fals
   )
 }
 
-/** Prefers a compilation reel, then a clip named hero, then the first clip. */
-export function pickHeroReel() {
-  const keys = Object.keys(videos).filter((k) => k.startsWith('/media/motion/'))
-  return keys.find((k) => /compilation/.test(k)) ?? keys.find((k) => /hero/.test(k)) ?? keys[0] ?? '/media/motion/hero'
-}

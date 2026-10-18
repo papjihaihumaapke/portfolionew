@@ -748,7 +748,7 @@ export const projects: Project[] = [
     featured: false,
     order: 102,
     studyLabel: 'KPU coursework',
-    cover: { src: '/assets/case-studies/motionlib-hero', alt: 'Purposeful Motion component library overview' },
+    cover: { src: '/assets/case-studies/motionlib-overview', alt: 'Purposeful Motion component library overview with floating UI components' },
     ogImage: og('motion-component-library'),
     confidential: false,
     sections: [
@@ -777,14 +777,14 @@ export const projects: Project[] = [
     role: 'UX and visual designer (design lead)',
     timeline: '12 weeks, 2025',
     client: 'KPU coursework',
-    team: 'Group project, design lead [CONFIRM: team size]',
+    team: 'Two-person team, design lead',
     tools: ['Figma', 'Chart.js', 'HTML, CSS, JS', 'JSON'],
     tags: ['Accessibility', 'Data viz', 'WCAG'],
     disciplines: ['product', 'web'],
     featured: false,
     order: 103,
     studyLabel: 'KPU coursework',
-    cover: { src: '/assets/case-studies/healthycity-hero', alt: 'Mode share dashboard with charts of how residents travel' },
+    cover: { src: '/assets/case-studies/healthycity-overview', alt: 'Healthy City project overview from content audit to lo-fi and hi-fi dashboard designs' },
     ogImage: og('healthy-city-dashboard'),
     confidential: false,
     sections: [
@@ -795,7 +795,6 @@ export const projects: Project[] = [
         title: 'Process',
         body: ['A 12-week plan with a roadmap, work breakdown and risk log: content audit, lo-fi wireframes, hi-fi Figma prototype, then a build wiring JSON data to Chart.js. Accessibility checks ran before integration, not after it.'],
         media: [
-          { src: '/assets/case-studies/healthycity-overview', alt: 'Progression from content audit to lo-fi and hi-fi designs', caption: 'Content audit to lo-fi to hi-fi.' },
           { src: '/assets/case-studies/healthycity-roadmap', alt: '12-week roadmap and schedule', caption: '12-week roadmap.' },
           { src: '/assets/case-studies/healthycity-wbs', alt: 'Work breakdown structure across five phases', caption: 'Work breakdown structure.' },
         ],
