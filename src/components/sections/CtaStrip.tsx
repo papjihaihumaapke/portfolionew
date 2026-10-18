@@ -1,3 +1,4 @@
+import { site } from '../../data/site'
 import { homeContent } from '../../data/home'
 import { AnimatedSection } from '../ui/AnimatedSection'
 import { Button } from '../ui/Button'
@@ -22,7 +23,7 @@ export function CtaStrip() {
               {content.primary}
             </Button>
             <Button
-              href="/assets/resume.pdf"
+              href={site.resumePdf}
               variant="outlined"
               className="border-white text-white hover:bg-white hover:text-dark"
             >

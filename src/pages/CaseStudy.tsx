@@ -20,7 +20,7 @@ export function CaseStudy() {
   }, [project])
 
   useEffect(() => {
-    document.title = project ? `${project.title} — Case Study` : 'Case Study — Hilal Malik'
+    document.title = project ? `${project.title}, Case Study` : 'Case Study, Hilal Malik'
   }, [project])
 
   useEffect(() => {
@@ -103,14 +103,14 @@ export function CaseStudy() {
 
       <section className="section">
         <div className="container-page space-y-20">
-          {/* Interactive embed — lead with it ----------------------------- */}
+          {/* Interactive embed, lead with it ----------------------------- */}
           {project.embed && (
             <AnimatedSection className="space-y-5" variant="fade-in">
               <div className="flex flex-wrap items-end justify-between gap-3">
                 <div className="space-y-2">
                   <SectionLabel>Try it live</SectionLabel>
                   <h2 className="font-display text-[var(--text-heading)] tracking-tight">
-                    Not a screenshot — the real build.
+                    Not a screenshot, the real build.
                   </h2>
                 </div>
                 <a
@@ -136,7 +136,7 @@ export function CaseStudy() {
             <AnimatedSection className="space-y-5">
               <SectionLabel>Live Interactions</SectionLabel>
               <h2 className="font-display text-[var(--text-heading)] tracking-tight">
-                Coded, running components — hover, click, drag.
+                Coded, running components, hover, click, drag.
               </h2>
               <DemoGrid>
                 {demos.map((d) => (
@@ -148,7 +148,7 @@ export function CaseStudy() {
             </AnimatedSection>
           )}
 
-          {/* Condensed narrative — scannable 2-col ------------------------ */}
+          {/* Condensed narrative, scannable 2-col ------------------------ */}
           <AnimatedSection className="grid gap-x-12 gap-y-12 md:grid-cols-2">
             <Field label="The Problem" text={project.problem} />
             <Field label="My Role" text={project.myRole} />
@@ -179,7 +179,7 @@ export function CaseStudy() {
             )}
           </AnimatedSection>
 
-          {/* Impact — prominent ------------------------------------------- */}
+          {/* Impact, prominent ------------------------------------------- */}
           <AnimatedSection className="space-y-5">
             <SectionLabel>Impact</SectionLabel>
             <div className="grid gap-4 md:grid-cols-3">

@@ -16,7 +16,7 @@ export function SectionLabel({ children, className, withDash = true }: SectionLa
         .filter(Boolean)
         .join(' ')}
     >
-      {withDash ? '— ' : null}
+      {withDash ? <span aria-hidden="true" className="inline-block w-6 h-px bg-current align-middle mr-3" /> : null}
       {children}
     </div>
   )

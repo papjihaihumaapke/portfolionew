@@ -71,7 +71,7 @@ export function DemoGrid({ children }: { children: ReactNode }) {
 const MUSIFY_GREEN = '#1DB954'
 
 /* ========================================================================== */
-/*  MUSIFY MOTION SYSTEM — signature interactions                             */
+/*  MUSIFY MOTION SYSTEM, signature interactions                             */
 /* ========================================================================== */
 
 /* Ambient "breathing" gradient orbs (repeat: -1, yoyo) --------------------- */
@@ -121,7 +121,7 @@ export function AuraOrbs() {
   )
 }
 
-/* Magnetic button — physically tracks the cursor (Fitts's Law) ------------- */
+/* Magnetic button, physically tracks the cursor (Fitts's Law) ------------- */
 export function MagneticButton({ label = 'Get Started' }: { label?: string }) {
   const ref = useRef<HTMLButtonElement>(null)
   const x = useMotionValue(0)
@@ -154,7 +154,7 @@ export function MagneticButton({ label = 'Get Started' }: { label?: string }) {
   )
 }
 
-/* Staggered entry — "the soundcheck" (stagger 0.1) ------------------------- */
+/* Staggered entry, "the soundcheck" (stagger 0.1) ------------------------- */
 export function StaggeredEntry() {
   const [key, setKey] = useState(0)
   const bars = [42, 78, 120, 64, 96, 50, 110]
@@ -190,7 +190,7 @@ export function StaggeredEntry() {
   )
 }
 
-/* Content card — hover choreography (scale + overlay + icon spring) -------- */
+/* Content card, hover choreography (scale + overlay + icon spring) -------- */
 export function ContentCardHover() {
   return (
     <motion.div
@@ -280,10 +280,10 @@ export function CurtainReveal() {
 }
 
 /* ========================================================================== */
-/*  PURPOSEFUL MOTION — component library (8 micro-interactions)              */
+/*  PURPOSEFUL MOTION, component library (8 micro-interactions)              */
 /* ========================================================================== */
 
-/* 1. Loader — 1s linear loop ----------------------------------------------- */
+/* 1. Loader to 1s linear loop ----------------------------------------------- */
 export function LoaderDemo() {
   return (
     <div className="flex flex-col items-center gap-4">
@@ -297,7 +297,7 @@ export function LoaderDemo() {
   )
 }
 
-/* 2. Success — circle + check + confetti (0.3 + 0.3 + 1s) ------------------ */
+/* 2. Success, circle + check + confetti (0.3 + 0.3 + 1s) ------------------ */
 export function SuccessDemo() {
   const [done, setDone] = useState(false)
   const confetti = Array.from({ length: 14 }, (_, i) => i)
@@ -353,7 +353,7 @@ export function SuccessDemo() {
   )
 }
 
-/* 3. Error / warning — 0.5s shake ------------------------------------------ */
+/* 3. Error / warning to 0.5s shake ------------------------------------------ */
 export function ErrorShakeDemo() {
   const [scope, animate] = useAnimate()
   const [value, setValue] = useState('')
@@ -398,7 +398,7 @@ export function ErrorShakeDemo() {
   )
 }
 
-/* 4. Toggle switch — 0.3s ease slide --------------------------------------- */
+/* 4. Toggle switch to 0.3s ease slide --------------------------------------- */
 export function ToggleDemo() {
   const [on, setOn] = useState(false)
   return (
@@ -424,7 +424,7 @@ export function ToggleDemo() {
   )
 }
 
-/* 5. Floating input — 0.3s ease -------------------------------------------- */
+/* 5. Floating input to 0.3s ease -------------------------------------------- */
 export function FloatingInputDemo() {
   const [value, setValue] = useState('')
   const [focus, setFocus] = useState(false)
@@ -454,7 +454,7 @@ export function FloatingInputDemo() {
   )
 }
 
-/* 6. Expandable card — 0.4s ease ------------------------------------------- */
+/* 6. Expandable card to 0.4s ease ------------------------------------------- */
 export function ExpandableCardDemo() {
   const [open, setOpen] = useState(false)
   return (
@@ -478,7 +478,7 @@ export function ExpandableCardDemo() {
             className="overflow-hidden"
           >
             <div className="border-t border-border px-4 py-3 font-body text-[13px] leading-relaxed text-muted">
-              Shipped via TD Worldline. Deposit hold released on return. Estimated arrival Thu, 2–4pm.
+              Shipped via TD Worldline. Deposit hold released on return. Estimated arrival Thu, 2 to 4pm.
             </div>
           </motion.div>
         )}
@@ -487,7 +487,7 @@ export function ExpandableCardDemo() {
   )
 }
 
-/* 7. Modal transition — 0.5s fade / scale ---------------------------------- */
+/* 7. Modal transition to 0.5s fade / scale ---------------------------------- */
 export function ModalDemo() {
   const [open, setOpen] = useState(false)
   return (
@@ -539,7 +539,7 @@ export function ModalDemo() {
   )
 }
 
-/* 8. Drag & drop — reorderable list ---------------------------------------- */
+/* 8. Drag & drop, reorderable list ---------------------------------------- */
 export function DragDropDemo() {
   const [items, setItems] = useState(['Chest day', 'Back day', 'Leg day', 'Rest'])
   return (
@@ -560,10 +560,10 @@ export function DragDropDemo() {
 }
 
 /* ========================================================================== */
-/*  HEALTHY CITY — accessible data-viz                                        */
+/*  HEALTHY CITY, accessible data-viz                                        */
 /* ========================================================================== */
 
-/* Mode-share chart — animated, keyboard-focusable bars --------------------- */
+/* Mode-share chart, animated, keyboard-focusable bars --------------------- */
 export function ModeShareChart() {
   const [year, setYear] = useState<2013 | 2023>(2023)
   const data = {
@@ -624,14 +624,14 @@ export function ModeShareChart() {
         ))}
       </div>
       <div className="mt-4 font-body text-[11px] text-muted">
-        Toggle the year — bars animate. Each bar is keyboard-focusable with an accessible label.
+        Toggle the year, bars animate. Each bar is keyboard-focusable with an accessible label.
       </div>
     </div>
   )
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Registry — used by CaseStudy + Design System pages                        */
+/*  Registry, used by CaseStudy + Design System pages                        */
 /* -------------------------------------------------------------------------- */
 
 export type DemoEntry = {
@@ -644,9 +644,9 @@ export type DemoEntry = {
 
 export const musifyDemos: DemoEntry[] = [
   { label: 'Ambient life · repeat -1', caption: 'Aura orbs breathe continuously so the interface is never dead.', dark: true, tall: true, render: () => <AuraOrbs /> },
-  { label: 'Affordance · magnetic', caption: 'The button tracks the cursor (×0.35) — tactile before the click.', dark: true, tall: true, render: () => <MagneticButton /> },
+  { label: 'Affordance · magnetic', caption: 'The button tracks the cursor (×0.35), tactile before the click.', dark: true, tall: true, render: () => <MagneticButton /> },
   { label: 'Curtain reveal · preloader', caption: 'A stage curtain masks load, then slides up on power4.inOut.', dark: true, tall: true, render: () => <CurtainReveal /> },
-  { label: 'Staggered entry · 0.1s', caption: '“The soundcheck” — elements enter in sequence, never at once.', dark: true, tall: true, render: () => <StaggeredEntry /> },
+  { label: 'Staggered entry · 0.1s', caption: '“The soundcheck”, elements enter in sequence, never at once.', dark: true, tall: true, render: () => <StaggeredEntry /> },
   { label: 'Content card · choreography', caption: 'Hover: image scales, overlay fades, play icon springs (back.out).', dark: true, tall: true, render: () => <ContentCardHover /> },
 ]
 
@@ -659,10 +659,10 @@ export const libraryDemos: DemoEntry[] = [
   { label: 'Success · 0.3 + 0.3 + 1s', caption: 'Circle → check → confetti. Celebrates completion.', render: () => <SuccessDemo /> },
   { label: 'Error · 0.5s shake', caption: 'Draws the eye to invalid input instantly.', render: () => <ErrorShakeDemo /> },
   { label: 'Toggle · 0.3s slide', caption: 'Smooth, legible ON / OFF state change.', render: () => <ToggleDemo /> },
-  { label: 'Floating input · 0.3s', caption: 'Label lifts on focus — context stays visible while typing.', render: () => <FloatingInputDemo /> },
+  { label: 'Floating input · 0.3s', caption: 'Label lifts on focus, context stays visible while typing.', render: () => <FloatingInputDemo /> },
   { label: 'Expandable card · 0.4s', caption: 'Reveals hidden detail without losing place.', render: () => <ExpandableCardDemo /> },
   { label: 'Modal · 0.5s fade/scale', caption: 'Fade + scale focuses attention; scrim traps it.', render: () => <ModalDemo /> },
-  { label: 'Drag & drop · spring', caption: 'Reorder with smooth transforms — try dragging.', render: () => <DragDropDemo /> },
+  { label: 'Drag & drop · spring', caption: 'Reorder with smooth transforms, try dragging.', render: () => <DragDropDemo /> },
 ]
 
 export const demoRegistry: Record<string, DemoEntry[]> = {

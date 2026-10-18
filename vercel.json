@@ -1,7 +1,9 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
-  "functions": {
-    "api/contact.ts": { "memory": 128, "maxDuration": 10 }
-  }
+  "redirects": [
+    { "source": "/assets/resume.pdf", "destination": "/assets/MHM-Resume.pdf", "permanent": true },
+    { "source": "/work/c2c-rental", "destination": "/work/car-rental-platform", "permanent": true },
+    { "source": "/work/zara-redesign", "destination": "/work", "permanent": true },
+    { "source": "/work/mini-minds", "destination": "/work", "permanent": true }
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
-

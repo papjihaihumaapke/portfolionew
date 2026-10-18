@@ -6,7 +6,7 @@ import { SectionLabel } from '../components/ui/SectionLabel'
 
 export function About() {
   useEffect(() => {
-    document.title = 'About — Hilal Malik'
+    document.title = 'About | Hilal Malik'
   }, [])
 
   const c = aboutContent
@@ -19,7 +19,7 @@ export function About() {
             <div className="relative overflow-hidden border border-border bg-surface">
               <img
                 src="/assets/hero-banner.jpg"
-                alt="Mohammad Hilal Malik — UI/UX Designer & Visual Designer"
+                alt="Mohammad Hilal Malik, UI/UX and Product Designer"
                 className="w-full h-auto"
                 loading="eager"
               />

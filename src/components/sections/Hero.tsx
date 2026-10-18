@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { homeContent } from '../../data/home'
-import { site } from '../../data/site'
 import { Button } from '../ui/Button'
 
 const easeOut: [number, number, number, number] = [0.16, 1, 0.3, 1]
@@ -20,7 +19,7 @@ export function Hero() {
         >
           <motion.img
             src="/assets/hero-banner.jpg"
-            alt="Mohammad Hilal Malik — UI/UX Designer & Visual Designer"
+            alt="Mohammad Hilal Malik, UI/UX and Product Designer"
             className="w-full h-auto"
             initial={{ scale: 1.05 }}
             animate={{ scale: 1 }}
@@ -29,7 +28,7 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* CTAs + trusted-by */}
+      {/* CTAs */}
       <div className="container-page w-full">
         <motion.div
           className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between"
@@ -45,15 +44,6 @@ export function Hero() {
             ))}
           </div>
 
-          <div className="font-body text-[var(--text-micro)] uppercase tracking-[0.12em] text-muted flex flex-wrap items-center gap-x-4 gap-y-2 md:justify-end">
-            <span className="text-muted">{hero.trustedByLabel}</span>
-            <span aria-hidden="true" className="text-border">—</span>
-            {site.trustedBy.map((t) => (
-              <span key={t} className="whitespace-nowrap">
-                {t}
-              </span>
-            ))}
-          </div>
         </motion.div>
       </div>
     </section>
