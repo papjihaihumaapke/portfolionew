@@ -1,8 +1,11 @@
+import { Download, FileText } from 'lucide-react'
 import { useEffect } from 'react'
-import { aboutContent } from '../data/about'
 import { Button } from '../components/ui/Button'
-import { AnimatedSection } from '../components/ui/AnimatedSection'
+import { Picture } from '../components/ui/Picture'
 import { SectionLabel } from '../components/ui/SectionLabel'
+import { aboutContent } from '../data/about'
+import { resume } from '../data/resume'
+import { site } from '../data/site'
 
 export function About() {
   useEffect(() => {
@@ -13,102 +16,105 @@ export function About() {
 
   return (
     <>
-      <section className="pt-24 pb-10">
-        <div className="container-page">
-          <AnimatedSection className="space-y-8">
-            <div className="relative overflow-hidden border border-border bg-surface">
-              <img
-                src="/assets/hero-banner.jpg"
-                alt="Mohammad Hilal Malik, UI/UX and Product Designer"
-                className="w-full h-auto"
-                loading="eager"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/10 to-transparent" />
+      <section className="pb-[var(--section-gap)] pt-10 md:pt-16">
+        <div className="container-page grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="space-y-8 lg:col-span-7">
+            <SectionLabel>About</SectionLabel>
+            <h1 className="h1">
+              Hi, I’m Hilal<span className="text-accent">.</span>
+            </h1>
+            <p className="lead text-text">{c.intro}</p>
+            <div className="prose-body">
+              {c.story.map((p) => (
+                <p key={p}>{p}</p>
+              ))}
             </div>
-            <p className="font-body text-[var(--text-subhead)] text-muted max-w-2xl">
-              {c.hero.bioLine}
-            </p>
-          </AnimatedSection>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button href="/resume" variant="filled">
+                <FileText size={18} aria-hidden="true" />
+                View resume
+              </Button>
+              <Button href={site.resumePdf} download event="resume_download" variant="outlined">
+                <Download size={18} aria-hidden="true" />
+                Download resume
+              </Button>
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <Picture
+              src="/media/about/headshot"
+              alt={c.photoAlt}
+              priority
+              ratio="4 / 5"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              imgClassName="aspect-[4/5] w-full object-cover"
+              note="Headshot"
+            />
+          </div>
         </div>
       </section>
 
-      <section className="section pt-0">
-        <div className="container-page">
-          <AnimatedSection className="max-w-3xl space-y-4">
-            <SectionLabel>{c.narrative.label}</SectionLabel>
-            <h2 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight">
-              {c.narrative.heading}
+      <section aria-labelledby="timeline-title" className="on-dark section bg-dark text-white">
+        <div className="container-page grid gap-12 lg:grid-cols-12">
+          <div className="space-y-4 lg:col-span-4">
+            <SectionLabel dark>Experience</SectionLabel>
+            <h2 id="timeline-title" className="h2">
+              Where I’ve worked.
             </h2>
-            <p className="font-body text-[var(--text-body)] text-muted leading-relaxed whitespace-pre-line">
-              {c.narrative.copy}
-            </p>
-          </AnimatedSection>
+          </div>
+          <ol className="lg:col-span-8">
+            {c.timeline.map((t) => (
+              <li key={t.role} className="grid gap-1 border-t border-border-dark py-6 sm:grid-cols-[1fr_auto] sm:gap-8">
+                <div>
+                  <h3 className="text-[20px] font-semibold leading-snug">{t.role}</h3>
+                  <p className="text-muted-dark">{t.org}</p>
+                </div>
+                <p className="text-[var(--text-small)] text-muted-dark sm:text-right">{t.dates}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
-      <section className="bg-dark text-white py-[var(--section-gap)]">
-        <div className="container-page">
-          <AnimatedSection className="space-y-10">
-            <div className="space-y-4">
-              <SectionLabel>{c.skills.label}</SectionLabel>
-              <h2 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight">
-                {c.skills.headline}
-              </h2>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {c.skills.groups.map((g) => (
-                <div
-                  key={g.title}
-                  className="bg-white text-text border border-white/10 p-8 rounded-none"
-                >
-                  <div className="font-display text-[24px] leading-tight">{g.title}</div>
-                  <div className="mt-3 font-body text-[var(--text-body)] text-muted">
-                    {g.items}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </AnimatedSection>
+      <section aria-labelledby="toolkit-title" className="section">
+        <div className="container-page grid gap-12 lg:grid-cols-12">
+          <div className="space-y-4 lg:col-span-4">
+            <SectionLabel>Toolkit</SectionLabel>
+            <h2 id="toolkit-title" className="h2">
+              What I work with.
+            </h2>
+          </div>
+          <dl className="grid gap-px bg-border sm:grid-cols-2 lg:col-span-8">
+            {resume.skills.map((s) => (
+              <div key={s.group} className="space-y-2 bg-bg p-6 sm:p-8">
+                <dt className="h3">{s.group}</dt>
+                <dd className="text-muted">{s.items}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container-page">
-          <AnimatedSection className="space-y-10">
-            <div className="space-y-4">
-              <SectionLabel>{c.education.label}</SectionLabel>
-              <h2 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight">
-                Education.
-              </h2>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {c.education.items.map((ed) => (
-                <div key={ed.school} className="border border-border bg-surface p-8">
-                  <div className="font-display text-[24px] leading-tight">{ed.school}</div>
-                  <div className="mt-2 font-body text-[var(--text-body)] text-muted">
-                    {ed.program}
-                  </div>
-                  <div className="mt-4 font-body text-[var(--text-small)] text-muted">
-                    {ed.date} · {ed.location}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex flex-col gap-3 md:flex-row md:flex-wrap">
-              <Button href={c.ctas.linkedin.href} variant="outlined">
-                {c.ctas.linkedin.label}
-              </Button>
-              <Button href={c.ctas.behance.href} variant="outlined">
-                {c.ctas.behance.label}
-              </Button>
-            </div>
-          </AnimatedSection>
+      <section aria-labelledby="edu-title" className="section bg-surface">
+        <div className="container-page grid gap-8 lg:grid-cols-12">
+          <div className="space-y-4 lg:col-span-4">
+            <SectionLabel>Education</SectionLabel>
+            <h2 id="edu-title" className="h2">
+              Education.
+            </h2>
+          </div>
+          <div className="space-y-2 lg:col-span-8">
+            {resume.education.map((e) => (
+              <div key={e.school}>
+                <h3 className="h3">{e.school}</h3>
+                <p className="text-muted">
+                  {e.program}, {e.dates}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>
   )
 }
-
