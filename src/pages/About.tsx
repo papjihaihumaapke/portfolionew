@@ -6,8 +6,10 @@ import { SectionLabel } from '../components/ui/SectionLabel'
 import { aboutContent } from '../data/about'
 import { resume } from '../data/resume'
 import { site } from '../data/site'
+import { useScrollMotion } from '../lib/use-scroll-motion'
 
 export function About() {
+  useScrollMotion()
   const c = aboutContent
 
   return (
@@ -55,11 +57,11 @@ export function About() {
         <div className="container-page grid gap-12 lg:grid-cols-12">
           <div className="space-y-4 lg:col-span-4">
             <SectionLabel dark>Experience</SectionLabel>
-            <h2 id="timeline-title" className="h2">
+            <h2 id="timeline-title" className="h2" data-reveal="mask">
               Where I’ve worked.
             </h2>
           </div>
-          <ol className="lg:col-span-8">
+          <ol className="lg:col-span-8" data-reveal-stagger="">
             {c.timeline.map((t) => (
               <li key={t.role} className="grid gap-1 border-t border-border-dark py-6 sm:grid-cols-[1fr_auto] sm:gap-8">
                 <div>
@@ -77,11 +79,11 @@ export function About() {
         <div className="container-page grid gap-12 lg:grid-cols-12">
           <div className="space-y-4 lg:col-span-4">
             <SectionLabel>Toolkit</SectionLabel>
-            <h2 id="toolkit-title" className="h2">
+            <h2 id="toolkit-title" className="h2" data-reveal="mask">
               What I work with.
             </h2>
           </div>
-          <dl className="grid gap-px bg-border sm:grid-cols-2 lg:col-span-8">
+          <dl className="grid gap-px bg-border sm:grid-cols-2 lg:col-span-8" data-reveal-stagger="">
             {resume.skills.map((s) => (
               <div key={s.group} className="space-y-2 bg-bg p-6 sm:p-8">
                 <dt className="h3">{s.group}</dt>
@@ -96,7 +98,7 @@ export function About() {
         <div className="container-page grid gap-8 lg:grid-cols-12">
           <div className="space-y-4 lg:col-span-4">
             <SectionLabel>Education</SectionLabel>
-            <h2 id="edu-title" className="h2">
+            <h2 id="edu-title" className="h2" data-reveal="mask">
               Education.
             </h2>
           </div>

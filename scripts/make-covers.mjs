@@ -136,14 +136,9 @@ const covers = {
 
 /* ------------------------------------------------------------ shipped sites (1600x1000, 16:10) */
 
+// Only sites without a public URL get generated art; the rest use real captures (capture-sites.mjs).
 const siteArt = {
-  'dealership-group': { bg: C.ink, fg: C.cream, label: 'Dealership group', kind: 'inventory' },
-  'ev-dealership': { bg: C.cream, fg: C.ink, label: 'EV dealership', kind: 'hero' },
-  'online-car-buying': { bg: C.surface, fg: C.ink, label: 'Buy online', kind: 'steps' },
   'dessert-bakery': { bg: '#f3e9e2', fg: C.ink, label: 'Dessert bakery', kind: 'gallery' },
-  'drywall-contractor': { bg: C.ink, fg: C.cream, label: 'Drywall contractor', kind: 'services' },
-  'auto-service': { bg: C.cream, fg: C.ink, label: 'Lube & service', kind: 'services' },
-  'cakes-bakery': { bg: '#1d2a44', fg: '#f3ead8', label: 'Cakes & pastries', kind: 'gallery', accent: '#c9a54c' },
 }
 
 function siteCover({ bg, fg, label, kind, accent = C.orange }) {

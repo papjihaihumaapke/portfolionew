@@ -62,7 +62,7 @@ export function LoopVideo({ src, label, className, ratio = '4 / 5', eager = fals
         loop
         playsInline
         preload="none"
-        poster={entry.poster ? imageUrl(entry.poster) : undefined}
+        poster={entry.poster ? imageUrl(entry.poster, 960) : undefined}
         aria-label={label}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
@@ -72,7 +72,7 @@ export function LoopVideo({ src, label, className, ratio = '4 / 5', eager = fals
       <button
         type="button"
         onClick={toggle}
-        className="absolute bottom-3 right-3 inline-flex h-11 w-11 items-center justify-center bg-white/90 text-text transition-colors duration-base hover:bg-white"
+        className="absolute bottom-3 right-3 z-[2] inline-flex h-11 w-11 items-center justify-center bg-white/90 text-text transition-colors duration-base hover:bg-white"
         aria-label={playing ? `Pause video: ${label}` : `Play video: ${label}`}
       >
         {playing ? <Pause size={18} aria-hidden="true" /> : <Play size={18} aria-hidden="true" />}

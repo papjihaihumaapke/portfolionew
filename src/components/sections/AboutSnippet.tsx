@@ -14,7 +14,7 @@ export function AboutSnippet() {
         </div>
         <div className="space-y-6 md:col-span-7">
           <SectionLabel>{c.label}</SectionLabel>
-          <h2 id="about-title" className="h2">Designer, builder.</h2>
+          <h2 id="about-title" className="h2" data-reveal="mask">Designer, builder.</h2>
           <div className="prose-body lead text-text">
             {c.body.map((line) => (
               <p key={line}>{line}</p>

@@ -15,7 +15,9 @@
     "prebuild": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "check:prerender": "node scripts/check-prerender.mjs",
     "serve:dist": "node scripts/serve-dist.mjs",
-    "qa": "node scripts/check-prerender.mjs && node scripts/check-banned-report.mjs && node scripts/check-pdf.mjs && node scripts/check-links.mjs && node scripts/check-keyboard.mjs"
+    "qa": "node scripts/check-prerender.mjs && node scripts/check-banned-report.mjs && node scripts/check-pdf.mjs && node scripts/check-links.mjs && node scripts/check-keyboard.mjs",
+    "capture:sites": "node scripts/capture-sites.mjs",
+    "covers": "node scripts/make-covers.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",
@@ -33,6 +35,7 @@
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.4.27",
+    "axe-core": "^4.14.0",
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",

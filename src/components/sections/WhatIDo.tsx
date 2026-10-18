@@ -8,9 +8,9 @@ export function WhatIDo() {
       <div className="container-page space-y-14">
         <div className="space-y-4">
           <SectionLabel dark>{c.label}</SectionLabel>
-          <h2 id="what-title" className="h2 max-w-[18ch]">{c.headline}</h2>
+          <h2 id="what-title" className="h2 max-w-[18ch]" data-reveal="mask">{c.headline}</h2>
         </div>
-        <ul className="grid gap-12 md:grid-cols-3 md:gap-10">
+        <ul className="grid gap-12 md:grid-cols-3 md:gap-10" data-reveal-stagger="">
           {c.columns.map((col, i) => (
             <li key={col.title} className="space-y-4 border-t border-border-dark pt-6">
               <p className="font-display text-[var(--text-small)] text-accent-dark" aria-hidden="true">0{i + 1}</p>

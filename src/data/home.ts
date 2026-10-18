@@ -50,9 +50,9 @@ export const homeContent = {
   },
   sites: {
     label: 'Websites shipped',
-    headline: '8 websites, live.',
-    note: 'Client names are kept confidential.',
-    cta: 'See all websites',
+    headline: '8 websites, shipped.',
+    note: 'Dealerships, local businesses and brands, most with a live preview.',
+    cta: 'Previews and links',
   },
   aboutSnippet: {
     label: 'About',

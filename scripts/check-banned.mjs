@@ -2,10 +2,9 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, extname } from 'node:path'
 
-const names = [
-  'Mainland Motors', 'Mainland Lube', 'Mainland', 'MapSense', 'Map Sense', 'C2C', 'c2crental', 'EV Studio',
-  'Shift to Drive', 'Keystone Drywall', 'Keystone', 'That Brownie Girl', 'Brownie Girl', 'ALPS', 'alps-muse', 'Little Anna',
-]
+// Mainland Motors Abbotsford, Mainland Lube, EV Studio, Shift to Drive and Little Anna were cleared
+// for the site by the owner (2026-10-18). The resume PDF still uses the full list (check-pdf.mjs).
+const names = ['MapSense', 'Map Sense', 'C2C', 'c2crental', 'Keystone Drywall', 'Keystone', 'That Brownie Girl', 'Brownie Girl', 'ALPS', 'alps-muse']
 const textExt = new Set(['.html', '.js', '.css', '.json', '.xml', '.txt', '.svg', '.ts', '.tsx', '.md', '.webmanifest'])
 const dashes = /[–—]/
 

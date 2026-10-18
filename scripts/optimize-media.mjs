@@ -9,7 +9,7 @@ import sharp from 'sharp'
 const root = new URL('..', import.meta.url).pathname
 const pub = join(root, 'public')
 const outDir = join(pub, '_img')
-const sources = ['media', 'assets/case-studies']
+const sources = ['media', 'assets']
 const imageExt = new Set(['.png', '.jpg', '.jpeg', '.webp'])
 const videoExt = new Set(['.mp4', '.webm'])
 const WIDTHS = [480, 960, 1600, 2400]

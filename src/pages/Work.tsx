@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Seo } from '../components/Seo'
-import { AnimatedSection } from '../components/ui/AnimatedSection'
-import { Picture } from '../components/ui/Picture'
+import { SiteGrid } from '../components/sites/SiteGrid'
 import { ProjectCard } from '../components/ui/ProjectCard'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { disciplineLabel, studies, workProjects, type Discipline } from '../data/projects'
 import { sites } from '../data/sites'
+import { useScrollMotion } from '../lib/use-scroll-motion'
 import { cn } from '../lib/utils'
 
 const filters = ['all', 'product', 'web', 'motion', 'marketing'] as const
@@ -17,6 +17,7 @@ export function Work() {
   const raw = params.get('filter')
   const filter: Filter = filters.includes(raw as Filter) ? (raw as Filter) : 'all'
 
+  useScrollMotion([filter])
 
   // Hash links (/work#websites, /work#site-x) arrive before the section mounts.
   useEffect(() => {
@@ -44,7 +45,7 @@ export function Work() {
           <SectionLabel>Work</SectionLabel>
           <h1 className="h1">Work.</h1>
           <p className="lead text-muted">
-            Products, platforms and campaigns I designed and built, from my own SaaS to employer and freelance work. Client names are kept confidential.
+            Products, platforms, websites and campaigns I designed and built, from my own SaaS to employer and freelance work.
           </p>
 
           <div role="group" aria-label="Filter work by discipline" className="flex flex-wrap gap-2">
@@ -75,7 +76,7 @@ export function Work() {
             Selected work
           </h2>
           {shownWork.length > 0 ? (
-            <ul className="grid gap-x-8 gap-y-16 md:grid-cols-2">
+            <ul className="grid gap-x-8 gap-y-16 md:grid-cols-2" data-reveal-stagger="">
               {shownWork.map((p, i) => (
                 <li key={p.slug}>
                   <ProjectCard project={p} priority={i < 2} />
@@ -93,26 +94,12 @@ export function Work() {
           <div className="container-page space-y-12">
             <div className="space-y-4">
               <SectionLabel>Websites shipped</SectionLabel>
-              <h2 id="websites-title" className="h2">8 websites, designed and built.</h2>
-              <p className="max-w-measure text-muted">Screenshots are anonymized. Client names, logos and domains are removed, so these cards do not link out.</p>
+              <h2 id="websites-title" className="h2" data-reveal="mask">
+                {sites.length} websites, designed and built.
+              </h2>
+              <p className="max-w-measure text-muted">Open a live preview on desktop or phone width, or visit the site.</p>
             </div>
-            <ul className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-              {sites.map((s) => (
-                <AnimatedSection as="li" key={s.slug} variant="fade-in">
-                  <article id={`site-${s.slug}`} className="scroll-mt-24 space-y-3">
-                    <Picture
-                      src={s.desktop}
-                      alt={`${s.label}, website preview`}
-                      ratio="16 / 10"
-                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                      imgClassName="aspect-[16/10] w-full object-cover object-top"
-                          />
-                    <h3 className="text-[19px] font-semibold leading-snug">{s.label}</h3>
-                    <p className="text-[var(--text-small)] text-muted">{s.did}</p>
-                  </article>
-                </AnimatedSection>
-              ))}
-            </ul>
+            <SiteGrid />
           </div>
         </section>
       )}
@@ -122,10 +109,12 @@ export function Work() {
           <div className="container-page space-y-12">
             <div className="space-y-4">
               <SectionLabel>Studies</SectionLabel>
-              <h2 id="studies-title" className="h2">Coursework at KPU.</h2>
+              <h2 id="studies-title" className="h2" data-reveal="mask">
+                Coursework at KPU.
+              </h2>
               <p className="max-w-measure text-muted">Projects from the Front-End Development for Interactive Applications diploma at KPU’s Wilson School of Design.</p>
             </div>
-            <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="">
               {shownStudies.map((p) => (
                 <li key={p.slug}>
                   <ProjectCard project={p} size="compact" />

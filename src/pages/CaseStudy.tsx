@@ -11,6 +11,7 @@ import { SectionLabel } from '../components/ui/SectionLabel'
 import { getNextProject, getProject, typeLabel, type Project, type Section, type Widget } from '../data/projects'
 import { track } from '../lib/analytics'
 import { hasImage } from '../lib/media'
+import { useScrollMotion } from '../lib/use-scroll-motion'
 import { projectJsonLd } from '../lib/seo'
 import { cn } from '../lib/utils'
 import { NotFound } from './NotFound'
@@ -21,6 +22,7 @@ const Demos = lazy(() => import('../components/case-study/Demos'))
 export function CaseStudy() {
   const { slug } = useParams()
   const project = getProject(slug)
+  useScrollMotion([slug])
 
   if (!project) return <NotFound />
 
@@ -113,7 +115,9 @@ function CaseHero({ project }: { project: Project }) {
       </div>
 
       <div className="container-page mt-12">
-        <Picture src={project.cover.src} alt={project.cover.alt} priority sizes="(min-width: 1320px) 1192px, 100vw" ratio="16 / 9" imgClassName="w-full" />
+        <div className="overflow-hidden">
+          <Picture src={project.cover.src} alt={project.cover.alt} priority sizes="(min-width: 1320px) 1192px, 100vw" ratio="16 / 9" imgClassName="w-full" parallax={0.06} />
+        </div>
       </div>
     </header>
   )
@@ -177,12 +181,12 @@ function CaseSection({ section }: { section: Section }) {
   const media = section.media?.filter((m) => hasImage(m.src)) ?? []
   return (
     <section id={section.id} aria-labelledby={`${section.id}-title`} className="scroll-mt-28 space-y-6">
-      <h2 id={`${section.id}-title`} className="h2">
+      <h2 id={`${section.id}-title`} className="h2" data-reveal="mask">
         {section.title}
       </h2>
 
       {section.body && (
-        <div className="prose-body">
+        <div className="prose-body" data-reveal="">
           {section.body.map((b) => (
             <p key={b}>{b}</p>
           ))}
@@ -190,7 +194,7 @@ function CaseSection({ section }: { section: Section }) {
       )}
 
       {section.bullets && (
-        <ul className="prose-body space-y-3">
+        <ul className="prose-body space-y-3" data-reveal-stagger="">
           {section.bullets.map((b) => (
             <li key={b} className="relative pl-6 before:absolute before:left-0 before:top-[0.7em] before:h-px before:w-3 before:bg-accent">
               {b}
@@ -200,7 +204,7 @@ function CaseSection({ section }: { section: Section }) {
       )}
 
       {section.quote && (
-        <blockquote className="border-l-2 border-accent py-1 pl-6 font-display text-[clamp(22px,2.2vw,30px)] leading-snug">
+        <blockquote className="border-l-2 border-accent py-1 pl-6 font-display text-[clamp(22px,2.2vw,30px)] leading-snug" data-reveal="">
           <p>{section.quote}</p>
         </blockquote>
       )}
@@ -210,7 +214,9 @@ function CaseSection({ section }: { section: Section }) {
           {section.stats.map((s) => (
             <div key={s.label} className="flex flex-col-reverse bg-bg p-6">
               <dt className="mt-2 text-[var(--text-small)] text-muted">{s.label}</dt>
-              <dd className="font-display text-[clamp(32px,3.6vw,48px)] leading-none">{s.value}</dd>
+              <dd className="font-display text-[clamp(32px,3.6vw,48px)] leading-none tabular-nums" data-count="">
+                {s.value}
+              </dd>
             </div>
           ))}
         </dl>
@@ -219,7 +225,7 @@ function CaseSection({ section }: { section: Section }) {
       {section.widget && <WidgetView widget={section.widget} />}
 
       {media.length > 0 && (
-        <div className={cn('grid gap-8', media.length > 1 && 'md:grid-cols-2')}>
+        <div className={cn('grid gap-8', media.length > 1 && 'md:grid-cols-2')} data-reveal-stagger="">
           {media.map((m) => (
             <figure key={m.src + m.alt} className="space-y-3">
               <div className={m.contain ? 'flex justify-center bg-white p-6' : ''}>

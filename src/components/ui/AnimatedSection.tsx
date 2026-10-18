@@ -1,35 +1,20 @@
-import { MotionConfig, motion } from 'framer-motion'
 import type React from 'react'
-import { duration, ease } from '../../lib/motion'
 
 export type AnimatedSectionProps = {
   children: React.ReactNode
   className?: string
-  delay?: number
-  variant?: 'fade-up' | 'fade-in' | 'none'
-  as?: 'div' | 'section' | 'li'
+  /** "fade-up" reveals the block; "stagger" reveals its direct children in sequence. */
+  variant?: 'fade-up' | 'stagger'
+  as?: 'div' | 'section' | 'li' | 'ul' | 'ol'
+  id?: string
 }
 
-const variants = {
-  'fade-up': { initial: { opacity: 0, y: 16 }, whileInView: { opacity: 1, y: 0 } },
-  'fade-in': { initial: { opacity: 0 }, whileInView: { opacity: 1 } },
-  none: { initial: {}, whileInView: {} },
-}
-
-/** Short fade-in on scroll. MotionConfig reducedMotion="user" turns it into an instant swap. */
-export function AnimatedSection({ children, className, delay = 0, variant = 'fade-up', as = 'div' }: AnimatedSectionProps) {
-  const Comp = motion[as]
+/** Marks a block for the scroll-motion engine (src/lib/scroll-motion.ts). Renders plain markup. */
+export function AnimatedSection({ children, className, variant = 'fade-up', as: Comp = 'div', id }: AnimatedSectionProps) {
+  const attrs = variant === 'stagger' ? { 'data-reveal-stagger': '' } : { 'data-reveal': '' }
   return (
-    <MotionConfig reducedMotion="user">
-      <Comp
-        className={className}
-        initial={variants[variant].initial}
-        whileInView={variants[variant].whileInView}
-        viewport={{ once: true, amount: 0.15 }}
-        transition={{ duration: duration.slow, ease, delay }}
-      >
-        {children}
-      </Comp>
-    </MotionConfig>
+    <Comp id={id} className={className} {...attrs}>
+      {children}
+    </Comp>
   )
 }

@@ -10,10 +10,12 @@ export function hasImage(src: string) {
   return src in images
 }
 
-/** URL of the largest WebP variant, for places that need a plain URL (OG, posters). */
-export function imageUrl(src: string) {
+/** URL of a WebP variant no wider than `maxWidth` (or the smallest), for plain-URL uses like posters. */
+export function imageUrl(src: string, maxWidth = Infinity) {
   const img = images[src]
-  return img ? `/_img${src}-${img.widths[img.widths.length - 1]}.webp` : undefined
+  if (!img) return undefined
+  const fit = img.widths.filter((w) => w <= maxWidth)
+  return `/_img${src}-${fit.length ? fit[fit.length - 1] : img.widths[0]}.webp`
 }
 
 /** Prefers a compilation reel, then a clip named hero, then the first clip. */

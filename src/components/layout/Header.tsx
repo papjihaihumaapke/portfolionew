@@ -8,6 +8,7 @@ import { Button } from '../ui/Button'
 
 const nav = [
   { label: 'Work', href: '/work' },
+  { label: 'Gallery', href: '/gallery' },
   { label: 'About', href: '/about' },
   { label: 'Resume', href: '/resume' },
   { label: 'Contact', href: '/contact' },
@@ -96,7 +97,7 @@ export function Header() {
         )}
       >
         <div className="container-page flex h-full items-center justify-between gap-6">
-          <Link to="/" aria-label={`${site.shortName}, home`} className="-m-2 p-2">
+          <Link to="/" aria-label={`H. ${site.shortName}, home`} className="-m-2 p-2">
             <Monogram />
           </Link>
 
@@ -152,7 +153,7 @@ export function Header() {
             className="menu-fade on-dark fixed inset-0 z-[60] overflow-y-auto bg-dark text-white md:hidden"
           >
             <div className="container-page flex h-[var(--header-h)] items-center justify-between">
-              <Link to="/" aria-label={`${site.shortName}, home`} className="-m-2 p-2">
+              <Link to="/" aria-label={`H. ${site.shortName}, home`} className="-m-2 p-2">
                 <Monogram dark />
               </Link>
               <button

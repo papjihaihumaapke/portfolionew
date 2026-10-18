@@ -45,7 +45,7 @@ function* walk(d) {
   }
 }
 let removed = 0
-for (const sub of ['media', 'assets/case-studies']) {
+for (const sub of ['media', 'assets']) {
   try {
     for (const f of walk(join(dist, sub))) {
       if (['.png', '.jpg', '.jpeg'].includes(extname(f).toLowerCase())) {

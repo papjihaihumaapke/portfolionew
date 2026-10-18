@@ -10,9 +10,11 @@ export type PictureProps = {
   priority?: boolean
   /** Aspect ratio kept when the file is missing. */
   ratio?: string
+  /** Scroll parallax strength for the scroll-motion engine (frame must clip overflow). */
+  parallax?: number
 }
 
-export function Picture({ src, alt, className, imgClassName, sizes = '100vw', priority = false, ratio = '16 / 10' }: PictureProps) {
+export function Picture({ src, alt, className, imgClassName, sizes = '100vw', priority = false, ratio = '16 / 10', parallax }: PictureProps) {
   const img = images[src]
 
   // Missing file: keep the layout's space with a quiet surface, no visible text.
@@ -37,6 +39,7 @@ export function Picture({ src, alt, className, imgClassName, sizes = '100vw', pr
         // React 18 only passes the lowercase attribute through.
         {...(priority ? { fetchpriority: 'high' } : {})}
         className={imgClassName}
+        data-parallax={parallax}
       />
     </picture>
   )

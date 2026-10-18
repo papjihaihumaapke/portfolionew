@@ -26,6 +26,7 @@ export function ProjectCard({ project, className, priority = false, size = 'regu
           priority={priority}
           sizes={size === 'large' ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
           ratio={size === 'compact' ? '16 / 10' : '4 / 3'}
+          parallax={size === 'large' ? 0.08 : undefined}
           imgClassName={cn(
             'w-full object-cover transition-transform duration-slow ease-out group-hover:scale-[1.02]',
             size === 'compact' ? 'aspect-[16/10]' : 'aspect-[4/3]',

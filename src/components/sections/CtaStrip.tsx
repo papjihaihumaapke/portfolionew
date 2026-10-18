@@ -10,7 +10,7 @@ export function CtaStrip() {
   return (
     <section aria-labelledby="cta-title" className="bg-accent py-20 md:py-28">
       <div className="container-page flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-        <h2 id="cta-title" className="h2 whitespace-pre-line text-white">
+        <h2 id="cta-title" className="h2 whitespace-pre-line text-white" data-reveal="mask">
           {content.headline}
         </h2>
         <div className="flex flex-col gap-3 sm:flex-row">
