@@ -29,3 +29,6 @@ public/_img
 src/data/media-manifest.json
 
 dist-ssr
+
+# large source videos are not committed
+public/assets/*.mp4
