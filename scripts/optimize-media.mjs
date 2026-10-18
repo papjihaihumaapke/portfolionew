@@ -1,9 +1,10 @@
 // Builds responsive AVIF/WebP variants for every source image under public/media and
-// public/assets/case-studies, and writes src/data/media-manifest.json.
+// public/assets, and writes src/data/media-manifest.json.
 // Keys are extensionless public paths (e.g. /media/lotstudio/cover). Originals stay
-// in public/ for authoring but are removed from dist by scripts/postbuild.mjs.
+// in public/ for authoring but are removed from dist by scripts/prerender.mjs.
 import { existsSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative, extname, dirname } from 'node:path'
+import { availableParallelism } from 'node:os'
 import sharp from 'sharp'
 
 const root = new URL('..', import.meta.url).pathname
@@ -24,6 +25,8 @@ function* walk(dir) {
 }
 
 const manifest = { images: {}, videos: {} }
+// Encodes run in parallel (one per core) so a cold build on a small CI machine stays quick.
+const jobs = []
 
 for (const src of sources) {
   for (const file of walk(join(pub, src))) {
@@ -46,7 +49,7 @@ for (const src of sources) {
         const out = join(outDir, `${key}-${w}.${fmt}`)
         if (!existsSync(out) || statSync(out).mtimeMs < statSync(file).mtimeMs) {
           mkdirSync(dirname(out), { recursive: true })
-          await sharp(file).resize({ width: w }).toFormat(fmt, fmt === 'avif' ? { quality: 55 } : { quality: 78 }).toFile(out)
+          jobs.push(() => sharp(file).resize({ width: w }).toFormat(fmt, fmt === 'avif' ? { quality: 55, effort: 3 } : { quality: 78 }).toFile(out))
         }
       }
       variants.push(w)
@@ -54,6 +57,11 @@ for (const src of sources) {
     manifest.images[key] = { width: meta.width, height: meta.height, widths: variants, original: '/' + relative(pub, file) }
   }
 }
+
+const workers = Array.from({ length: Math.max(1, availableParallelism()) }, async () => {
+  while (jobs.length) await jobs.shift()()
+})
+await Promise.all(workers)
 
 // Drop variants whose original was removed.
 const keep = new Set(Object.entries(manifest.images).flatMap(([k, v]) => v.widths.flatMap((w) => ['avif', 'webp'].map((f) => join(outDir, `${k}-${w}.${f}`)))))

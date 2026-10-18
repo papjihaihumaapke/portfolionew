@@ -32,3 +32,7 @@ dist-ssr
 
 # source videos (web encodes live in public/media/motion)
 media-src/
+
+# iCloud Drive conflict copies (Desktop sync), e.g. "sites 2.ts"
+src/**/* [0-9].*
+scripts/* [0-9].*
