@@ -1,52 +1,36 @@
+import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { featuredProjects } from '../../data/projects'
 import { homeContent } from '../../data/home'
 import { AnimatedSection } from '../ui/AnimatedSection'
 import { ProjectCard } from '../ui/ProjectCard'
 import { SectionLabel } from '../ui/SectionLabel'
-import { Link } from 'react-router-dom'
 
 export function FeaturedWork() {
   const content = homeContent.featured
-  const featured = featuredProjects
 
   return (
-    <section className="section">
-      <div className="container-page">
-        <AnimatedSection className="space-y-10">
-          <div className="space-y-3">
+    <section aria-labelledby="featured-title" className="section">
+      <div className="container-page space-y-14">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="space-y-4">
             <SectionLabel>{content.label}</SectionLabel>
-            <h2 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight">
-              {content.headline}
-            </h2>
+            <h2 id="featured-title" className="h2 max-w-[18ch]">{content.headline}</h2>
           </div>
+          <Link to="/work" className="link-underline inline-flex items-center gap-2 font-medium">
+            {content.viewAll}
+            <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        </div>
 
-          <div className="grid grid-cols-12 gap-6">
-            {featured.length > 0 && (
-              <ProjectCard 
-                project={featured[0]} 
-                className="col-span-12 lg:col-span-7" 
-                priority 
-              />
-            )}
-            
-            <div className="col-span-12 lg:col-span-5 grid gap-6">
-              {featured.slice(1).map((project) => (
-                <ProjectCard key={project.slug} project={project} />
-              ))}
-            </div>
-          </div>
-
-          <div className="flex justify-end">
-            <Link
-              to="/work"
-              className="font-body text-[var(--text-small)] uppercase tracking-[0.15em] text-text hover:text-accent transition-colors duration-300"
-            >
-              {content.viewAll}
-            </Link>
-          </div>
-        </AnimatedSection>
+        <ul className="grid gap-x-8 gap-y-16 md:grid-cols-2">
+          {featuredProjects.map((p, i) => (
+            <AnimatedSection as="li" key={p.slug} delay={(i % 2) * 0.08}>
+              <ProjectCard project={p} size="large" />
+            </AnimatedSection>
+          ))}
+        </ul>
       </div>
     </section>
   )
 }
-

@@ -1,48 +1,31 @@
+import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { homeContent } from '../../data/home'
-import { Button } from '../ui/Button'
-import { AnimatedSection } from '../ui/AnimatedSection'
+import { Picture } from '../ui/Picture'
 import { SectionLabel } from '../ui/SectionLabel'
 
 export function AboutSnippet() {
-  const content = homeContent.aboutSnippet
-
+  const c = homeContent.aboutSnippet
   return (
-    <section className="section">
-      <div className="container-page">
-        <AnimatedSection variant="none" className="grid gap-10 lg:grid-cols-12 lg:items-start">
-          <div className="lg:col-span-7 space-y-6">
-            <SectionLabel>{content.label}</SectionLabel>
-            <h2 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight whitespace-pre-line">{content.pullQuote}</h2>
-            <AnimatedSection delay={0.2} className="space-y-6">
-              <p className="font-body text-[var(--text-body)] text-muted whitespace-pre-line max-w-xl">
-                {content.body}
-              </p>
-              <div>
-                <Button href="/about" variant="outlined">
-                  {content.cta}
-                </Button>
-              </div>
-            </AnimatedSection>
-          </div>
-
-          <div className="lg:col-span-5 grid grid-cols-2 gap-4">
-            {content.stats.map((s) => (
-              <div
-                key={s.label}
-                className="bg-surface border border-border p-6 rounded-none"
-              >
-                <div className="font-display text-[48px] leading-none text-accent">
-                  {s.value}
-                </div>
-                <div className="mt-2 font-body text-[var(--text-small)] text-muted uppercase tracking-[0.12em]">
-                  {s.label}
-                </div>
-              </div>
+    <section aria-labelledby="about-title" className="section">
+      <div className="container-page grid items-center gap-10 md:grid-cols-12 md:gap-16">
+        <div className="md:col-span-5">
+          <Picture src="/media/about/headshot" alt={c.photoAlt} ratio="4 / 5" sizes="(min-width: 768px) 40vw, 100vw" imgClassName="aspect-[4/5] w-full object-cover" note="Headshot" />
+        </div>
+        <div className="space-y-6 md:col-span-7">
+          <SectionLabel>{c.label}</SectionLabel>
+          <h2 id="about-title" className="h2">Designer, builder.</h2>
+          <div className="prose-body lead text-text">
+            {c.body.map((line) => (
+              <p key={line}>{line}</p>
             ))}
           </div>
-        </AnimatedSection>
+          <Link to="/about" className="link-underline inline-flex items-center gap-2 font-medium">
+            {c.cta}
+            <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
   )
 }
-

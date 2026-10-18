@@ -1,62 +1,55 @@
+import { ArrowUpRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { typeLabel, type Project } from '../../data/projects'
+import { cn } from '../../lib/utils'
 import { Picture } from './Picture'
-import type { Project } from '../../data/projects'
-import { Tag } from './Tag'
-import { AnimatedSection } from './AnimatedSection'
+import { TagList } from './Tag'
 
 export type ProjectCardProps = {
   project: Project
   className?: string
   priority?: boolean
-  delay?: number
+  size?: 'large' | 'regular' | 'compact'
+  headingLevel?: 'h2' | 'h3'
 }
 
-export function ProjectCard({ 
-  project, 
-  className, 
-  priority = false, 
-  delay = 0 
-}: ProjectCardProps) {
-  if (!project) return null
+export function ProjectCard({ project, className, priority = false, size = 'regular', headingLevel = 'h3' }: ProjectCardProps) {
+  const Heading = headingLevel
+  const year = project.timeline.match(/\d{4}(?!.*\d{4})/)?.[0] ?? project.timeline
 
   return (
-    <AnimatedSection className={className} delay={delay} variant="none">
-      <Link
-        to={`/work/${project.slug}`}
-        className={[
-          'group block h-full border border-border bg-transparent rounded-none overflow-hidden',
-          'transition-colors duration-300 hover:border-accent'
-        ].join(' ')}
-        aria-label={`View case study: ${project.title}`}
-      >
-      <div className="relative overflow-hidden">
-        <Picture src={project.cover.src} alt={project.cover.alt} priority={priority} imgClassName="h-full w-full object-cover" />
-
-        <div className="pointer-events-none absolute bottom-4 right-4 opacity-0 translate-y-1 transition duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-          <div className="bg-bg text-text border border-border px-3 py-1 font-body text-[var(--text-micro)] uppercase tracking-[0.15em]">
-            View →
-          </div>
-        </div>
+    <article className={cn('group relative flex flex-col', className)}>
+      <div className="relative overflow-hidden bg-surface">
+        <Picture
+          src={project.cover.src}
+          alt={project.cover.alt}
+          priority={priority}
+          sizes={size === 'large' ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
+          ratio={size === 'compact' ? '16 / 10' : '4 / 3'}
+          imgClassName={cn(
+            'w-full object-cover transition-transform duration-slow ease-out group-hover:scale-[1.02]',
+            size === 'compact' ? 'aspect-[16/10]' : 'aspect-[4/3]',
+          )}
+        />
+        {project.status === 'in-progress' && (
+          <span className="absolute left-3 top-3 bg-dark px-2.5 py-1 text-[var(--text-micro)] font-medium text-white">In progress</span>
+        )}
       </div>
 
-      <div className="p-6 space-y-3">
-        <div className="space-y-1">
-          <div className="font-display text-[var(--text-heading)] leading-[1.05] transition-colors duration-300 group-hover:text-accent">
+      <div className={cn('flex flex-1 flex-col', size === 'compact' ? 'pt-4 gap-2' : 'pt-6 gap-3')}>
+        <p className="eyebrow text-muted">
+          {project.studyLabel ?? typeLabel[project.type]} · {year}
+        </p>
+        <Heading className={cn('font-display leading-tight', size === 'large' ? 'h3 text-[clamp(26px,2.6vw,36px)]' : size === 'compact' ? 'text-[20px]' : 'h3')}>
+          <Link to={`/work/${project.slug}`} className="after:absolute after:inset-0 group-hover:text-accent-ink transition-colors duration-base">
             {project.title}
-          </div>
-          <div className="font-body text-[var(--text-small)] text-muted">
-            {project.client} · {project.timeline}
-          </div>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((t) => (
-            <Tag key={t}>{t}</Tag>
-          ))}
-        </div>
-        </div>
-      </Link>
-    </AnimatedSection>
+          </Link>
+          <ArrowUpRight size={20} aria-hidden="true" className="ml-1 inline-block align-baseline opacity-0 transition-opacity duration-base group-hover:opacity-100" />
+        </Heading>
+        {size !== 'compact' && <p className="max-w-[52ch] text-muted">{project.outcome}</p>}
+        {size !== 'compact' && <p className="text-[var(--text-small)] text-text">{project.role}</p>}
+        <TagList tags={project.tags} className="mt-auto pt-1" />
+      </div>
+    </article>
   )
 }
-

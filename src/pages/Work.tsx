@@ -25,9 +25,9 @@ export function Work() {
         </div>
 
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-          {shown.map((p, i) => (
+          {shown.map((p) => (
             <div key={p.slug} className="break-inside-avoid mb-6">
-              <ProjectCard project={p} delay={i * 0.1} />
+              <ProjectCard project={p} />
             </div>
           ))}
         </div>

@@ -1,38 +1,29 @@
-import { site } from '../../data/site'
+import { Download, Mail } from 'lucide-react'
 import { homeContent } from '../../data/home'
-import { AnimatedSection } from '../ui/AnimatedSection'
+import { site } from '../../data/site'
 import { Button } from '../ui/Button'
 
+/** Orange band. Orange is a fill here; the headline is large type and buttons carry their own contrast. */
 export function CtaStrip() {
   const content = homeContent.ctaStrip
 
   return (
-    <section className="bg-accent py-16">
-      <div className="container-page">
-        <AnimatedSection className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-display text-[var(--text-display)] leading-[0.95] tracking-tight text-white whitespace-pre-line">
-            {content.headline}
-          </h2>
-
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Button
-              href="/contact"
-              variant="filled"
-              className="bg-dark border-dark hover:bg-black/80 hover:border-black/80"
-            >
-              {content.primary}
-            </Button>
-            <Button
-              href={site.resumePdf}
-              variant="outlined"
-              className="border-white text-white hover:bg-white hover:text-dark"
-            >
-              {content.secondary}
-            </Button>
-          </div>
-        </AnimatedSection>
+    <section aria-labelledby="cta-title" className="bg-accent py-20 md:py-28">
+      <div className="container-page flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+        <h2 id="cta-title" className="h2 whitespace-pre-line text-white">
+          {content.headline}
+        </h2>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button href={`mailto:${site.email}`} event="contact_click" variant="filled">
+            <Mail size={18} aria-hidden="true" />
+            Email me
+          </Button>
+          <Button href={site.resumePdf} download event="resume_download" variant="light">
+            <Download size={18} aria-hidden="true" />
+            Download resume
+          </Button>
+        </div>
       </div>
     </section>
   )
 }
-

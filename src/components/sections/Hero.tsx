@@ -1,50 +1,46 @@
-import { motion } from 'framer-motion'
+import { ArrowRight, Download } from 'lucide-react'
 import { homeContent } from '../../data/home'
+import { site } from '../../data/site'
 import { Button } from '../ui/Button'
-
-const easeOut: [number, number, number, number] = [0.16, 1, 0.3, 1]
+import { LoopVideo, pickHeroReel } from '../ui/LoopVideo'
 
 export function Hero() {
   const hero = homeContent.hero
 
   return (
-    <section className="min-h-[100svh] flex flex-col justify-center gap-10 pt-24 pb-12">
-      <div className="container-page w-full">
-        {/* Banner */}
-        <motion.div
-          className="relative overflow-hidden border border-border bg-surface"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: easeOut }}
-        >
-          <motion.img
-            src="/assets/hero-banner.jpg"
-            alt="Mohammad Hilal Malik, UI/UX and Product Designer"
-            className="w-full h-auto"
-            initial={{ scale: 1.05 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1.4, ease: easeOut }}
-          />
-        </motion.div>
-      </div>
+    <section aria-labelledby="hero-title" className="pb-[var(--section-gap)] pt-10 md:pt-16">
+      <div className="container-page grid items-end gap-10 lg:grid-cols-12 lg:gap-12">
+        <div className="space-y-8 lg:col-span-7">
+          <p className="inline-flex items-center gap-2.5 border border-border bg-white px-3.5 py-1.5 text-[13px] sm:text-[var(--text-small)]">
+            <span className="relative flex h-2 w-2" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-[#1f8a4c] opacity-60 motion-safe:animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#1f8a4c]" />
+            </span>
+            {hero.availability}
+          </p>
 
-      {/* CTAs */}
-      <div className="container-page w-full">
-        <motion.div
-          className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: easeOut, delay: 0.5 }}
-        >
-          <div className="flex flex-col sm:flex-row gap-3">
-            {hero.ctas.map((cta) => (
-              <Button key={cta.label} href={cta.href} variant={cta.variant}>
-                {cta.label}
-              </Button>
-            ))}
+          <h1 id="hero-title" className="h1">
+            {hero.headline}{' '}
+            <span className="text-muted">{hero.headlineAccent}</span>
+          </h1>
+
+          <p className="lead text-text">{hero.subhead}</p>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button href="/work" event="see_my_work" variant="filled">
+              See my work
+              <ArrowRight size={18} aria-hidden="true" />
+            </Button>
+            <Button href={site.resumePdf} download event="resume_download" variant="outlined">
+              <Download size={18} aria-hidden="true" />
+              Download resume
+            </Button>
           </div>
+        </div>
 
-        </motion.div>
+        <div className="lg:col-span-5">
+          <LoopVideo src={pickHeroReel()} label="Motion reel: coded ads and reels" eager ratio="4 / 5" className="w-full" />
+        </div>
       </div>
     </section>
   )
