@@ -6,11 +6,14 @@
   "scripts": {
     "dev": "npm run media && vite",
     "media": "node scripts/optimize-media.mjs",
-    "build": "npm run media && tsc -b && vite build",
+    "build": "npm run media && tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "check:banned": "node scripts/check-banned.mjs dist",
-    "resume:pdf": "node scripts/resume-pdf.mjs"
+    "check:banned": "node scripts/check-banned.mjs dist && node scripts/check-pdf.mjs",
+    "resume:pdf": "node scripts/resume-pdf.mjs",
+    "og": "node scripts/og.mjs",
+    "prebuild": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "check:prerender": "node scripts/check-prerender.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",
@@ -18,6 +21,7 @@
     "lucide-react": "^0.577.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {

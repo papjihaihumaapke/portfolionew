@@ -1,5 +1,5 @@
 import { ArrowUpRight, Download } from 'lucide-react'
-import { useEffect } from 'react'
+import { Seo } from '../components/Seo'
 import { Button } from '../components/ui/Button'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { contactContent } from '../data/contact'
@@ -7,14 +7,11 @@ import { site } from '../data/site'
 import { track } from '../lib/analytics'
 
 export function Contact() {
-  useEffect(() => {
-    document.title = 'Contact | Hilal Malik'
-  }, [])
-
   const c = contactContent
 
   return (
     <section className="section pt-10 md:pt-16">
+      <Seo title="Contact" description="Contact Hilal Malik, UI/UX & Product Designer in Vancouver, BC. Open to full-time roles and freelance projects." path="/contact" />
       <div className="container-page space-y-12">
         <div className="space-y-8">
           <SectionLabel>Contact</SectionLabel>

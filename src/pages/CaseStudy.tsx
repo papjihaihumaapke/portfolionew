@@ -2,6 +2,7 @@ import { motion, useScroll, useSpring } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { Seo } from '../components/Seo'
 import { BeforeAfter } from '../components/case-study/BeforeAfter'
 import { ReelGrid } from '../components/case-study/ReelGrid'
 import { VoiceFlow } from '../components/case-study/VoiceFlow'
@@ -9,6 +10,7 @@ import { Picture } from '../components/ui/Picture'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { getNextProject, getProject, typeLabel, type Project, type Section, type Widget } from '../data/projects'
 import { track } from '../lib/analytics'
+import { projectJsonLd } from '../lib/seo'
 import { cn } from '../lib/utils'
 import { NotFound } from './NotFound'
 
@@ -19,10 +21,6 @@ export function CaseStudy() {
   const { slug } = useParams()
   const project = getProject(slug)
 
-  useEffect(() => {
-    if (project) document.title = `${project.title} | Hilal Malik`
-  }, [project])
-
   if (!project) return <NotFound />
 
   const next = getNextProject(project.slug)
@@ -30,6 +28,7 @@ export function CaseStudy() {
 
   return (
     <>
+      <Seo title={project.title} description={project.summary} path={`/work/${project.slug}`} image={project.ogImage} type="article" jsonLd={projectJsonLd(project)} />
       <ReadingProgress />
       <article>
         <CaseHero project={project} />

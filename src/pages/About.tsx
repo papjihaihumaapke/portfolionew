@@ -1,5 +1,5 @@
 import { Download, FileText } from 'lucide-react'
-import { useEffect } from 'react'
+import { Seo } from '../components/Seo'
 import { Button } from '../components/ui/Button'
 import { Picture } from '../components/ui/Picture'
 import { SectionLabel } from '../components/ui/SectionLabel'
@@ -8,14 +8,11 @@ import { resume } from '../data/resume'
 import { site } from '../data/site'
 
 export function About() {
-  useEffect(() => {
-    document.title = 'About | Hilal Malik'
-  }, [])
-
   const c = aboutContent
 
   return (
     <>
+      <Seo title="About" description="About Hilal Malik, UI/UX & Product Designer in Vancouver, BC: 4 years designing, a KPU Wilson School of Design diploma, and a full loop from UX to front-end, AI tools and launch creative." path="/about" type="profile" person />
       <section className="pb-[var(--section-gap)] pt-10 md:pt-16">
         <div className="container-page grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="space-y-8 lg:col-span-7">

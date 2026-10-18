@@ -45,7 +45,8 @@ export function Picture({ src, alt, className, imgClassName, sizes = '100vw', pr
         height={img.height}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
-        fetchPriority={priority ? 'high' : undefined}
+        // React 18 only passes the lowercase attribute through.
+        {...(priority ? { fetchpriority: 'high' } : {})}
         className={imgClassName}
       />
     </picture>

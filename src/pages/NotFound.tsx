@@ -1,14 +1,11 @@
-import { useEffect } from 'react'
 import { Button } from '../components/ui/Button'
+import { Seo } from '../components/Seo'
 import { SectionLabel } from '../components/ui/SectionLabel'
 
 export function NotFound() {
-  useEffect(() => {
-    document.title = 'Page not found | Hilal Malik'
-  }, [])
-
   return (
     <section className="section">
+      <Seo title="Page not found" description="This page does not exist. See the work or go back home." path="/404" noindex />
       <div className="container-page space-y-8">
         <SectionLabel>Error 404</SectionLabel>
         <h1 className="h1 max-w-[14ch]">

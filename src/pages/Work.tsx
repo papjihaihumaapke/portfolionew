@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { Seo } from '../components/Seo'
 import { AnimatedSection } from '../components/ui/AnimatedSection'
 import { Picture } from '../components/ui/Picture'
 import { ProjectCard } from '../components/ui/ProjectCard'
@@ -16,9 +17,6 @@ export function Work() {
   const raw = params.get('filter')
   const filter: Filter = filters.includes(raw as Filter) ? (raw as Filter) : 'all'
 
-  useEffect(() => {
-    document.title = 'Work | Hilal Malik'
-  }, [])
 
   // Hash links (/work#websites, /work#site-x) arrive before the section mounts.
   useEffect(() => {
@@ -40,6 +38,7 @@ export function Work() {
 
   return (
     <>
+      <Seo title="Work" description="Product, platform, website and campaign work by Hilal Malik, UI/UX & Product Designer in Vancouver, BC. Client names kept confidential." path="/work" />
       <section className="pb-12 pt-10 md:pt-16">
         <div className="container-page space-y-8">
           <SectionLabel>Work</SectionLabel>

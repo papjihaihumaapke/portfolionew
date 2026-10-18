@@ -1,10 +1,18 @@
 import { MotionConfig } from 'framer-motion'
-import { Outlet } from 'react-router-dom'
+import { Suspense, useEffect } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
+import { trackPageView } from '../../lib/analytics'
 import { Footer } from './Footer'
 import { Header } from './Header'
 import { ScrollToTop } from './ScrollToTop'
 
 export function Layout() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    trackPageView(pathname)
+  }, [pathname])
+
   return (
     <MotionConfig reducedMotion="user">
       <a
@@ -18,7 +26,9 @@ export function Layout() {
       <Header />
 
       <main id="main" tabIndex={-1} className="outline-none">
-        <Outlet />
+        <Suspense fallback={<div className="min-h-[70vh]" aria-busy="true" />}>
+          <Outlet />
+        </Suspense>
       </main>
 
       <Footer />

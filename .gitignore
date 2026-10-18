@@ -27,3 +27,5 @@ dist-ssr
 # generated media
 public/_img
 src/data/media-manifest.json
+
+dist-ssr

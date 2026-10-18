@@ -1,5 +1,5 @@
 import { Download } from 'lucide-react'
-import { useEffect } from 'react'
+import { Seo } from '../components/Seo'
 import { Button } from '../components/ui/Button'
 import { resume } from '../data/resume'
 import { site } from '../data/site'
@@ -10,12 +10,9 @@ import '../styles/resume-print.css'
  * route with the print stylesheet, so the page and MHM-Resume.pdf share one source.
  */
 export function Resume() {
-  useEffect(() => {
-    document.title = 'Resume | Hilal Malik'
-  }, [])
-
   return (
     <div className="resume-page section pt-10 md:pt-16">
+      <Seo title="Resume" description="Resume of Mohammad Hilal Malik, UI/UX & Product Designer in Vancouver, BC: experience, skills, education and a downloadable PDF." path="/resume" type="profile" person />
       <div className="container-page">
         <div className="no-print mb-12 flex flex-col gap-4 border-b border-border pb-8 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-muted">The same content as the PDF, which is ATS-friendly and two pages.</p>

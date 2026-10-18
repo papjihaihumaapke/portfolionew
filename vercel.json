@@ -1,9 +1,23 @@
 {
+  "trailingSlash": false,
   "redirects": [
     { "source": "/assets/resume.pdf", "destination": "/assets/MHM-Resume.pdf", "permanent": true },
     { "source": "/work/c2c-rental", "destination": "/work/car-rental-platform", "permanent": true },
     { "source": "/work/zara-redesign", "destination": "/work", "permanent": true },
     { "source": "/work/mini-minds", "destination": "/work", "permanent": true }
   ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "headers": [
+    {
+      "source": "/assets/(.*)\\.(js|css)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/(_img|fonts)/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000" }]
+    },
+    {
+      "source": "/media/(.*)\\.(mp4|webm)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000" }]
+    }
+  ]
 }

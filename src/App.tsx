@@ -1,12 +1,15 @@
+import { lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/layout/Layout'
-import { About } from './pages/About'
-import { CaseStudy } from './pages/CaseStudy'
-import { Contact } from './pages/Contact'
 import { Home } from './pages/Home'
-import { NotFound } from './pages/NotFound'
-import { Resume } from './pages/Resume'
-import { Work } from './pages/Work'
+
+// Home ships in the main bundle (it is the usual landing page); every other route is its own chunk.
+const Work = lazy(() => import('./pages/Work').then((m) => ({ default: m.Work })))
+const CaseStudy = lazy(() => import('./pages/CaseStudy').then((m) => ({ default: m.CaseStudy })))
+const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })))
+const Resume = lazy(() => import('./pages/Resume').then((m) => ({ default: m.Resume })))
+const Contact = lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })))
+const NotFound = lazy(() => import('./pages/NotFound').then((m) => ({ default: m.NotFound })))
 
 export default function App() {
   return (
