@@ -2,7 +2,6 @@ import { Maximize2, X } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { videos } from '../../lib/media'
 import { LoopVideo } from '../ui/LoopVideo'
-import { Picture } from '../ui/Picture'
 
 const titleFromKey = (key: string) =>
   key
@@ -22,17 +21,7 @@ export function ReelGrid() {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [open, setOpen] = useState<string | null>(null)
 
-  if (reels.length === 0) {
-    return (
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {[1, 2, 3].map((n) => (
-          <li key={n}>
-            <Picture src={`/media/motion/reel-${n}`} alt={`Coded motion reel ${n}`} ratio="9 / 16" note={`Reel ${n}: add MP4 files to public/media/motion/`} expect="mp4" />
-          </li>
-        ))}
-      </ul>
-    )
-  }
+  if (reels.length === 0) return null
 
   const show = (key: string) => {
     setOpen(key)

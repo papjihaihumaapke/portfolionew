@@ -27,11 +27,10 @@ export function SitesStrip() {
             <Link to={`/work#site-${s.slug}`} className="group block space-y-3">
               <Picture
                 src={s.desktop}
-                alt={`${s.label}, desktop screenshot (anonymized)`}
+                alt={`${s.label}, website preview`}
                 ratio="16 / 10"
                 sizes="320px"
                 imgClassName="aspect-[16/10] w-full object-cover object-top"
-                note={s.label}
               />
               <p className="font-medium leading-snug group-hover:text-accent-ink transition-colors duration-base">{s.label}</p>
             </Link>

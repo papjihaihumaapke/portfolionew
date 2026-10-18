@@ -15,7 +15,7 @@ export type ProjectCardProps = {
 
 export function ProjectCard({ project, className, priority = false, size = 'regular', headingLevel = 'h3' }: ProjectCardProps) {
   const Heading = headingLevel
-  const year = project.timeline.match(/\d{4}(?!.*\d{4})/)?.[0] ?? project.timeline
+  const year = project.timeline?.match(/\d{4}(?!.*\d{4})/)?.[0] ?? project.timeline
 
   return (
     <article className={cn('group relative flex flex-col', className)}>
@@ -31,14 +31,16 @@ export function ProjectCard({ project, className, priority = false, size = 'regu
             size === 'compact' ? 'aspect-[16/10]' : 'aspect-[4/3]',
           )}
         />
-        {project.status === 'in-progress' && (
-          <span className="absolute left-3 top-3 bg-dark px-2.5 py-1 text-[var(--text-micro)] font-medium text-white">In progress</span>
-        )}
       </div>
 
       <div className={cn('flex flex-1 flex-col', size === 'compact' ? 'pt-4 gap-2' : 'pt-6 gap-3')}>
-        <p className="eyebrow text-muted">
-          {project.studyLabel ?? typeLabel[project.type]} · {year}
+        <p className="eyebrow flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
+          <span>
+            {project.studyLabel ?? typeLabel[project.type]}
+            {year ? ` · ${year}` : ''}
+          </span>
+          {/* Kept outside the cover so it never sits on top of the artwork. */}
+          {project.status === 'in-progress' && <span className="bg-dark px-2 py-0.5 normal-case tracking-normal text-white">In progress</span>}
         </p>
         <Heading className={cn('font-display leading-tight', size === 'large' ? 'h3 text-[clamp(26px,2.6vw,36px)]' : size === 'compact' ? 'text-[20px]' : 'h3')}>
           <Link to={`/work/${project.slug}`} className="after:absolute after:inset-0 group-hover:text-accent-ink transition-colors duration-base">

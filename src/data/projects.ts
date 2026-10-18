@@ -3,8 +3,8 @@
  * the resume, the sitemap and JSON-LD all read from here.
  *
  * Media `src` values are extensionless keys under /public (e.g. /media/lotstudio/cover).
- * `npm run media` builds responsive AVIF/WebP for whatever exists; anything missing
- * renders as a labelled placeholder frame showing the expected path.
+ * `npm run media` builds responsive AVIF/WebP for whatever exists; missing files are
+ * skipped on case study pages. Covers without real media use generated art (scripts/make-covers.mjs).
  */
 
 export type ProjectType = 'product' | 'employer' | 'freelance' | 'coursework'
@@ -17,8 +17,6 @@ export interface Media {
   caption?: string
   /** Show on a padded light stage instead of edge to edge (portrait or phone shots). */
   contain?: boolean
-  /** Shown on the placeholder frame until the file exists. */
-  note?: string
 }
 
 export interface Stat {
@@ -55,10 +53,10 @@ export interface Project {
   type: ProjectType
   status: ProjectStatus
   role: string
-  timeline: string
+  timeline?: string
   /** Generic client description. Never a brand name. */
   client: string
-  team: string
+  team?: string
   tools: string[]
   /** Max 3. */
   tags: string[]
@@ -103,13 +101,12 @@ export const projects: Project[] = [
     role: 'Product design and build',
     timeline: '2026',
     client: 'Own product',
-    team: '[CONFIRM: team]',
-    tools: ['Supabase', 'Render', '[CONFIRM: front-end stack and image model]'],
+    tools: ['Supabase', 'Render'],
     tags: ['SaaS', 'AI', 'Product design'],
     disciplines: ['product'],
     featured: true,
     order: 1,
-    cover: { src: '/media/lotstudio/cover', alt: 'LotStudio AI before and after: a vehicle photo with a busy lot background, then the same vehicle on a clean studio background' },
+    cover: { src: '/media/lotstudio/cover', alt: 'Illustration of a car split down the middle: a busy lot background before, a clean studio floor after' },
     ogImage: og('lotstudio-ai'),
     confidential: false,
     liveUrl: 'https://lotstudio-ai.onrender.com/',
@@ -174,7 +171,7 @@ export const projects: Project[] = [
         id: 'learned',
         title: 'What I learned',
         body: [
-          'Prompting is not the product. The product is the set of guardrails around the model: what it is allowed to touch, how quality is checked, and how staff fix the edge cases. [CONFIRM: what you would do next]',
+          'Prompting is not the product. The product is the set of guardrails around the model: what it is allowed to touch, how quality is checked, and how staff fix the edge cases.',
         ],
       },
     ],
@@ -192,13 +189,12 @@ export const projects: Project[] = [
     role: 'Product design and front-end build',
     timeline: '2026',
     client: 'Multi-location BC dealership group (confidential)',
-    team: '[CONFIRM: team]',
-    tools: ['GA4', 'Microsoft Clarity', 'UTM tracking', '[CONFIRM: stack]'],
+    tools: ['GA4', 'Microsoft Clarity', 'UTM tracking'],
     tags: ['Platform', 'Analytics', 'Web'],
     disciplines: ['product', 'web', 'marketing'],
     featured: true,
     order: 2,
-    cover: { src: '/media/dealership/cover', alt: 'Recreated admin dashboard for a dealership platform showing inventory and lead analytics' },
+    cover: { src: '/media/dealership/cover', alt: 'Grid of the dealership platform’s core modules, from inventory and VIN decoding to attribution and email' },
     ogImage: og('dealership-platform'),
     confidential: true,
     sections: [
@@ -254,13 +250,6 @@ export const projects: Project[] = [
           { value: '100%', label: 'Mobile responsive' },
         ],
       },
-      {
-        id: 'learned',
-        title: 'What I learned',
-        body: [
-          '[CONFIRM: what you learned on this platform and what you would do next]',
-        ],
-      },
     ],
   },
 
@@ -276,13 +265,12 @@ export const projects: Project[] = [
     role: 'UI & Web Designer',
     timeline: 'November 2025 to September 2026',
     client: 'Peer-to-peer car rental platform (confidential)',
-    team: '[CONFIRM: team]',
     tools: ['Figma', 'React', 'Vite', 'Supabase', 'Tailwind CSS', 'Lovable'],
     tags: ['Product design', 'UX research', 'QA'],
     disciplines: ['product', 'web'],
     featured: true,
     order: 3,
-    cover: { src: '/media/rental/cover', alt: 'Car rental booking flow on desktop showing vehicle details, dates and a deposit step' },
+    cover: { src: '/media/rental/cover', alt: 'Ring of 14 numbered booking lifecycle states for the car rental platform' },
     ogImage: og('car-rental-platform'),
     confidential: true,
     sections: [
@@ -357,13 +345,12 @@ export const projects: Project[] = [
     role: 'UI/UX Designer',
     timeline: '2026, in progress',
     client: 'Fuel and convenience retailer with 11 stations (confidential)',
-    team: '[CONFIRM: team]',
     tools: ['Figma'],
     tags: ['Product design', 'Web app', 'Operations'],
     disciplines: ['product'],
     featured: true,
     order: 4,
-    cover: { src: '/media/sitetask/cover', alt: 'SiteTask owner dashboard with tasks completed, overdue tasks and station health' },
+    cover: { src: '/media/sitetask/cover', alt: 'Diagram of one owner, two managers and 11 stations, with one task checked off' },
     ogImage: og('sitetask'),
     confidential: true,
     sections: [
@@ -415,11 +402,6 @@ export const projects: Project[] = [
         title: 'Outcome',
         body: ['In progress. No results yet: this section will be updated once SiteTask is in use at the stations.'],
       },
-      {
-        id: 'learned',
-        title: 'What I’d do next',
-        body: ['[CONFIRM: next steps for SiteTask]'],
-      },
     ],
   },
 
@@ -433,15 +415,13 @@ export const projects: Project[] = [
     type: 'employer',
     status: 'shipped',
     role: 'Conversation design and build',
-    timeline: '[CONFIRM: timeline]',
     client: 'BC dealership group (confidential)',
-    team: '[CONFIRM: team]',
     tools: ['ElevenLabs', 'Twilio', 'n8n'],
     tags: ['AI', 'Automation', 'Conversation design'],
     disciplines: ['product', 'marketing'],
     featured: false,
     order: 5,
-    cover: { src: '/media/voice-agents/n8n-workflow', alt: 'n8n workflow connecting a phone call trigger to intent detection, booking and human handoff' },
+    cover: { src: '/media/voice-agents/cover', alt: 'Voice waveform flowing into intent detection, then booking, lead capture or a human handoff' },
     ogImage: og('ai-voice-agents'),
     confidential: true,
     sections: [
@@ -483,11 +463,6 @@ export const projects: Project[] = [
         title: 'Outcome',
         body: ['Inquiries are answered and routed automatically, and bookings are captured outside business hours.'],
       },
-      {
-        id: 'learned',
-        title: 'What I learned',
-        body: ['[CONFIRM: what you learned building the agents and what you would do next]'],
-      },
     ],
   },
 
@@ -503,13 +478,12 @@ export const projects: Project[] = [
     role: 'Campaign strategy, creative and media buying',
     timeline: '2026',
     client: 'EV dealership launch, Metro Vancouver',
-    team: '[CONFIRM: team]',
     tools: ['Meta Ads Manager', 'Midjourney'],
     tags: ['Meta Ads', 'Generative AI', 'Lead gen'],
     disciplines: ['marketing'],
     featured: false,
     order: 6,
-    cover: { src: '/media/ev-campaign/cover', alt: 'Ad creatives for an EV dealership launch in 4:5 and 9:16 formats, branding removed' },
+    cover: { src: '/media/ev-campaign/cover', alt: 'Lowest cost per lead of $26 and a 48-vehicle catalogue beside 4:5 and 9:16 ad frames' },
     ogImage: og('ev-launch-campaign'),
     confidential: true,
     sections: [
@@ -559,7 +533,7 @@ export const projects: Project[] = [
       {
         id: 'learned',
         title: 'What I learned',
-        body: ['AI is fast at flagging what is underperforming, but the keep or cut decision still needs research and judgement. [CONFIRM: what you would test next]'],
+        body: ['AI is fast at flagging what is underperforming, but the keep or cut decision still needs research and judgement.'],
       },
     ],
   },
@@ -575,13 +549,12 @@ export const projects: Project[] = [
     role: 'Motion design and code',
     timeline: '2026',
     client: 'BC dealership group and Vancouver creative agency (confidential)',
-    team: '[CONFIRM: team]',
     tools: ['Claude', 'Remotion', 'GSAP'],
     tags: ['Motion', 'Remotion', 'GSAP'],
     disciplines: ['motion', 'marketing'],
     featured: false,
     order: 7,
-    cover: { src: '/media/motion/cover', alt: 'Frame from a coded motion ad with animated type' },
+    cover: { src: '/media/motion/cover', alt: 'Easing curves and keyframes on an animation timeline' },
     ogImage: og('motion-reel'),
     confidential: true,
     sections: [
@@ -601,11 +574,6 @@ export const projects: Project[] = [
         body: ['Every preview is muted and loops. Open one to play it with sound and controls.'],
         widget: 'reel-grid',
       },
-      {
-        id: 'learned',
-        title: 'What I learned',
-        body: ['[CONFIRM: what you learned building motion in code]'],
-      },
     ],
   },
 
@@ -620,7 +588,6 @@ export const projects: Project[] = [
     role: 'UI/UX Design Intern',
     timeline: 'March 2023 to April 2024',
     client: 'Quackly Private Limited',
-    team: '[CONFIRM: team]',
     tools: ['Figma', 'Google Forms'],
     tags: ['Mobile app', 'UX research', 'AI'],
     disciplines: ['product'],
@@ -688,7 +655,6 @@ export const projects: Project[] = [
     role: 'Motion and brand designer',
     timeline: 'November 2025',
     client: 'KPU coursework',
-    team: '[CONFIRM: team]',
     tools: ['Figma', 'GSAP', 'ScrollTrigger', 'Lenis', 'HTML, CSS, JS'],
     tags: ['Motion', 'GSAP', 'Brand'],
     disciplines: ['motion', 'web'],
@@ -741,7 +707,6 @@ export const projects: Project[] = [
     role: 'Interaction and motion designer',
     timeline: 'October 2025',
     client: 'KPU coursework',
-    team: '[CONFIRM: team]',
     tools: ['HTML', 'CSS', 'JavaScript', 'Figma'],
     tags: ['Motion', 'Micro-interactions', 'UX'],
     disciplines: ['motion'],
@@ -813,7 +778,6 @@ export const projects: Project[] = [
     role: 'UX researcher and UI designer',
     timeline: '2025',
     client: 'KPU capstone',
-    team: '[CONFIRM: team]',
     tools: ['Figma', 'Miro', 'Google Forms', 'React'],
     tags: ['UX research', 'Personas', 'Mobile'],
     disciplines: ['product'],
@@ -851,7 +815,6 @@ export const projects: Project[] = [
     role: 'Designer and developer',
     timeline: '2026',
     client: 'KPU coursework',
-    team: '[CONFIRM: team]',
     tools: ['Figma', 'D3.js', 'Chart.js'],
     tags: ['Data viz', 'D3.js', 'Dashboard'],
     disciplines: ['web'],

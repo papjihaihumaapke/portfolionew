@@ -10,6 +10,7 @@ import { Picture } from '../components/ui/Picture'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { getNextProject, getProject, typeLabel, type Project, type Section, type Widget } from '../data/projects'
 import { track } from '../lib/analytics'
+import { hasImage } from '../lib/media'
 import { projectJsonLd } from '../lib/seo'
 import { cn } from '../lib/utils'
 import { NotFound } from './NotFound'
@@ -75,7 +76,7 @@ function CaseHero({ project }: { project: Project }) {
     { label: 'Team', value: project.team },
     { label: 'Tools', value: project.tools.join(', ') },
     { label: 'Type', value: project.studyLabel ?? typeLabel[project.type] },
-  ]
+  ].filter((m) => m.value)
 
   return (
     <header className="pb-16 pt-10 md:pt-16">
@@ -87,7 +88,7 @@ function CaseHero({ project }: { project: Project }) {
         <h1 className="h1 max-w-[16ch]">{project.title}</h1>
         <p className="lead">{project.summary}</p>
 
-        <dl className="grid gap-x-8 gap-y-5 border-y border-border py-6 sm:grid-cols-2 lg:grid-cols-5">
+        <dl className={cn('grid gap-x-8 gap-y-5 border-y border-border py-6 sm:grid-cols-2', meta.length > 4 ? 'lg:grid-cols-5' : 'lg:grid-cols-4')}>
           {meta.map((m) => (
             <div key={m.label}>
               <dt className="eyebrow text-muted">{m.label}</dt>
@@ -172,6 +173,8 @@ function ReadingProgress() {
 }
 
 function CaseSection({ section }: { section: Section }) {
+  // Only show media that exists; screens not yet added are skipped, not stubbed.
+  const media = section.media?.filter((m) => hasImage(m.src)) ?? []
   return (
     <section id={section.id} aria-labelledby={`${section.id}-title`} className="scroll-mt-28 space-y-6">
       <h2 id={`${section.id}-title`} className="h2">
@@ -215,17 +218,16 @@ function CaseSection({ section }: { section: Section }) {
 
       {section.widget && <WidgetView widget={section.widget} />}
 
-      {section.media && section.media.length > 0 && (
-        <div className={cn('grid gap-8', section.media.length > 1 && 'md:grid-cols-2')}>
-          {section.media.map((m) => (
+      {media.length > 0 && (
+        <div className={cn('grid gap-8', media.length > 1 && 'md:grid-cols-2')}>
+          {media.map((m) => (
             <figure key={m.src + m.alt} className="space-y-3">
               <div className={m.contain ? 'flex justify-center bg-white p-6' : ''}>
                 <Picture
                   src={m.src}
                   alt={m.alt}
-                  note={m.note}
                   ratio={m.contain ? '4 / 5' : '16 / 10'}
-                  sizes={section.media!.length > 1 ? '(min-width: 1024px) 40vw, 100vw' : '(min-width: 1024px) 75vw, 100vw'}
+                  sizes={media.length > 1 ? '(min-width: 1024px) 40vw, 100vw' : '(min-width: 1024px) 75vw, 100vw'}
                   imgClassName={m.contain ? 'max-h-[520px] w-auto' : 'w-full'}
                 />
               </div>

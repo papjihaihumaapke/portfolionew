@@ -13,14 +13,7 @@ const pairs: Pair[] = [
 export function BeforeAfter() {
   const available = pairs.filter((p) => hasImage(p.before) && hasImage(p.after))
 
-  if (available.length === 0) {
-    return (
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Picture src={pairs[0].before} alt="Original lot photo of a vehicle, before LotStudio AI" note="Before: original lot photo" />
-        <Picture src={pairs[0].after} alt="The same vehicle after LotStudio AI, on a clean studio background" note="After: LotStudio AI output" />
-      </div>
-    )
-  }
+  if (available.length === 0) return null
 
   return (
     <div className="space-y-10">

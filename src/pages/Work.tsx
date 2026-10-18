@@ -102,12 +102,11 @@ export function Work() {
                   <article id={`site-${s.slug}`} className="scroll-mt-24 space-y-3">
                     <Picture
                       src={s.desktop}
-                      alt={`${s.label}, desktop screenshot (anonymized)`}
+                      alt={`${s.label}, website preview`}
                       ratio="16 / 10"
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                       imgClassName="aspect-[16/10] w-full object-cover object-top"
-                      note={s.label}
-                    />
+                          />
                     <h3 className="text-[19px] font-semibold leading-snug">{s.label}</h3>
                     <p className="text-[var(--text-small)] text-muted">{s.did}</p>
                   </article>

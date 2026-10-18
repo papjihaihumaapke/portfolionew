@@ -8,29 +8,16 @@ export type PictureProps = {
   imgClassName?: string
   sizes?: string
   priority?: boolean
-  /** Aspect ratio used for the placeholder frame when the file is missing. */
+  /** Aspect ratio kept when the file is missing. */
   ratio?: string
-  note?: string
-  /** File type the placeholder asks for. */
-  expect?: string
 }
 
-export function Picture({ src, alt, className, imgClassName, sizes = '100vw', priority = false, ratio = '16 / 10', note, expect = 'png' }: PictureProps) {
+export function Picture({ src, alt, className, imgClassName, sizes = '100vw', priority = false, ratio = '16 / 10' }: PictureProps) {
   const img = images[src]
 
+  // Missing file: keep the layout's space with a quiet surface, no visible text.
   if (!img) {
-    return (
-      <div
-        role="img"
-        aria-label={`Placeholder: ${alt}`}
-        className={cn('placeholder-frame', className)}
-        style={{ aspectRatio: ratio }}
-      >
-        <span className="placeholder-frame__label">Media placeholder</span>
-        <span className="placeholder-frame__text">{note ?? alt}</span>
-        <code className="placeholder-frame__path">public{src}.{expect}</code>
-      </div>
-    )
+    return <div role="img" aria-label={alt} className={cn('bg-surface', className)} style={{ aspectRatio: ratio }} />
   }
 
   const srcSet = (fmt: string) => img.widths.map((w) => `/_img${src}-${w}.${fmt} ${w}w`).join(', ')
