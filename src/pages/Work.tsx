@@ -79,7 +79,7 @@ export function Work() {
           {shownWork.length > 0 ? (
             <ul className="grid gap-x-8 gap-y-16 md:grid-cols-2" data-reveal-stagger="">
               {shownWork.map((p, i) => (
-                <li key={p.slug}>
+                <li key={p.slug} className={p.cover.full ? 'md:col-span-2' : undefined}>
                   <ProjectCard project={p} priority={i < 2} />
                 </li>
               ))}

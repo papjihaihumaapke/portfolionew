@@ -17,8 +17,8 @@ export interface Media {
   caption?: string
   /** Show on a padded light stage instead of edge to edge (portrait or phone shots). */
   contain?: boolean
-  /** CSS object-position when a cover is cropped to a card ratio, e.g. 'left center'. */
-  position?: string
+  /** Show the whole cover uncropped; the card spans the full grid width. */
+  full?: boolean
 }
 
 export interface Stat {
@@ -114,7 +114,7 @@ export const projects: Project[] = [
     cover: {
       src: '/media/lotstudio/cover',
       alt: 'LotStudio: a white sedan photographed on a dealership lot, split into the original photo and a clean studio result, with the steps take a photo, AI removes background, studio ready',
-      position: 'left center',
+      full: true,
     },
     ogImage: og('lotstudio-ai'),
     confidential: false,

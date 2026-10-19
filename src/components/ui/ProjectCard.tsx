@@ -15,6 +15,8 @@ export type ProjectCardProps = {
 
 export function ProjectCard({ project, className, priority = false, size = 'regular', headingLevel = 'h3' }: ProjectCardProps) {
   const Heading = headingLevel
+  // Full covers keep their own ratio, except in compact cards.
+  const full = !!project.cover.full && size !== 'compact'
   const year = project.timeline?.match(/\d{4}(?!.*\d{4})/)?.[0] ?? project.timeline
 
   return (
@@ -23,14 +25,15 @@ export function ProjectCard({ project, className, priority = false, size = 'regu
         <Picture
           src={project.cover.src}
           alt={project.cover.alt}
-          objectPosition={project.cover.position}
           priority={priority}
-          sizes={size === 'large' ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
-          ratio={size === 'compact' ? '16 / 10' : '4 / 3'}
-          parallax={size === 'large' ? 0.08 : undefined}
+          sizes={
+            full ? '(min-width: 1320px) 1192px, 100vw' : size === 'large' ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
+          }
+          ratio={full ? '16 / 9' : size === 'compact' ? '16 / 10' : '4 / 3'}
+          parallax={size === 'large' && !full ? 0.08 : undefined}
           imgClassName={cn(
             'w-full object-cover transition-transform duration-slow ease-out group-hover:scale-[1.02]',
-            size === 'compact' ? 'aspect-[16/10]' : 'aspect-[4/3]',
+            full ? '' : size === 'compact' ? 'aspect-[16/10]' : 'aspect-[4/3]',
           )}
         />
       </div>

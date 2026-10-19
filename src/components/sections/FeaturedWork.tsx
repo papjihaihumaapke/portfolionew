@@ -22,9 +22,9 @@ export function FeaturedWork() {
           </Link>
         </div>
 
-        <ul className="grid gap-x-8 gap-y-16 md:grid-cols-2" data-reveal-stagger="">
+        <ul className="grid gap-x-8 gap-y-16 md:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="">
           {featuredProjects.map((p) => (
-            <li key={p.slug}>
+            <li key={p.slug} className={p.cover.full ? 'md:col-span-2 lg:col-span-3' : undefined}>
               <ProjectCard project={p} size="large" />
             </li>
           ))}
