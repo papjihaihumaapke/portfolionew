@@ -1,9 +1,9 @@
-import { ArrowRight, Pause, Play } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { homeContent } from '../../data/home'
 import { sites } from '../../data/sites'
-import { cn } from '../../lib/utils'
+import { Marquee, MarqueeToggle } from '../ui/Marquee'
 import { Picture } from '../ui/Picture'
 import { SectionLabel } from '../ui/SectionLabel'
 
@@ -29,12 +29,7 @@ function SiteTile({ site, hidden = false }: { site: (typeof sites)[number]; hidd
   )
 }
 
-/**
- * Websites shipped as a marquee. The track holds the list twice and slides by half its width,
- * so the loop is seamless. It pauses on hover, on keyboard focus and with the Pause button, and
- * with reduced motion it becomes a still row you can scroll. The duplicate copy is hidden from
- * assistive tech and skipped by Tab.
- */
+/** Websites shipped as a marquee (see ui/Marquee for pause and reduced-motion behaviour). */
 export function SitesStrip() {
   const c = homeContent.sites
   const [paused, setPaused] = useState(false)
@@ -50,16 +45,7 @@ export function SitesStrip() {
           <p className="text-muted">{c.note}</p>
         </div>
         <div className="flex items-center gap-5">
-          <button
-            type="button"
-            onClick={() => setPaused((p) => !p)}
-            aria-pressed={paused}
-            className="marquee-toggle inline-flex h-11 items-center gap-2 border border-border bg-white px-3 text-[14px] font-medium transition-colors duration-base hover:border-dark motion-reduce:hidden"
-          >
-            {paused ? <Play size={15} aria-hidden="true" /> : <Pause size={15} aria-hidden="true" />}
-            {paused ? 'Play' : 'Pause'}
-            <span className="sr-only"> website marquee</span>
-          </button>
+          <MarqueeToggle paused={paused} onToggle={() => setPaused((p) => !p)} what="website marquee" />
           <Link to="/work#websites" className="link-underline inline-flex items-center gap-2 font-medium">
             {c.cta}
             <ArrowRight size={18} aria-hidden="true" />
@@ -67,20 +53,13 @@ export function SitesStrip() {
         </div>
       </div>
 
-      <div className={cn('marquee', paused && 'is-paused')}>
-        <div className="marquee__track" style={{ ['--marquee-duration' as string]: `${sites.length * 7}s` }}>
-          <ul className="flex shrink-0 gap-6 pr-6" aria-label="Websites shipped">
-            {sites.map((s) => (
-              <SiteTile key={s.slug} site={s} />
-            ))}
-          </ul>
-          <ul className="marquee__copy flex shrink-0 gap-6 pr-6 motion-reduce:hidden" aria-hidden="true">
-            {sites.map((s) => (
-              <SiteTile key={s.slug} site={s} hidden />
-            ))}
-          </ul>
-        </div>
-      </div>
+      <Marquee
+        items={sites}
+        label="Websites shipped"
+        paused={paused}
+        secondsPerItem={7}
+        renderItem={(s, hidden) => <SiteTile key={s.slug} site={s} hidden={hidden} />}
+      />
     </section>
   )
 }

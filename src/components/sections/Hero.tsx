@@ -3,12 +3,13 @@ import { homeContent } from '../../data/home'
 import { site } from '../../data/site'
 import { Button } from '../ui/Button'
 import { Picture } from '../ui/Picture'
+import { ToolsStrip } from './ToolsStrip'
 
 export function Hero() {
   const hero = homeContent.hero
 
   return (
-    <section aria-labelledby="hero-title" className="pb-[var(--section-gap)] pt-10 md:pt-16">
+    <section aria-labelledby="hero-title" className="pt-10 md:pt-16">
       <div className="container-page space-y-10">
         <div className="flex items-center gap-3">
           <Picture
@@ -46,6 +47,10 @@ export function Hero() {
             </Button>
           </div>
         </div>
+      </div>
+
+      <div className="mt-16 md:mt-20">
+        <ToolsStrip />
       </div>
     </section>
   )
