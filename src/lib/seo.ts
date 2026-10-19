@@ -26,7 +26,7 @@ export function projectJsonLd(p: Project) {
     url: `${site.url}/work/${p.slug}`,
     image: `${site.url}${p.ogImage}`,
     creator: { '@type': 'Person', name: site.name, url: site.url },
-    genre: p.type === 'coursework' ? 'Coursework' : p.type === 'personal' ? 'Personal project' : 'Professional work',
+    genre: p.type === 'coursework' ? 'Coursework' : 'Professional work',
     keywords: p.tags.join(', '),
     creativeWorkStatus: p.status === 'in-progress' ? 'In progress' : 'Published',
   }

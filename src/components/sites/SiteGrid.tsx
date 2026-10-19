@@ -25,11 +25,16 @@ export function SiteGrid({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3' }
 
   return (
     <>
-      <ul className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger="">
+      {/* Phones: one swipeable row (native scroll with snap points). Tablet and up: a grid. */}
+      <ul
+        className="-mx-[var(--gutter)] flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-4 overflow-x-auto px-[var(--gutter)] pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
+        aria-label="Websites"
+        data-reveal-stagger=""
+      >
         {sites.map((s) => (
-          <li key={s.slug}>
-            <article id={`site-${s.slug}`} className="scroll-mt-24 space-y-4">
-              <div className="relative pb-6 pr-6">
+          <li key={s.slug} className="w-[80vw] max-w-[340px] shrink-0 snap-start sm:w-auto sm:max-w-none">
+            <article id={`site-${s.slug}`} className="scroll-mt-24 space-y-3">
+              <div className="relative pb-4 pr-4">
                 <div className="overflow-hidden border border-border bg-white">
                   <Picture
                     src={s.desktop}

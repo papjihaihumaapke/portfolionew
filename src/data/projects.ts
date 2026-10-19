@@ -7,7 +7,7 @@
  * skipped on case study pages. Covers without real media use generated art (scripts/make-covers.mjs).
  */
 
-export type ProjectType = 'product' | 'employer' | 'freelance' | 'coursework' | 'personal'
+export type ProjectType = 'product' | 'employer' | 'freelance' | 'coursework'
 export type ProjectStatus = 'shipped' | 'in-progress'
 export type Discipline = 'product' | 'web' | 'motion' | 'marketing'
 
@@ -97,7 +97,6 @@ export const typeLabel: Record<ProjectType, string> = {
   employer: 'Employer',
   freelance: 'Freelance',
   coursework: 'Coursework',
-  personal: 'Personal project',
 }
 
 export const disciplineLabel: Record<Discipline, string> = {
@@ -917,22 +916,23 @@ export const projects: Project[] = [
     ],
   },
 
-  /* Personal projects --------------------------------------------------- */
+  /* More coursework ----------------------------------------------------- */
   {
     slug: 'zara-redesign',
     title: 'Zara Website Redesign',
     summary: 'A redesign of the Zara web experience focused on accessibility, intuitive navigation and a refined visual hierarchy.',
     outcome: 'Responsive redesign with a Figma prototype for desktop, tablet and mobile.',
-    type: 'personal',
+    type: 'coursework',
     status: 'shipped',
     role: 'UI/UX Designer',
     timeline: '2025',
-    client: 'Personal project (unsolicited redesign)',
+    client: 'KPU coursework',
     tools: ['Figma', 'Adobe Illustrator', 'Adobe Photoshop', 'AI tools'],
     tags: ['Web redesign', 'Accessibility', 'Figma'],
     disciplines: ['product', 'web'],
     featured: false,
-    order: 201,
+    order: 106,
+    studyLabel: 'KPU coursework',
     cover: { src: '/media/zara/cover', alt: 'Mid-fidelity wireframes of the redesigned Zara homepage, category, search and product pages on laptop and tablet' },
     ogImage: og('zara-redesign'),
     confidential: false,
@@ -1006,16 +1006,17 @@ export const projects: Project[] = [
     title: 'Mini Minds',
     summary: 'An interactive learning app for children aged 5 to 10, built around gamified learning and creative skill development.',
     outcome: '9+ high-fidelity screens for a gamified learning app for ages 5 to 10.',
-    type: 'personal',
+    type: 'coursework',
     status: 'shipped',
     role: 'UI/UX Designer',
     timeline: '2024',
-    client: 'Personal project',
+    client: 'KPU coursework',
     tools: ['Figma', 'Adobe Illustrator', 'Canva'],
     tags: ['Mobile app', 'EdTech', 'Gamification'],
     disciplines: ['product'],
     featured: false,
-    order: 202,
+    order: 107,
+    studyLabel: 'KPU coursework',
     cover: { src: '/media/mini-minds/cover', alt: 'Mini Minds app logo on two phones' },
     ogImage: og('mini-minds'),
     confidential: false,
@@ -1299,18 +1300,17 @@ export const projects: Project[] = [
   },
 ]
 
-export const workProjects = projects.filter((p) => p.type !== 'coursework' && p.type !== 'personal').sort((a, b) => a.order - b.order)
+export const workProjects = projects.filter((p) => p.type !== 'coursework').sort((a, b) => a.order - b.order)
 export const studies = projects.filter((p) => p.type === 'coursework').sort((a, b) => a.order - b.order)
-export const personalProjects = projects.filter((p) => p.type === 'personal').sort((a, b) => a.order - b.order)
 export const featuredProjects = workProjects.filter((p) => p.featured)
 
 export function getProject(slug: string | undefined) {
   return projects.find((p) => p.slug === slug)
 }
 
-/** Next project in reading order (work, studies, then personal projects), wrapping around. */
+/** Next project in reading order (work, then studies), wrapping around. */
 export function getNextProject(slug: string) {
-  const ordered = [...workProjects, ...studies, ...personalProjects]
+  const ordered = [...workProjects, ...studies]
   const i = ordered.findIndex((p) => p.slug === slug)
   return ordered[(i + 1) % ordered.length]
 }

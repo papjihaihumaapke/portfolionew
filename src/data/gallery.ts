@@ -5,7 +5,7 @@
  */
 
 export type GalleryKind = 'video' | 'image'
-export type GalleryGroup = 'Motion design' | 'AI video' | 'Brand identity' | 'Social & ads' | 'AI product imagery' | 'Coursework' | 'Personal projects'
+export type GalleryGroup = 'Motion design' | 'AI video' | 'Brand identity' | 'Social & ads' | 'AI product imagery' | 'Coursework'
 
 export interface GalleryItem {
   key: string
@@ -89,15 +89,15 @@ export const gallery: GalleryItem[] = [
   ].map(([file, title]): GalleryItem => ({ key: `/assets/case-studies/${file}`, kind: 'image', title, group: 'Coursework' })),
   { key: '/assets/hero-banner', kind: 'image', title: 'Personal brand banner', group: 'Brand identity' },
 
-  // Personal projects
-  { key: '/media/zara/cover', kind: 'image', title: 'Zara redesign, laptop and tablet wireframes', group: 'Personal projects' },
-  { key: '/media/zara/discovery', kind: 'image', title: 'Zara redesign, key findings', group: 'Personal projects' },
-  { key: '/media/zara/process', kind: 'image', title: 'Zara redesign, mobile wireframes', group: 'Personal projects' },
-  { key: '/media/zara/solution', kind: 'image', title: 'Zara redesign, mobile shopping flow', group: 'Personal projects' },
-  { key: '/media/mini-minds/cover', kind: 'image', title: 'Mini Minds, app logo', group: 'Personal projects' },
-  { key: '/media/mini-minds/discovery', kind: 'image', title: 'Mini Minds, parent empathy map', group: 'Personal projects' },
-  { key: '/media/mini-minds/process', kind: 'image', title: 'Mini Minds, heuristic evaluation', group: 'Personal projects' },
-  { key: '/media/mini-minds/solution', kind: 'image', title: 'Mini Minds, high-fidelity screens', group: 'Personal projects' },
+  // More coursework
+  { key: '/media/zara/cover', kind: 'image', title: 'Zara redesign, laptop and tablet wireframes', group: 'Coursework' },
+  { key: '/media/zara/discovery', kind: 'image', title: 'Zara redesign, key findings', group: 'Coursework' },
+  { key: '/media/zara/process', kind: 'image', title: 'Zara redesign, mobile wireframes', group: 'Coursework' },
+  { key: '/media/zara/solution', kind: 'image', title: 'Zara redesign, mobile shopping flow', group: 'Coursework' },
+  { key: '/media/mini-minds/cover', kind: 'image', title: 'Mini Minds, app logo', group: 'Coursework' },
+  { key: '/media/mini-minds/discovery', kind: 'image', title: 'Mini Minds, parent empathy map', group: 'Coursework' },
+  { key: '/media/mini-minds/process', kind: 'image', title: 'Mini Minds, heuristic evaluation', group: 'Coursework' },
+  { key: '/media/mini-minds/solution', kind: 'image', title: 'Mini Minds, high-fidelity screens', group: 'Coursework' },
 ]
 
-export const galleryGroups: GalleryGroup[] = ['Motion design', 'AI video', 'Brand identity', 'Social & ads', 'AI product imagery', 'Coursework', 'Personal projects']
+export const galleryGroups: GalleryGroup[] = ['Motion design', 'AI video', 'Brand identity', 'Social & ads', 'AI product imagery', 'Coursework']

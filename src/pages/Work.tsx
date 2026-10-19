@@ -4,13 +4,28 @@ import { Seo } from '../components/Seo'
 import { SiteGrid } from '../components/sites/SiteGrid'
 import { ProjectCard } from '../components/ui/ProjectCard'
 import { SectionLabel } from '../components/ui/SectionLabel'
-import { disciplineLabel, personalProjects, studies, workProjects, type Discipline } from '../data/projects'
+import { disciplineLabel, studies, workProjects, type Discipline } from '../data/projects'
 import { sites } from '../data/sites'
 import { useScrollMotion } from '../lib/use-scroll-motion'
 import { cn } from '../lib/utils'
 
 const filters = ['all', 'product', 'web', 'motion', 'marketing'] as const
 type Filter = (typeof filters)[number]
+
+/** Compact section header so the page reads as one scannable index, not a series of posters. */
+function SectionHead({ id, label, title, note }: { id: string; label: string; title: string; note?: string }) {
+  return (
+    <div className="mb-8 flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-8">
+      <div className="space-y-2">
+        <SectionLabel>{label}</SectionLabel>
+        <h2 id={id} className="font-display text-[clamp(28px,3vw,40px)] leading-tight" data-reveal="mask">
+          {title}
+        </h2>
+      </div>
+      {note && <p className="max-w-[46ch] text-[var(--text-small)] text-muted md:text-right">{note}</p>}
+    </div>
+  )
+}
 
 export function Work() {
   const [params, setParams] = useSearchParams()
@@ -28,7 +43,6 @@ export function Work() {
   const matches = (d: Discipline[]) => filter === 'all' || d.includes(filter)
   const shownWork = workProjects.filter((p) => matches(p.disciplines))
   const shownStudies = studies.filter((p) => matches(p.disciplines))
-  const shownPersonal = personalProjects.filter((p) => matches(p.disciplines))
   const showSites = filter === 'all' || filter === 'web'
 
   const setFilter = (f: Filter) => {
@@ -38,49 +52,71 @@ export function Work() {
     setParams(next, { replace: true, preventScrollReset: true })
   }
 
+  const jumps = [
+    { href: '#selected', label: 'Selected work', count: shownWork.length },
+    ...(showSites ? [{ href: '#websites', label: 'Websites', count: sites.length }] : []),
+    { href: '#coursework', label: 'Coursework', count: shownStudies.length },
+  ].filter((j) => j.count > 0)
+
   return (
     <>
-      <Seo title="Work" description="Product, platform, website and campaign work by Hilal Malik, UI/UX & Product Designer in Vancouver, BC. Client names kept confidential." path="/work" />
-      <section className="pb-12 pt-10 md:pt-16">
-        <div className="container-page space-y-8">
+      <Seo
+        title="Work"
+        description="Product, platform, website and campaign work by Hilal Malik, UI/UX & Product Designer in Vancouver, BC, plus KPU coursework."
+        path="/work"
+      />
+      <section className="pb-8 pt-8 md:pt-12">
+        <div className="container-page space-y-6">
           <SectionLabel>Work</SectionLabel>
-          <h1 className="h1">Work.</h1>
-          <p className="lead text-muted">
-            Products, platforms, websites and campaigns I designed and built, from my own SaaS to employer and freelance work.
+          <h1 className="font-display text-[clamp(44px,6vw,80px)] leading-[0.95] tracking-[-0.03em]">Work.</h1>
+          <p className="max-w-measure text-[var(--text-lead)] text-muted">
+            Products, platforms, websites and campaigns I designed and built, plus coursework from KPU.
           </p>
 
-          <div role="group" aria-label="Filter work by discipline" className="flex flex-wrap gap-2">
-            {filters.map((f) => (
-              <button
-                key={f}
-                type="button"
-                aria-pressed={filter === f}
-                onClick={() => setFilter(f)}
-                className={cn(
-                  'min-h-[44px] border px-4 text-[15px] font-medium transition-colors duration-base',
-                  filter === f ? 'border-dark bg-dark text-white' : 'border-border bg-white text-text hover:border-dark',
-                )}
-              >
-                {f === 'all' ? 'All' : disciplineLabel[f]}
-              </button>
-            ))}
+          <div className="flex flex-col gap-4 border-t border-border pt-5 lg:flex-row lg:items-center lg:justify-between">
+            <div role="group" aria-label="Filter work by discipline" className="flex flex-wrap gap-2">
+              {filters.map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  aria-pressed={filter === f}
+                  onClick={() => setFilter(f)}
+                  className={cn(
+                    'min-h-[44px] border px-4 text-[15px] font-medium transition-colors duration-base',
+                    filter === f ? 'border-dark bg-dark text-white' : 'border-border bg-white text-text hover:border-dark',
+                  )}
+                >
+                  {f === 'all' ? 'All' : disciplineLabel[f]}
+                </button>
+              ))}
+            </div>
+            <nav aria-label="Jump to section">
+              <ul className="flex flex-wrap gap-x-5 gap-y-2 text-[15px]">
+                {jumps.map((j) => (
+                  <li key={j.href}>
+                    <a href={j.href} className="link-underline inline-flex min-h-[44px] items-center gap-1.5 font-medium">
+                      {j.label}
+                      <span className="text-[13px] text-muted">{j.count}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
           <p className="sr-only" aria-live="polite">
-            Showing {shownWork.length + shownStudies.length + shownPersonal.length + (showSites ? sites.length : 0)} items
+            Showing {shownWork.length + shownStudies.length + (showSites ? sites.length : 0)} items
           </p>
         </div>
       </section>
 
-      <section aria-labelledby="selected-title" className="pb-[var(--section-gap)]">
-        <div className="container-page space-y-10">
-          <h2 id="selected-title" className="sr-only">
-            Selected work
-          </h2>
+      <section id="selected" aria-labelledby="selected-title" className="scroll-mt-24 pb-14 pt-4 md:pb-20">
+        <div className="container-page">
+          <SectionHead id="selected-title" label="Selected work" title="Products, platforms and campaigns." />
           {shownWork.length > 0 ? (
-            <ul className="grid gap-x-8 gap-y-16 md:grid-cols-2" data-reveal-stagger="">
+            <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="">
               {shownWork.map((p, i) => (
-                <li key={p.slug} className={p.cover.full ? 'md:col-span-2' : undefined}>
-                  <ProjectCard project={p} priority={i < 2} />
+                <li key={p.slug}>
+                  <ProjectCard project={p} size="grid" priority={i < 3} />
                 </li>
               ))}
             </ul>
@@ -91,52 +127,30 @@ export function Work() {
       </section>
 
       {showSites && (
-        <section id="websites" aria-labelledby="websites-title" className="section scroll-mt-24 bg-surface">
-          <div className="container-page space-y-12">
-            <div className="space-y-4">
-              <SectionLabel>Websites shipped</SectionLabel>
-              <h2 id="websites-title" className="h2" data-reveal="mask">
-                {sites.length} websites, designed and built.
-              </h2>
-              <p className="max-w-measure text-muted">Open a live preview on desktop or phone width, or visit the site.</p>
-            </div>
+        <section id="websites" aria-labelledby="websites-title" className="scroll-mt-24 bg-surface py-14 md:py-20">
+          <div className="container-page">
+            <SectionHead
+              id="websites-title"
+              label="Websites shipped"
+              title={`${sites.length} websites, designed and built.`}
+              note="Open a live preview on desktop or phone width, or visit the site."
+            />
             <SiteGrid />
           </div>
         </section>
       )}
 
       {shownStudies.length > 0 && (
-        <section aria-labelledby="studies-title" className="section">
-          <div className="container-page space-y-12">
-            <div className="space-y-4">
-              <SectionLabel>Studies</SectionLabel>
-              <h2 id="studies-title" className="h2" data-reveal="mask">
-                Coursework at KPU.
-              </h2>
-              <p className="max-w-measure text-muted">Projects from the Front-End Development for Interactive Applications diploma at KPU’s Wilson School of Design.</p>
-            </div>
-            <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="">
+        <section id="coursework" aria-labelledby="coursework-title" className="scroll-mt-24 py-14 md:py-20">
+          <div className="container-page">
+            <SectionHead
+              id="coursework-title"
+              label="Coursework"
+              title="Studies at KPU."
+              note="From the Front-End Development for Interactive Applications diploma at KPU’s Wilson School of Design."
+            />
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4" data-reveal-stagger="">
               {shownStudies.map((p) => (
-                <li key={p.slug}>
-                  <ProjectCard project={p} size="compact" />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
-      {shownPersonal.length > 0 && (
-        <section aria-labelledby="personal-title" className="section border-t border-border">
-          <div className="container-page space-y-12">
-            <div className="space-y-4">
-              <SectionLabel>Personal projects</SectionLabel>
-              <h2 id="personal-title" className="h2" data-reveal="mask">
-                Self-initiated work.
-              </h2>
-              <p className="max-w-measure text-muted">Redesigns and concepts I took on outside of client and coursework briefs.</p>
-            </div>
-            <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="">
-              {shownPersonal.map((p) => (
                 <li key={p.slug}>
                   <ProjectCard project={p} size="compact" />
                 </li>
