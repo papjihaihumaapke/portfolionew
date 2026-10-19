@@ -76,6 +76,43 @@
     }
   }
 
+  /* Websites marquee: two copies of the list slide by one copy's width for a seamless loop. */
+  .marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-duration, 50s) linear infinite;
+  }
+
+  .marquee:hover .marquee__track,
+  .marquee:focus-within .marquee__track,
+  .marquee.is-paused .marquee__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Reduced motion: no movement and the row scrolls by hand (the copy and toggle hide via motion-reduce:hidden). */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      overflow-x: auto;
+      mask-image: none;
+      padding-inline: var(--gutter);
+    }
+
+    .marquee__track {
+      animation: none;
+    }
+  }
+
   .container-page {
     max-width: var(--max-width);
     margin-inline: auto;
