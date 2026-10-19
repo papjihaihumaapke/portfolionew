@@ -17,7 +17,8 @@
     "serve:dist": "node scripts/serve-dist.mjs",
     "qa": "node scripts/check-prerender.mjs && node scripts/check-banned-report.mjs && node scripts/check-pdf.mjs && node scripts/check-links.mjs && node scripts/check-keyboard.mjs",
     "capture:sites": "node scripts/capture-sites.mjs",
-    "covers": "node scripts/make-covers.mjs"
+    "covers": "node scripts/make-covers.mjs",
+    "media:missing": "node scripts/missing-media.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",

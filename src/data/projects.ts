@@ -35,6 +35,21 @@ export type Widget =
   | 'demos-dashboard'
   | 'embed-musify'
 
+export interface FlowNode {
+  id: string
+  label: string
+  sub?: string
+  tone?: 'accent' | 'dark' | 'muted'
+}
+
+/** Diagram, process and card blocks. Every label states a fact from the project, never a guess. */
+export type FlowBlock = { kind: 'flow'; title: string; caption?: string; columns: FlowNode[][]; edges: [string, string][] }
+export type Block =
+  | FlowBlock
+  | { kind: 'steps'; title?: string; caption?: string; steps: { title: string; body: string }[] }
+  | { kind: 'cards'; title?: string; caption?: string; items: { label?: string; title: string; body?: string }[] }
+  | { kind: 'decisions'; title?: string; caption?: string; items: { problem: string; decision: string }[] }
+
 export interface Section {
   id: string
   title: string
@@ -44,6 +59,7 @@ export interface Section {
   stats?: Stat[]
   quote?: string
   widget?: Widget
+  blocks?: Block[]
 }
 
 export interface Project {
@@ -139,6 +155,34 @@ export const projects: Project[] = [
       {
         id: 'process',
         title: 'Process',
+        blocks: [
+          {
+            kind: 'flow',
+            title: 'How a photo moves through LotStudio',
+            caption: 'Photos arrive from staff or straight from an inventory website, and only masked areas are ever edited by hand.',
+            columns: [
+              [
+                { id: 'upload', label: 'Staff upload', sub: 'Signed in with magic link or email' },
+                { id: 'api', label: 'Inventory website', sub: 'Sends images with an API key' },
+              ],
+              [{ id: 'type', label: 'Photo type', sub: 'Exterior, interior, detail, white interior' }],
+              [{ id: 'bg', label: 'Background', sub: 'Remove or replace' }],
+              [{ id: 'ai', label: 'AI processing', sub: 'Quality tuned for vehicle detail', tone: 'accent' }],
+              [{ id: 'erase', label: 'Magic Eraser', sub: 'Brush a mask; only that area changes' }],
+              [{ id: 'summary', label: 'Job summary', sub: 'Thumbnails and clear labels', tone: 'dark' }],
+            ],
+            edges: [['upload', 'type'], ['api', 'type'], ['type', 'bg'], ['bg', 'ai'], ['ai', 'erase'], ['erase', 'summary']],
+          },
+          {
+            kind: 'decisions',
+            title: 'What broke, and the product decision it led to',
+            items: [
+              { problem: 'The model redrew details like a dashboard or gear shifter instead of removing one distraction.', decision: 'Magic Eraser masked editing: brush over the sticker, dealer card, fingerprint or glare, and only that area changes.' },
+              { problem: 'Higher-quality output settings blurred vehicle details.', decision: 'Tuned output quality for fidelity to the real car instead of the highest setting.' },
+              { problem: 'Build issues, path aliases and dependencies stood between the MVP and production.', decision: 'Fixed the build and deployment setup so it runs in production on Render.' },
+            ],
+          },
+        ],
         body: [
           'The MVP shipped on May 19, 2026: upload a lot photo, choose a background, get a cleaner listing image. About 18 commits of iteration followed, each driven by what broke in real use.',
           'One finding shaped the pipeline: higher-quality output settings blurred vehicle details, so quality was tuned for fidelity to the car rather than for the highest setting.',
@@ -224,6 +268,39 @@ export const projects: Project[] = [
       {
         id: 'process',
         title: 'Process',
+        blocks: [
+          {
+            kind: 'flow',
+            title: 'Inventory pipeline',
+            columns: [
+              [{ id: 'dms', label: 'Dealer management system', sub: 'Integrated with inventory', tone: 'dark' }],
+              [{ id: 'inv', label: 'Inventory admin', sub: 'Thousands of listings' }],
+              [
+                { id: 'vin', label: 'VIN decoding', sub: 'One-click SEO description' },
+                { id: 'photo', label: 'Photo processing', sub: 'Built into the platform' },
+                { id: 'search', label: 'Natural-language search', sub: 'Search inventory in plain words' },
+              ],
+            ],
+            edges: [['dms', 'inv'], ['inv', 'vin'], ['inv', 'photo'], ['inv', 'search']],
+          },
+          {
+            kind: 'flow',
+            title: 'Attribution loop, from first click to revenue',
+            columns: [
+              [{ id: 'utm', label: 'UTM link builder', sub: 'Every campaign link tagged' }],
+              [{ id: 'lp', label: 'Landing pages', sub: '10+ campaign templates' }],
+              [
+                { id: 'ga4', label: 'GA4 events', sub: 'Conversion funnel tracking' },
+                { id: 'clarity', label: 'Microsoft Clarity', sub: 'Heatmaps and recordings' },
+              ],
+              [{ id: 'leads', label: 'Lead management', sub: 'Customer tracking' }],
+              [{ id: 'email', label: 'Email module', sub: 'Segmented by location and campaign' }],
+              [{ id: 'rev', label: 'Revenue analytics', sub: 'First click to conversion', tone: 'accent' }],
+            ],
+            edges: [['utm', 'lp'], ['lp', 'ga4'], ['lp', 'clarity'], ['ga4', 'leads'], ['leads', 'email'], ['email', 'rev']],
+            caption: 'Conversions from email follow-ups are traced back to the campaign that started them.',
+          },
+        ],
         body: [
           'I worked module by module, starting with inventory and the DMS integration, then layering search, photo processing, landing pages, attribution and analytics on top of the same data.',
         ],
@@ -300,6 +377,35 @@ export const projects: Project[] = [
       {
         id: 'process',
         title: 'Process',
+        blocks: [
+          {
+            kind: 'cards',
+            title: 'Research',
+            items: [
+              { label: 'Scope', title: 'Private and peer-to-peer rental market', body: 'How the market works for hosts and renters.' },
+              { label: 'Scope', title: 'Rules and regulations', body: 'What a peer-to-peer rental platform has to account for.' },
+              { label: 'Scope', title: 'Competitor review', body: 'Turo and other peer-to-peer platforms.' },
+              { label: 'Finding', title: 'Unclear booking states', body: 'Renters and hosts could not always tell where a booking stood.' },
+              { label: 'Finding', title: 'Opaque pricing', body: 'Costs were hard to read before committing.' },
+              { label: 'Finding', title: 'Weak host trust signals', body: 'Little to reassure a renter about the host and vehicle.' },
+            ],
+            caption: 'Findings come from the review of existing peer-to-peer platforms.',
+          },
+          {
+            kind: 'flow',
+            title: 'Platform structure',
+            columns: [
+              [
+                { id: 'renter', label: 'Renter booking flow' },
+                { id: 'host', label: 'Host dashboard' },
+                { id: 'admin', label: 'Internal admin panel' },
+              ],
+              [{ id: 'supa', label: 'Supabase back end', sub: '14 booking lifecycle states', tone: 'dark' }],
+              [{ id: 'pay', label: 'Payment gateway', sub: 'Security deposit pre-authorization', tone: 'accent' }],
+            ],
+            edges: [['renter', 'supa'], ['host', 'supa'], ['admin', 'supa'], ['supa', 'pay']],
+          },
+        ],
         body: [
           'Research covered the private and peer-to-peer rental market, rules and regulations, and a competitor review of Turo and other P2P platforms. Existing platforms showed common friction: unclear booking states, opaque pricing and weak host trust signals.',
           'I mapped 14 booking lifecycle states before wireframing, then designed 14 screens in Figma covering the full rental lifecycle.',
@@ -312,6 +418,26 @@ export const projects: Project[] = [
       {
         id: 'solution',
         title: 'The solution',
+        blocks: [
+          {
+            kind: 'steps',
+            title: 'The QA loop',
+            steps: [
+              { title: 'Audit', body: 'Reviewed 300+ files across the platform.' },
+              { title: 'Log', body: '139 UX issues, each with a screenshot, URL, device and browser, and expected vs actual.' },
+              { title: 'Track', body: 'Worked through the log with the developers.' },
+              { title: 'Confirm', body: 'Every issue followed through to a confirmed live release.' },
+            ],
+          },
+          {
+            kind: 'cards',
+            title: 'SEO diagnosis',
+            items: [
+              { label: 'Found', title: 'www and non-www split', body: 'Two versions of the site were splitting ranking signals.' },
+              { label: 'Found', title: 'Client-side rendering', body: 'Pages rendered in the browser, which was hurting rankings.' },
+            ],
+          },
+        ],
         bullets: [
           'Booking flows, host and renter dashboards and an internal admin panel.',
           'Security deposit pre-authorization live through the payment gateway on a Supabase back end.',
@@ -380,6 +506,40 @@ export const projects: Project[] = [
       {
         id: 'process',
         title: 'Process',
+        blocks: [
+          {
+            kind: 'flow',
+            title: 'Who assigns work to whom',
+            columns: [
+              [{ id: 'owner', label: 'Owner', sub: 'Sees all 11 stations', tone: 'dark' }],
+              [
+                { id: 'm1', label: 'Manager', sub: 'Runs 5 sites' },
+                { id: 'm2', label: 'Manager', sub: 'Runs 6 sites' },
+              ],
+              [
+                { id: 's1', label: 'Staff', sub: 'At those 5 sites' },
+                { id: 's2', label: 'Staff', sub: 'At those 6 sites' },
+              ],
+            ],
+            edges: [['owner', 'm1'], ['owner', 'm2'], ['m1', 's1'], ['m2', 's2']],
+            caption: 'Role-based access: each person sees the work that belongs to them.',
+          },
+          {
+            kind: 'flow',
+            title: 'Task lifecycle',
+            columns: [
+              [{ id: 'create', label: 'Task created', sub: 'By the owner or a manager' }],
+              [{ id: 'assigned', label: 'Assigned', sub: 'Email alert sent' }],
+              [
+                { id: 'done', label: 'Done with photo proof', sub: 'Email alert sent', tone: 'accent' },
+                { id: 'overdue', label: 'Overdue', sub: 'Email alert sent', tone: 'dark' },
+              ],
+              [{ id: 'review', label: 'Manager sees proof', sub: 'On the task detail' }],
+              [{ id: 'digest', label: 'Daily digest', sub: 'Summary of station activity' }],
+            ],
+            edges: [['create', 'assigned'], ['assigned', 'done'], ['assigned', 'overdue'], ['done', 'review'], ['review', 'digest'], ['overdue', 'digest']],
+          },
+        ],
         body: [
           'I started from the chain of responsibility (owner to managers to staff) and designed role-based access around it, then the proof loop: a task is not done until the manager can see a photo of it.',
         ],
@@ -391,6 +551,20 @@ export const projects: Project[] = [
       {
         id: 'solution',
         title: 'The solution',
+        blocks: [
+          {
+            kind: 'cards',
+            title: 'Screens, grouped',
+            items: [
+              { label: 'Entry', title: 'Sign-in' },
+              { label: 'Overview', title: 'Owner dashboard and manager dashboard', body: 'Tasks completed, overdue, station health, today’s schedule, recent activity.' },
+              { label: 'Work', title: 'Task board, task detail, create task', body: 'Kanban and list views, filters by site and priority, photo proof and comments.' },
+              { label: 'People', title: 'Sites and team, team messages' },
+              { label: 'Insight', title: 'Reports and analytics', body: 'Total tasks, in progress, completion rate, completed over time, by site, by person.' },
+              { label: 'Settings', title: 'Notification settings', body: 'Completed, overdue and assigned alerts, plus the daily digest.' },
+            ],
+          },
+        ],
         bullets: [
           'The owner assigns tasks to managers and managers assign to staff, with role-based access.',
           'Staff mark tasks done with photo proof the manager can see.',
@@ -459,6 +633,34 @@ export const projects: Project[] = [
       {
         id: 'solution',
         title: 'The solution',
+        blocks: [
+          {
+            kind: 'flow',
+            title: 'The stack behind a call',
+            columns: [
+              [{ id: 'call', label: 'Caller', sub: 'Phone call to the dealership', tone: 'dark' }],
+              [{ id: 'twilio', label: 'Twilio', sub: 'Phone line' }],
+              [{ id: 'eleven', label: 'ElevenLabs agent', sub: 'Runs my scripts and flows', tone: 'accent' }],
+              [{ id: 'n8n', label: 'n8n workflows', sub: 'Route the result' }],
+              [
+                { id: 'cal', label: 'Calendar', sub: 'Appointment booked' },
+                { id: 'lead', label: 'Lead captured', sub: 'Name and details' },
+                { id: 'human', label: 'Human handoff', sub: 'Staff take over' },
+              ],
+            ],
+            edges: [['call', 'twilio'], ['twilio', 'eleven'], ['eleven', 'n8n'], ['n8n', 'cal'], ['n8n', 'lead'], ['n8n', 'human']],
+          },
+          {
+            kind: 'steps',
+            title: 'What I wrote',
+            steps: [
+              { title: 'Scripts', body: 'What the agent says at each turn of the conversation.' },
+              { title: 'Flows', body: 'How the conversation branches for booking, leads and inquiries.' },
+              { title: 'Fallbacks', body: 'What the agent does when it is unsure or off-script.' },
+              { title: 'Confirmations', body: 'Reading back exactly what was booked.' },
+            ],
+          },
+        ],
         bullets: [
           'Voice agents on ElevenLabs and Twilio for appointment booking, lead capture and dealership inquiries.',
           'Chat agents for the same intents.',
@@ -511,6 +713,36 @@ export const projects: Project[] = [
       {
         id: 'process',
         title: 'Process',
+        blocks: [
+          {
+            kind: 'flow',
+            title: 'Launch structure',
+            columns: [
+              [{ id: 'audit', label: 'Pre-launch audit' }],
+              [{ id: 'plan', label: '90-day marketing plan' }],
+              [
+                { id: 'carousel', label: 'Test-drive carousels' },
+                { id: 'dpa', label: 'Dynamic product ads', sub: '48-vehicle catalogue', tone: 'dark' },
+                { id: 'ctc', label: 'Click-to-call' },
+                { id: 'adv', label: 'Broad Advantage+' },
+              ],
+              [{ id: 'leads', label: 'Leads', tone: 'accent' }],
+              [{ id: 'email', label: 'Auto-responder', sub: 'Test-drive emails' }],
+            ],
+            edges: [['audit', 'plan'], ['plan', 'carousel'], ['plan', 'dpa'], ['plan', 'ctc'], ['plan', 'adv'], ['carousel', 'leads'], ['dpa', 'leads'], ['ctc', 'leads'], ['adv', 'leads'], ['leads', 'email']],
+          },
+          {
+            kind: 'steps',
+            title: 'Creative and reporting loop',
+            steps: [
+              { title: 'Idea', body: 'I come up with the campaign and creative ideas.' },
+              { title: 'Create', body: 'Midjourney plus prompt systems for on-brand creatives at 4:5 and 9:16.' },
+              { title: 'Launch', body: 'Built and launched in Meta Ads Manager.' },
+              { title: 'Flag', body: 'AI pulls the reports and flags what is underperforming.' },
+              { title: 'Decide', body: 'I research the flags and decide what to keep or cut.' },
+            ],
+          },
+        ],
         bullets: [
           'Pre-launch audit and a 90-day marketing plan.',
           'Migrated 48 vehicles into a dedicated catalogue with dynamic product ads.',
@@ -575,6 +807,17 @@ export const projects: Project[] = [
       {
         id: 'role',
         title: 'My role and constraints',
+        blocks: [
+          {
+            kind: 'steps',
+            title: 'How a coded reel comes together',
+            steps: [
+              { title: 'Write it as code', body: 'Scenes are React components in Remotion, with GSAP for motion. Claude helps write the code.' },
+              { title: 'Time drives everything', body: 'Every frame is a function of time, so a timing or copy change is one edit.' },
+              { title: 'Render the formats', body: 'The same source renders the 16:9 film and the 9:16 reel.' },
+            ],
+          },
+        ],
         body: ['I designed and built each piece in code with Claude, Remotion and GSAP. Client names, logos and phone numbers are kept out of everything shown here.'],
       },
       {
@@ -621,6 +864,27 @@ export const projects: Project[] = [
       {
         id: 'process',
         title: 'Process',
+        blocks: [
+          {
+            kind: 'steps',
+            title: 'Process',
+            steps: [
+              { title: 'Discover', body: 'Survey research and competitive analysis.' },
+              { title: 'Define', body: 'Personas and MoSCoW prioritization.' },
+              { title: 'Ideate', body: 'Information architecture and user flows.' },
+              { title: 'Design', body: 'Style guide, type and 14+ high-fidelity screens.' },
+            ],
+          },
+          {
+            kind: 'cards',
+            title: 'What the research said',
+            items: [
+              { label: 'Persona', title: 'Sneha Sharma', body: 'A tech-savvy designer looking for style changes that fit her creative image.' },
+              { label: 'Finding', title: '8 of 10 wanted AI personalisation', body: 'Out of 10 surveyed users.' },
+              { label: 'Finding', title: '7 of 10 had privacy concerns', body: 'About facial data, so privacy and permissions were designed in from the start.' },
+            ],
+          },
+        ],
         body: [
           'Survey research with 10 users: 8 of 10 surveyed users wanted AI personalisation, and 7 of 10 had privacy concerns about facial data.',
           'Discover (research and competitive analysis), define (personas and MoSCoW), ideate (information architecture and user flows), then design (style guide and type).',
@@ -689,6 +953,30 @@ export const projects: Project[] = [
       {
         id: 'process',
         title: 'Process',
+        blocks: [
+          {
+            kind: 'cards',
+            title: 'Key findings',
+            items: [
+              { label: 'Usability', title: 'Navigation is hard on small screens' },
+              { label: 'Usability', title: 'Keyboard navigation is ineffective', body: 'Selections are not properly highlighted.' },
+              { label: 'Usability', title: 'Search is hard to find', body: 'It is the most effective way to navigate, but not easily visible.' },
+              { label: 'Usability', title: 'Weak mobile usability', body: 'Small text and limited menu visibility.' },
+              { label: 'Accessibility', title: 'Low contrast', body: 'Navigation menus are hard to see.' },
+              { label: 'Accessibility', title: 'Assistive tech struggles', body: 'Screen reader support does not work well, and users cannot tab through elements effectively.' },
+            ],
+          },
+          {
+            kind: 'steps',
+            title: 'UX laws behind the decisions',
+            steps: [
+              { title: 'Hick’s Law', body: 'Fewer choices at each step to cut decision time.' },
+              { title: 'Fitts’s Law', body: 'Larger, closer targets for key actions.' },
+              { title: 'Miller’s Law', body: 'Information chunked into digestible groups.' },
+              { title: 'Gestalt principles', body: 'Grouping and alignment to build visual hierarchy.' },
+            ],
+          },
+        ],
         body: [
           'Analysis of the existing site revealed the friction points: overwhelming choices and a lack of clear visual organization. Accessibility audits found contrast and navigation gaps.',
           'From Miller’s Law for chunking information to Gestalt principles for visual hierarchy, each design decision aimed to reduce cognitive load and improve the shopping journey.',
@@ -747,6 +1035,28 @@ export const projects: Project[] = [
       {
         id: 'process',
         title: 'Process',
+        blocks: [
+          {
+            kind: 'steps',
+            title: 'Process',
+            steps: [
+              { title: 'Empathy mapping', body: 'What parents think, feel, say and do about their child’s learning.' },
+              { title: 'Heuristic evaluation', body: 'Each core screen checked against usability heuristics.' },
+              { title: 'High-fidelity design', body: 'Nine screens from splash to quiz.' },
+            ],
+          },
+          {
+            kind: 'cards',
+            title: 'Heuristic evaluation',
+            items: [
+              { label: 'Splash', title: 'Aesthetic and minimalist design', body: 'Focused on the logo, nothing extra.' },
+              { label: 'Onboarding', title: 'Match with the real world', body: 'Friendly language connects with users; a more prominent Log in would help returning users.' },
+              { label: 'How it works', title: 'Recognition over recall', body: 'A clear breakdown of steps, but no Back or Skip for users who want to move on.' },
+              { label: 'Registration', title: 'Error prevention', body: 'A country code format reduces errors; input validation could be stronger.' },
+              { label: 'Verification', title: 'Recover from errors', body: 'Resend OTP supports recovery and keeps the system status visible.' },
+            ],
+          },
+        ],
         body: [
           'Research showed that children respond best to play-based discovery. I reviewed existing EdTech apps for gaps in creative engagement and in the balance of sound and visuals.',
           'From empathy mapping to heuristic evaluation, I iterated on navigation and the reward system so the app feels like a game rather than a chore.',
@@ -892,6 +1202,19 @@ export const projects: Project[] = [
       {
         id: 'process',
         title: 'Process',
+        blocks: [
+          {
+            kind: 'steps',
+            title: '12 weeks, five phases',
+            steps: [
+              { title: 'Content audit', body: 'Static tables, weak hierarchy, thin filtering, contrast gaps.' },
+              { title: 'Lo-fi wireframes', body: 'Structure first, before any styling.' },
+              { title: 'Hi-fi prototype', body: 'Consistent type and colour system in Figma.' },
+              { title: 'Build', body: 'JSON data wired to Chart.js with tooltips and filters.' },
+              { title: 'QA', body: 'Accessibility checks before integration, then multiple test rounds.' },
+            ],
+          },
+        ],
         body: ['A 12-week plan with a roadmap, work breakdown and risk log: content audit, lo-fi wireframes, hi-fi Figma prototype, then a build wiring JSON data to Chart.js. Accessibility checks ran before integration, not after it.'],
         media: [
           { src: '/assets/case-studies/healthycity-roadmap', alt: '12-week roadmap and schedule', caption: '12-week roadmap.' },
@@ -927,6 +1250,17 @@ export const projects: Project[] = [
       {
         id: 'process',
         title: 'Process',
+        blocks: [
+          {
+            kind: 'cards',
+            title: 'Comparative analysis',
+            items: [
+              { label: 'Calendar apps', title: 'Manual entry, visual-only conflicts', body: 'Google and Apple Calendar never warn before a clash.' },
+              { label: 'LMS', title: 'Academic only, email alerts', body: 'Moodle tracks coursework and nothing else.' },
+              { label: 'Acminder', title: 'One schedule that warns early', body: 'Automated sync, proactive alerts, high-priority voice nudges and visa work-hour tracking.' },
+            ],
+          },
+        ],
         body: ['Comparative analysis showed the gap: manual entry, visual-only conflict detection and no work-hour context. I mapped onboarding, task add, edit and delete, calendar and settings flows, with annotated wireframes for each screen.'],
         media: [
           { src: '/assets/case-studies/acminder-persona', alt: 'International student persona', caption: 'The persona.' },

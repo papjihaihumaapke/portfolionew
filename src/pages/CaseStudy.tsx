@@ -4,6 +4,7 @@ import { Suspense, lazy, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Seo } from '../components/Seo'
 import { BeforeAfter } from '../components/case-study/BeforeAfter'
+import { BlockView } from '../components/case-study/Blocks'
 import { ReelGrid } from '../components/case-study/ReelGrid'
 import { VoiceFlow } from '../components/case-study/VoiceFlow'
 import { Picture } from '../components/ui/Picture'
@@ -232,6 +233,8 @@ function CaseSection({ section }: { section: Section }) {
           ))}
         </dl>
       )}
+
+      {section.blocks?.map((b, i) => <BlockView key={i} block={b} />)}
 
       {section.widget && <WidgetView widget={section.widget} />}
 
