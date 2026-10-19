@@ -13,16 +13,13 @@ const filters = ['all', 'product', 'web', 'motion', 'marketing'] as const
 type Filter = (typeof filters)[number]
 
 /** Compact section header so the page reads as one scannable index, not a series of posters. */
-function SectionHead({ id, label, title, note }: { id: string; label: string; title: string; note?: string }) {
+function SectionHead({ id, label, title }: { id: string; label: string; title: string }) {
   return (
-    <div className="mb-8 flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-8">
-      <div className="space-y-2">
-        <SectionLabel>{label}</SectionLabel>
-        <h2 id={id} className="font-display text-[clamp(28px,3vw,40px)] leading-tight" data-reveal="mask">
-          {title}
-        </h2>
-      </div>
-      {note && <p className="max-w-[46ch] text-[var(--text-small)] text-muted md:text-right">{note}</p>}
+    <div className="mb-8 space-y-2">
+      <SectionLabel>{label}</SectionLabel>
+      <h2 id={id} className="font-display text-[clamp(28px,3vw,40px)] leading-tight" data-reveal="mask">
+        {title}
+      </h2>
     </div>
   )
 }
@@ -69,9 +66,7 @@ export function Work() {
         <div className="container-page space-y-6">
           <SectionLabel>Work</SectionLabel>
           <h1 className="font-display text-[clamp(44px,6vw,80px)] leading-[0.95] tracking-[-0.03em]">Work.</h1>
-          <p className="max-w-measure text-[var(--text-lead)] text-muted">
-            Products, platforms, websites and campaigns I designed and built, plus coursework from KPU.
-          </p>
+          <p className="max-w-measure text-[var(--text-lead)] text-text">Products, websites and campaigns I designed and built.</p>
 
           <div className="flex flex-col gap-4 border-t border-border pt-5 lg:flex-row lg:items-center lg:justify-between">
             <div role="group" aria-label="Filter work by discipline" className="flex flex-wrap gap-2">
@@ -113,7 +108,7 @@ export function Work() {
         <div className="container-page">
           <SectionHead id="selected-title" label="Selected work" title="Products, platforms and campaigns." />
           {shownWork.length > 0 ? (
-            <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="">
+            <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="">
               {shownWork.map((p, i) => (
                 <li key={p.slug}>
                   <ProjectCard project={p} size="grid" priority={i < 3} />
@@ -129,12 +124,7 @@ export function Work() {
       {showSites && (
         <section id="websites" aria-labelledby="websites-title" className="scroll-mt-24 bg-surface py-14 md:py-20">
           <div className="container-page">
-            <SectionHead
-              id="websites-title"
-              label="Websites shipped"
-              title={`${sites.length} websites, designed and built.`}
-              note="Open a live preview on desktop or phone width, or visit the site."
-            />
+            <SectionHead id="websites-title" label="Websites shipped" title={`${sites.length} websites, shipped.`} />
             <SiteGrid />
           </div>
         </section>
@@ -143,13 +133,8 @@ export function Work() {
       {shownStudies.length > 0 && (
         <section id="coursework" aria-labelledby="coursework-title" className="scroll-mt-24 py-14 md:py-20">
           <div className="container-page">
-            <SectionHead
-              id="coursework-title"
-              label="Coursework"
-              title="Studies at KPU."
-              note="From the Front-End Development for Interactive Applications diploma at KPU’s Wilson School of Design."
-            />
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4" data-reveal-stagger="">
+            <SectionHead id="coursework-title" label="Coursework" title="Studies at KPU." />
+            <ul className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4" data-reveal-stagger="">
               {shownStudies.map((p) => (
                 <li key={p.slug}>
                   <ProjectCard project={p} size="compact" />

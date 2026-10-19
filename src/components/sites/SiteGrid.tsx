@@ -27,15 +27,18 @@ export function SiteGrid({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3' }
     <>
       {/* Phones: one swipeable row (native scroll with snap points). Tablet and up: a grid. */}
       <ul
-        className="-mx-[var(--gutter)] flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-4 overflow-x-auto px-[var(--gutter)] pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
+        className="-mx-[var(--gutter)] flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-4 overflow-x-auto px-[var(--gutter)] pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
         aria-label="Websites"
         data-reveal-stagger=""
       >
         {sites.map((s) => (
           <li key={s.slug} className="w-[80vw] max-w-[340px] shrink-0 snap-start sm:w-auto sm:max-w-none">
-            <article id={`site-${s.slug}`} className="scroll-mt-24 space-y-3">
-              <div className="relative pb-4 pr-4">
-                <div className="overflow-hidden border border-border bg-white">
+            <article
+              id={`site-${s.slug}`}
+              className="flex h-full scroll-mt-24 flex-col overflow-hidden border border-border bg-white transition duration-base hover:border-dark hover:shadow-[0_10px_30px_-12px_rgba(26,26,26,0.25)] focus-within:border-dark"
+            >
+              <div className="relative border-b border-border bg-surface px-4 pb-4 pt-4">
+                <div className="mr-5 overflow-hidden border border-border bg-white">
                   <Picture
                     src={s.desktop}
                     alt={`${s.name ?? s.label}, desktop homepage`}
@@ -45,29 +48,30 @@ export function SiteGrid({ headingLevel = 'h3' }: { headingLevel?: 'h2' | 'h3' }
                   />
                 </div>
                 {hasImage(s.mobile) && (
-                  <div className="absolute bottom-0 right-0 w-[26%] overflow-hidden rounded-[10px] border-[3px] border-dark bg-dark shadow-lg">
-                    <Picture src={s.mobile} alt={`${s.name ?? s.label}, phone view`} ratio="390 / 844" sizes="120px" imgClassName="aspect-[390/844] w-full object-cover object-top" />
+                  <div className="absolute bottom-2 right-3 w-[24%] overflow-hidden rounded-[8px] border-[3px] border-dark bg-dark shadow-lg">
+                    <Picture src={s.mobile} alt={`${s.name ?? s.label}, phone view`} ratio="390 / 844" sizes="100px" imgClassName="aspect-[390/844] w-full object-cover object-top" />
                   </div>
                 )}
               </div>
-              <div className="space-y-1.5">
-                <Heading className="text-[19px] font-semibold leading-snug">{s.name ?? s.label}</Heading>
-                {s.name && <p className="eyebrow text-muted">{s.label}</p>}
-                <p className="text-[var(--text-small)] text-muted">{s.did}</p>
+              <div className="flex flex-1 flex-col gap-1.5 p-5">
+                <p className="text-[12px] font-medium uppercase tracking-[0.14em] text-[#4a4a4a]">{s.label}</p>
+                <Heading className="font-display text-[21px] leading-tight text-text">{s.name ?? s.label}</Heading>
+                {s.url ? (
+                  <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-3 text-[var(--text-small)] font-medium text-text">
+                    <button type="button" onClick={() => show(s)} className="link-underline inline-flex min-h-[32px] items-center gap-1.5">
+                      <Play size={14} aria-hidden="true" />
+                      Live preview<span className="sr-only"> of {s.name}</span>
+                    </button>
+                    <a href={s.url} target="_blank" rel="noreferrer" className="link-underline inline-flex min-h-[32px] items-center gap-1">
+                      Visit site
+                      <ArrowUpRight size={14} aria-hidden="true" />
+                      <span className="sr-only"> {s.name} (opens in a new tab)</span>
+                    </a>
+                  </div>
+                ) : (
+                  <p className="mt-auto pt-3 text-[var(--text-small)] text-[#4a4a4a]">Client site, link not public</p>
+                )}
               </div>
-              {s.url && (
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[var(--text-small)] font-medium">
-                  <button type="button" onClick={() => show(s)} className="link-underline inline-flex items-center gap-1.5">
-                    <Play size={14} aria-hidden="true" />
-                    Live preview<span className="sr-only"> of {s.name}</span>
-                  </button>
-                  <a href={s.url} target="_blank" rel="noreferrer" className="link-underline inline-flex items-center gap-1">
-                    Visit site
-                    <ArrowUpRight size={14} aria-hidden="true" />
-                    <span className="sr-only"> {s.name} (opens in a new tab)</span>
-                  </a>
-                </div>
-              )}
             </article>
           </li>
         ))}
